@@ -28,7 +28,7 @@ ASOF_RUN17_FPKM_FILES = paper_433_FPKM_files + """
 """
 
 def main():
-    # make_paper_combined()
+    make_paper_combined()
     make_asof_run17_combined()
 
 
@@ -37,7 +37,7 @@ def make_paper_combined():
     to_include = generate_to_include()
 
     combined = make_combined(files, to_include)
-    combined.to_csv('C1_mouse_combined_peng_filter.csv')
+    combined.to_csv('C1_mouse_combined_peng_filter.tsv', sep='\t')
 
 
 def make_asof_run17_combined():
@@ -45,12 +45,12 @@ def make_asof_run17_combined():
     to_include = generate_to_include_as_of_run18()
 
     combined = make_combined(files, to_include)
-    combined.to_csv('C1_mouse_combined_run1-run17.csv')
+    combined.to_csv('C1_mouse_combined_asof_run17.tsv', sep='\t')
 
 
 def make_combined(quant_files, to_include):
     sheets = None
-    for f in files.split():
+    for f in quant_files.split():
         f = os.path.expanduser(f.strip())
         if sheets is None:
             sheets = pandas.read_csv(f)
