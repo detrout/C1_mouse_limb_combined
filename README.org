@@ -12,6 +12,23 @@ used by [[file:create_publication_set.py][file:create_publication_set.py]] plus
 associate all of the fastqs from our 433 set with the encode publication
 https://www.encodeproject.org/publications/e0d01543-9965-4edb-933c-778a40575cd9/
 
+* Generate genes called plot for 100 specific cells
+
+At some point Brian provided
+[[file:list_of_100_single_cell_libraries_for_genes_called.xlsx][list_of_100_single_cell_libraries_for_genes_called.xlsx]]
+and asked for the genes detected plots for those cells.
+I used [[file:100_selected_genes_detected.py][100_selected_genes_detected.py]] to generate the merged csv file
+[[file:list_of_100_single_cell_libraries.csv][list_of_100_single_cell_libraries.csv]].
+
+I made the plot with my standard plot_genes_detected code, see below
+
+#+BEGIN_SRC bash
+export PYTHONPATH=~/proj/long-rna-seq-condor/
+python3 -m woldrnaseq.plot_genes_detected  \
+  --gtf-cache ~/proj/genome/mm10-M4-male/mm10-M4-male.h5 \
+  list_of_100_single_cell_libraries.csv
+#+END_SRC
+
 * Request <2018-03-21 Wed>
 
 Today I receved a request to compute our coverage "metric" for all of the new data.
