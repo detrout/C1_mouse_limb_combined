@@ -5,6 +5,13 @@ Originally I was trying to collect input data for our C1 paper.
 We had a final filter set of 433 cells. Since there was new data, 
 I then committed my original code [[orgit-rev:/ssh:pongo:/woldlab/castor/home/diane/proj/C1_mouse_limb_combined/::0c9d57e][/ssh:pongo:proj/C1_mouse_limb_combined/ (magit-rev 0c9d57e)]]
 
+* Create publication set at the DCC
+
+[[file:find_experiment.sql::\pset%20format%20unaligned][find_experment.sql]] generates [[file:publication_files.tsv::experiment_accession%20experiment_description%20file%20filename%20file_type%20term_name%20age%20age_units%20library%20biosample%20library_created][publication_files.tsv]] which was 
+used by [[file:create_publication_set.py][file:create_publication_set.py]] plus
+associate all of the fastqs from our 433 set with the encode publication
+https://www.encodeproject.org/publications/e0d01543-9965-4edb-933c-778a40575cd9/
+
 * Request <2018-03-21 Wed>
 
 Today I receved a request to compute our coverage "metric" for all of the new data.
