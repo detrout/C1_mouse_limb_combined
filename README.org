@@ -1,0 +1,47 @@
+* Introduction
+
+Originally I was trying to collect input data for our C1 paper.
+
+We had a final filter set of 433 cells. Since there was new data, 
+I then committed my original code [[orgit-rev:/ssh:pongo:/woldlab/castor/home/diane/proj/C1_mouse_limb_combined/::0c9d57e][/ssh:pongo:proj/C1_mouse_limb_combined/ (magit-rev 0c9d57e)]]
+
+* Request <2018-03-23 Fri>
+
+Brian had a spread sheet [[file:Slope_match_PacBio_cells_Diane_March23_2018.xlsx][Slope_match_PacBio_cells_Diane_March23_2018.xlsx]] and he wanted
+me to merge the two columns.
+
+Which I did with [[file:slope_match.py][slope_match.py]].
+
+However he also wanted me to generate the genes-detected values for
+the C1 mouse limb data which took me a while, because I needed to ask
+Sean which versions of the source genes-detected files to use.
+
+* Request <2018-03-21 Wed>
+
+Today I receved a request to compute our coverage "metric" for all of the new data.
+The coverage metric was computing the slope of the middle of the coverage plot
+[[file:/ssh:pongo:/woldlab/castor/home/diane/proj/long-rna-seq-condor/woldrnaseq/plot_coverage.py::def%20make_median_normalized_summary(experiments,%20coverage):][Coverage slope plot]]
+
+I added the "new" list of cells to [[file:to_include.py::def%20generate_to_include_as_of_run17():][generate_to_include_as_of_run17]]
+
+The information I received from Peng suggested I needed to compute the
+slope for all the data, so we could find any outliers
+
+And that suggests making a histogram of the slopes.
+
+I just talked to Barbara and she wants the plots for each of the runs.
+
+I unfortunately don't have a map between run & library.
+
+** Implementation
+
+First step was to generate combined FPKM and coverate quantification files.
+(First attempt)
+[[orgit-rev:/ssh:pongo:/woldlab/castor/home/diane/proj/C1_mouse_limb_combined/::158731a][/ssh:pongo:proj/C1_mouse_limb_combined/ (magit-rev 158731a)]]
+
+#+BEGIN_SRC bash
+python combine_coverage.py
+#+END_SRC
+
+Compute the slope.
+
