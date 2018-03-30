@@ -26,13 +26,9 @@ I unfortunately don't have a map between run & library.
 
 First step was to generate combined FPKM and coverate quantification files.
 (First attempt)
-[[orgit-rev:/ssh:pongo:/woldlab/castor/home/diane/proj/C1_mouse_limb_combined/::158731a][/ssh:pongo:proj/C1_mouse_limb_combined/ (magit-rev 158731a)]]
+Run [[file:combine_coverage.py][combine_coverage.py]] to generate [[file:C1_mouse_limb_coverage_asof_run17.tsv][C1_mouse_limb_coverage_asof_run17.tsv]]
 
-#+BEGIN_SRC bash
-python combine_coverage.py
-#+END_SRC
-
-Compute the slope.
+Compute the slope using [[file:compute_slope.py][compute_slope.py]]
 
 * Request <2018-03-23 Fri>
 
