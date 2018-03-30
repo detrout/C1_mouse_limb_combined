@@ -1,0 +1,213 @@
+JOB 15019_index-samtools /home/diane/proj/long-rna-seq-condor/woldrnaseq/index-samtools.condor
+JOB 15019_qc-distribution /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-distribution.condor
+
+PARENT 15019_index-samtools CHILD 15019_qc-distribution
+
+VARS 15019_index-samtools  analysis_name="15019"
+VARS 15019_index-samtools  curdir="15019"
+VARS 15019_index-samtools  genome_root="/home/diane/proj/genome/"
+VARS 15019_index-samtools  genome="mm10" annotation="M4" sex="male" 
+
+VARS 15019_qc-distribution analysis_name="15019"
+VARS 15019_qc-distribution curdir="15019"
+VARS 15019_qc-distribution genome_root="/home/diane/proj/genome/"
+VARS 15019_qc-distribution georgi_dir="/woldlab/castor/home/sau/code"
+VARS 15019_qc-distribution genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 15020_index-samtools /home/diane/proj/long-rna-seq-condor/woldrnaseq/index-samtools.condor
+JOB 15020_qc-distribution /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-distribution.condor
+
+PARENT 15020_index-samtools CHILD 15020_qc-distribution
+
+VARS 15020_index-samtools  analysis_name="15020"
+VARS 15020_index-samtools  curdir="15020"
+VARS 15020_index-samtools  genome_root="/home/diane/proj/genome/"
+VARS 15020_index-samtools  genome="mm10" annotation="M4" sex="male" 
+
+VARS 15020_qc-distribution analysis_name="15020"
+VARS 15020_qc-distribution curdir="15020"
+VARS 15020_qc-distribution genome_root="/home/diane/proj/genome/"
+VARS 15020_qc-distribution georgi_dir="/woldlab/castor/home/sau/code"
+VARS 15020_qc-distribution genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 15084_index-samtools /home/diane/proj/long-rna-seq-condor/woldrnaseq/index-samtools.condor
+JOB 15084_qc-distribution /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-distribution.condor
+
+PARENT 15084_index-samtools CHILD 15084_qc-distribution
+
+VARS 15084_index-samtools  analysis_name="15084"
+VARS 15084_index-samtools  curdir="15084"
+VARS 15084_index-samtools  genome_root="/home/diane/proj/genome/"
+VARS 15084_index-samtools  genome="mm10" annotation="M4" sex="male" 
+
+VARS 15084_qc-distribution analysis_name="15084"
+VARS 15084_qc-distribution curdir="15084"
+VARS 15084_qc-distribution genome_root="/home/diane/proj/genome/"
+VARS 15084_qc-distribution georgi_dir="/woldlab/castor/home/sau/code"
+VARS 15084_qc-distribution genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 15085_index-samtools /home/diane/proj/long-rna-seq-condor/woldrnaseq/index-samtools.condor
+JOB 15085_qc-distribution /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-distribution.condor
+
+PARENT 15085_index-samtools CHILD 15085_qc-distribution
+
+VARS 15085_index-samtools  analysis_name="15085"
+VARS 15085_index-samtools  curdir="15085"
+VARS 15085_index-samtools  genome_root="/home/diane/proj/genome/"
+VARS 15085_index-samtools  genome="mm10" annotation="M4" sex="male" 
+
+VARS 15085_qc-distribution analysis_name="15085"
+VARS 15085_qc-distribution curdir="15085"
+VARS 15085_qc-distribution genome_root="/home/diane/proj/genome/"
+VARS 15085_qc-distribution georgi_dir="/woldlab/castor/home/sau/code"
+VARS 15085_qc-distribution genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 16111_index-samtools /home/diane/proj/long-rna-seq-condor/woldrnaseq/index-samtools.condor
+JOB 16111_qc-distribution /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-distribution.condor
+
+PARENT 16111_index-samtools CHILD 16111_qc-distribution
+
+VARS 16111_index-samtools  analysis_name="16111"
+VARS 16111_index-samtools  curdir="16111"
+VARS 16111_index-samtools  genome_root="/home/diane/proj/genome/"
+VARS 16111_index-samtools  genome="mm10" annotation="M4" sex="male" 
+
+VARS 16111_qc-distribution analysis_name="16111"
+VARS 16111_qc-distribution curdir="16111"
+VARS 16111_qc-distribution genome_root="/home/diane/proj/genome/"
+VARS 16111_qc-distribution georgi_dir="/woldlab/castor/home/sau/code"
+VARS 16111_qc-distribution genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 16112_index-samtools /home/diane/proj/long-rna-seq-condor/woldrnaseq/index-samtools.condor
+JOB 16112_qc-distribution /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-distribution.condor
+
+PARENT 16112_index-samtools CHILD 16112_qc-distribution
+
+VARS 16112_index-samtools  analysis_name="16112"
+VARS 16112_index-samtools  curdir="16112"
+VARS 16112_index-samtools  genome_root="/home/diane/proj/genome/"
+VARS 16112_index-samtools  genome="mm10" annotation="M4" sex="male" 
+
+VARS 16112_qc-distribution analysis_name="16112"
+VARS 16112_qc-distribution curdir="16112"
+VARS 16112_qc-distribution genome_root="/home/diane/proj/genome/"
+VARS 16112_qc-distribution georgi_dir="/woldlab/castor/home/sau/code"
+VARS 16112_qc-distribution genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 16134_index-samtools /home/diane/proj/long-rna-seq-condor/woldrnaseq/index-samtools.condor
+JOB 16134_qc-distribution /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-distribution.condor
+
+PARENT 16134_index-samtools CHILD 16134_qc-distribution
+
+VARS 16134_index-samtools  analysis_name="16134"
+VARS 16134_index-samtools  curdir="16134"
+VARS 16134_index-samtools  genome_root="/home/diane/proj/genome/"
+VARS 16134_index-samtools  genome="mm10" annotation="M4" sex="male" 
+
+VARS 16134_qc-distribution analysis_name="16134"
+VARS 16134_qc-distribution curdir="16134"
+VARS 16134_qc-distribution genome_root="/home/diane/proj/genome/"
+VARS 16134_qc-distribution georgi_dir="/woldlab/castor/home/sau/code"
+VARS 16134_qc-distribution genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 16135_index-samtools /home/diane/proj/long-rna-seq-condor/woldrnaseq/index-samtools.condor
+JOB 16135_qc-distribution /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-distribution.condor
+
+PARENT 16135_index-samtools CHILD 16135_qc-distribution
+
+VARS 16135_index-samtools  analysis_name="16135"
+VARS 16135_index-samtools  curdir="16135"
+VARS 16135_index-samtools  genome_root="/home/diane/proj/genome/"
+VARS 16135_index-samtools  genome="mm10" annotation="M4" sex="male" 
+
+VARS 16135_qc-distribution analysis_name="16135"
+VARS 16135_qc-distribution curdir="16135"
+VARS 16135_qc-distribution genome_root="/home/diane/proj/genome/"
+VARS 16135_qc-distribution georgi_dir="/woldlab/castor/home/sau/code"
+VARS 16135_qc-distribution genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 16930_index-samtools /home/diane/proj/long-rna-seq-condor/woldrnaseq/index-samtools.condor
+JOB 16930_qc-distribution /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-distribution.condor
+
+PARENT 16930_index-samtools CHILD 16930_qc-distribution
+
+VARS 16930_index-samtools  analysis_name="16930"
+VARS 16930_index-samtools  curdir="16930"
+VARS 16930_index-samtools  genome_root="/home/diane/proj/genome/"
+VARS 16930_index-samtools  genome="mm10" annotation="M4" sex="male" 
+
+VARS 16930_qc-distribution analysis_name="16930"
+VARS 16930_qc-distribution curdir="16930"
+VARS 16930_qc-distribution genome_root="/home/diane/proj/genome/"
+VARS 16930_qc-distribution georgi_dir="/woldlab/castor/home/sau/code"
+VARS 16930_qc-distribution genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 16931_index-samtools /home/diane/proj/long-rna-seq-condor/woldrnaseq/index-samtools.condor
+JOB 16931_qc-distribution /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-distribution.condor
+
+PARENT 16931_index-samtools CHILD 16931_qc-distribution
+
+VARS 16931_index-samtools  analysis_name="16931"
+VARS 16931_index-samtools  curdir="16931"
+VARS 16931_index-samtools  genome_root="/home/diane/proj/genome/"
+VARS 16931_index-samtools  genome="mm10" annotation="M4" sex="male" 
+
+VARS 16931_qc-distribution analysis_name="16931"
+VARS 16931_qc-distribution curdir="16931"
+VARS 16931_qc-distribution genome_root="/home/diane/proj/genome/"
+VARS 16931_qc-distribution georgi_dir="/woldlab/castor/home/sau/code"
+VARS 16931_qc-distribution genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 17298_index-samtools /home/diane/proj/long-rna-seq-condor/woldrnaseq/index-samtools.condor
+JOB 17298_qc-distribution /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-distribution.condor
+
+PARENT 17298_index-samtools CHILD 17298_qc-distribution
+
+VARS 17298_index-samtools  analysis_name="17298"
+VARS 17298_index-samtools  curdir="17298"
+VARS 17298_index-samtools  genome_root="/home/diane/proj/genome/"
+VARS 17298_index-samtools  genome="mm10" annotation="M4" sex="male" 
+
+VARS 17298_qc-distribution analysis_name="17298"
+VARS 17298_qc-distribution curdir="17298"
+VARS 17298_qc-distribution genome_root="/home/diane/proj/genome/"
+VARS 17298_qc-distribution georgi_dir="/woldlab/castor/home/sau/code"
+VARS 17298_qc-distribution genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 17299_index-samtools /home/diane/proj/long-rna-seq-condor/woldrnaseq/index-samtools.condor
+JOB 17299_qc-distribution /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-distribution.condor
+
+PARENT 17299_index-samtools CHILD 17299_qc-distribution
+
+VARS 17299_index-samtools  analysis_name="17299"
+VARS 17299_index-samtools  curdir="17299"
+VARS 17299_index-samtools  genome_root="/home/diane/proj/genome/"
+VARS 17299_index-samtools  genome="mm10" annotation="M4" sex="male" 
+
+VARS 17299_qc-distribution analysis_name="17299"
+VARS 17299_qc-distribution curdir="17299"
+VARS 17299_qc-distribution genome_root="/home/diane/proj/genome/"
+VARS 17299_qc-distribution georgi_dir="/woldlab/castor/home/sau/code"
+VARS 17299_qc-distribution genome="mm10" annotation="M4" sex="male" 

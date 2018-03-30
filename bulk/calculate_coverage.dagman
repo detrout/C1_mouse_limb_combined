@@ -1,0 +1,237 @@
+JOB 15019_bedgraph-star /home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph-star.condor
+JOB 15019_qc-coverage /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-coverage.condor
+
+PARENT 15019_bedgraph-star CHILD 15019_qc-coverage
+
+VARS 15019_bedgraph-star  analysis_name="15019"
+VARS 15019_bedgraph-star  curdir="15019"
+VARS 15019_bedgraph-star  genome_root="/home/diane/proj/genome/"
+VARS 15019_bedgraph-star  star_dir="/woldlab/castor/proj/programs/STAR-2.5.2a/bin/Linux_x86_64/"
+VARS 15019_bedgraph-star  reference_prefix="chr"
+VARS 15019_bedgraph-star  genome="mm10" annotation="M4" sex="male" 
+
+VARS 15019_qc-coverage analysis_name="15019"
+VARS 15019_qc-coverage curdir="15019"
+VARS 15019_qc-coverage genome_root="/home/diane/proj/genome/"
+VARS 15019_qc-coverage georgi_dir="/woldlab/castor/home/sau/code"
+VARS 15019_qc-coverage genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 15020_bedgraph-star /home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph-star.condor
+JOB 15020_qc-coverage /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-coverage.condor
+
+PARENT 15020_bedgraph-star CHILD 15020_qc-coverage
+
+VARS 15020_bedgraph-star  analysis_name="15020"
+VARS 15020_bedgraph-star  curdir="15020"
+VARS 15020_bedgraph-star  genome_root="/home/diane/proj/genome/"
+VARS 15020_bedgraph-star  star_dir="/woldlab/castor/proj/programs/STAR-2.5.2a/bin/Linux_x86_64/"
+VARS 15020_bedgraph-star  reference_prefix="chr"
+VARS 15020_bedgraph-star  genome="mm10" annotation="M4" sex="male" 
+
+VARS 15020_qc-coverage analysis_name="15020"
+VARS 15020_qc-coverage curdir="15020"
+VARS 15020_qc-coverage genome_root="/home/diane/proj/genome/"
+VARS 15020_qc-coverage georgi_dir="/woldlab/castor/home/sau/code"
+VARS 15020_qc-coverage genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 15084_bedgraph-star /home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph-star.condor
+JOB 15084_qc-coverage /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-coverage.condor
+
+PARENT 15084_bedgraph-star CHILD 15084_qc-coverage
+
+VARS 15084_bedgraph-star  analysis_name="15084"
+VARS 15084_bedgraph-star  curdir="15084"
+VARS 15084_bedgraph-star  genome_root="/home/diane/proj/genome/"
+VARS 15084_bedgraph-star  star_dir="/woldlab/castor/proj/programs/STAR-2.5.2a/bin/Linux_x86_64/"
+VARS 15084_bedgraph-star  reference_prefix="chr"
+VARS 15084_bedgraph-star  genome="mm10" annotation="M4" sex="male" 
+
+VARS 15084_qc-coverage analysis_name="15084"
+VARS 15084_qc-coverage curdir="15084"
+VARS 15084_qc-coverage genome_root="/home/diane/proj/genome/"
+VARS 15084_qc-coverage georgi_dir="/woldlab/castor/home/sau/code"
+VARS 15084_qc-coverage genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 15085_bedgraph-star /home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph-star.condor
+JOB 15085_qc-coverage /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-coverage.condor
+
+PARENT 15085_bedgraph-star CHILD 15085_qc-coverage
+
+VARS 15085_bedgraph-star  analysis_name="15085"
+VARS 15085_bedgraph-star  curdir="15085"
+VARS 15085_bedgraph-star  genome_root="/home/diane/proj/genome/"
+VARS 15085_bedgraph-star  star_dir="/woldlab/castor/proj/programs/STAR-2.5.2a/bin/Linux_x86_64/"
+VARS 15085_bedgraph-star  reference_prefix="chr"
+VARS 15085_bedgraph-star  genome="mm10" annotation="M4" sex="male" 
+
+VARS 15085_qc-coverage analysis_name="15085"
+VARS 15085_qc-coverage curdir="15085"
+VARS 15085_qc-coverage genome_root="/home/diane/proj/genome/"
+VARS 15085_qc-coverage georgi_dir="/woldlab/castor/home/sau/code"
+VARS 15085_qc-coverage genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 16111_bedgraph-star /home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph-star.condor
+JOB 16111_qc-coverage /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-coverage.condor
+
+PARENT 16111_bedgraph-star CHILD 16111_qc-coverage
+
+VARS 16111_bedgraph-star  analysis_name="16111"
+VARS 16111_bedgraph-star  curdir="16111"
+VARS 16111_bedgraph-star  genome_root="/home/diane/proj/genome/"
+VARS 16111_bedgraph-star  star_dir="/woldlab/castor/proj/programs/STAR-2.5.2a/bin/Linux_x86_64/"
+VARS 16111_bedgraph-star  reference_prefix="chr"
+VARS 16111_bedgraph-star  genome="mm10" annotation="M4" sex="male" 
+
+VARS 16111_qc-coverage analysis_name="16111"
+VARS 16111_qc-coverage curdir="16111"
+VARS 16111_qc-coverage genome_root="/home/diane/proj/genome/"
+VARS 16111_qc-coverage georgi_dir="/woldlab/castor/home/sau/code"
+VARS 16111_qc-coverage genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 16112_bedgraph-star /home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph-star.condor
+JOB 16112_qc-coverage /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-coverage.condor
+
+PARENT 16112_bedgraph-star CHILD 16112_qc-coverage
+
+VARS 16112_bedgraph-star  analysis_name="16112"
+VARS 16112_bedgraph-star  curdir="16112"
+VARS 16112_bedgraph-star  genome_root="/home/diane/proj/genome/"
+VARS 16112_bedgraph-star  star_dir="/woldlab/castor/proj/programs/STAR-2.5.2a/bin/Linux_x86_64/"
+VARS 16112_bedgraph-star  reference_prefix="chr"
+VARS 16112_bedgraph-star  genome="mm10" annotation="M4" sex="male" 
+
+VARS 16112_qc-coverage analysis_name="16112"
+VARS 16112_qc-coverage curdir="16112"
+VARS 16112_qc-coverage genome_root="/home/diane/proj/genome/"
+VARS 16112_qc-coverage georgi_dir="/woldlab/castor/home/sau/code"
+VARS 16112_qc-coverage genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 16134_bedgraph-star /home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph-star.condor
+JOB 16134_qc-coverage /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-coverage.condor
+
+PARENT 16134_bedgraph-star CHILD 16134_qc-coverage
+
+VARS 16134_bedgraph-star  analysis_name="16134"
+VARS 16134_bedgraph-star  curdir="16134"
+VARS 16134_bedgraph-star  genome_root="/home/diane/proj/genome/"
+VARS 16134_bedgraph-star  star_dir="/woldlab/castor/proj/programs/STAR-2.5.2a/bin/Linux_x86_64/"
+VARS 16134_bedgraph-star  reference_prefix="chr"
+VARS 16134_bedgraph-star  genome="mm10" annotation="M4" sex="male" 
+
+VARS 16134_qc-coverage analysis_name="16134"
+VARS 16134_qc-coverage curdir="16134"
+VARS 16134_qc-coverage genome_root="/home/diane/proj/genome/"
+VARS 16134_qc-coverage georgi_dir="/woldlab/castor/home/sau/code"
+VARS 16134_qc-coverage genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 16135_bedgraph-star /home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph-star.condor
+JOB 16135_qc-coverage /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-coverage.condor
+
+PARENT 16135_bedgraph-star CHILD 16135_qc-coverage
+
+VARS 16135_bedgraph-star  analysis_name="16135"
+VARS 16135_bedgraph-star  curdir="16135"
+VARS 16135_bedgraph-star  genome_root="/home/diane/proj/genome/"
+VARS 16135_bedgraph-star  star_dir="/woldlab/castor/proj/programs/STAR-2.5.2a/bin/Linux_x86_64/"
+VARS 16135_bedgraph-star  reference_prefix="chr"
+VARS 16135_bedgraph-star  genome="mm10" annotation="M4" sex="male" 
+
+VARS 16135_qc-coverage analysis_name="16135"
+VARS 16135_qc-coverage curdir="16135"
+VARS 16135_qc-coverage genome_root="/home/diane/proj/genome/"
+VARS 16135_qc-coverage georgi_dir="/woldlab/castor/home/sau/code"
+VARS 16135_qc-coverage genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 16930_bedgraph-star /home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph-star.condor
+JOB 16930_qc-coverage /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-coverage.condor
+
+PARENT 16930_bedgraph-star CHILD 16930_qc-coverage
+
+VARS 16930_bedgraph-star  analysis_name="16930"
+VARS 16930_bedgraph-star  curdir="16930"
+VARS 16930_bedgraph-star  genome_root="/home/diane/proj/genome/"
+VARS 16930_bedgraph-star  star_dir="/woldlab/castor/proj/programs/STAR-2.5.2a/bin/Linux_x86_64/"
+VARS 16930_bedgraph-star  reference_prefix="chr"
+VARS 16930_bedgraph-star  genome="mm10" annotation="M4" sex="male" 
+
+VARS 16930_qc-coverage analysis_name="16930"
+VARS 16930_qc-coverage curdir="16930"
+VARS 16930_qc-coverage genome_root="/home/diane/proj/genome/"
+VARS 16930_qc-coverage georgi_dir="/woldlab/castor/home/sau/code"
+VARS 16930_qc-coverage genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 16931_bedgraph-star /home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph-star.condor
+JOB 16931_qc-coverage /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-coverage.condor
+
+PARENT 16931_bedgraph-star CHILD 16931_qc-coverage
+
+VARS 16931_bedgraph-star  analysis_name="16931"
+VARS 16931_bedgraph-star  curdir="16931"
+VARS 16931_bedgraph-star  genome_root="/home/diane/proj/genome/"
+VARS 16931_bedgraph-star  star_dir="/woldlab/castor/proj/programs/STAR-2.5.2a/bin/Linux_x86_64/"
+VARS 16931_bedgraph-star  reference_prefix="chr"
+VARS 16931_bedgraph-star  genome="mm10" annotation="M4" sex="male" 
+
+VARS 16931_qc-coverage analysis_name="16931"
+VARS 16931_qc-coverage curdir="16931"
+VARS 16931_qc-coverage genome_root="/home/diane/proj/genome/"
+VARS 16931_qc-coverage georgi_dir="/woldlab/castor/home/sau/code"
+VARS 16931_qc-coverage genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 17298_bedgraph-star /home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph-star.condor
+JOB 17298_qc-coverage /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-coverage.condor
+
+PARENT 17298_bedgraph-star CHILD 17298_qc-coverage
+
+VARS 17298_bedgraph-star  analysis_name="17298"
+VARS 17298_bedgraph-star  curdir="17298"
+VARS 17298_bedgraph-star  genome_root="/home/diane/proj/genome/"
+VARS 17298_bedgraph-star  star_dir="/woldlab/castor/proj/programs/STAR-2.5.2a/bin/Linux_x86_64/"
+VARS 17298_bedgraph-star  reference_prefix="chr"
+VARS 17298_bedgraph-star  genome="mm10" annotation="M4" sex="male" 
+
+VARS 17298_qc-coverage analysis_name="17298"
+VARS 17298_qc-coverage curdir="17298"
+VARS 17298_qc-coverage genome_root="/home/diane/proj/genome/"
+VARS 17298_qc-coverage georgi_dir="/woldlab/castor/home/sau/code"
+VARS 17298_qc-coverage genome="mm10" annotation="M4" sex="male" 
+
+
+
+JOB 17299_bedgraph-star /home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph-star.condor
+JOB 17299_qc-coverage /home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-coverage.condor
+
+PARENT 17299_bedgraph-star CHILD 17299_qc-coverage
+
+VARS 17299_bedgraph-star  analysis_name="17299"
+VARS 17299_bedgraph-star  curdir="17299"
+VARS 17299_bedgraph-star  genome_root="/home/diane/proj/genome/"
+VARS 17299_bedgraph-star  star_dir="/woldlab/castor/proj/programs/STAR-2.5.2a/bin/Linux_x86_64/"
+VARS 17299_bedgraph-star  reference_prefix="chr"
+VARS 17299_bedgraph-star  genome="mm10" annotation="M4" sex="male" 
+
+VARS 17299_qc-coverage analysis_name="17299"
+VARS 17299_qc-coverage curdir="17299"
+VARS 17299_qc-coverage genome_root="/home/diane/proj/genome/"
+VARS 17299_qc-coverage georgi_dir="/woldlab/castor/home/sau/code"
+VARS 17299_qc-coverage genome="mm10" annotation="M4" sex="male" 

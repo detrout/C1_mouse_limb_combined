@@ -12,6 +12,25 @@ used by [[file:create_publication_set.py][file:create_publication_set.py]] plus
 associate all of the fastqs from our 433 set with the encode publication
 https://www.encodeproject.org/publications/e0d01543-9965-4edb-933c-778a40575cd9/
 
+* Bulk combine coverage?
+
+I didn't write down this when I did it, so I'm not quite sure why I
+did this.
+
+I think there was a desire to compare single cell coverage vs bulk
+experiments, and unfortunately our bulk experiments were done a long
+time ago and we didn't have the coverage and distribution files.
+
+Instead of re-running the whole thing, I downloaded the .bam files and
+ran the necessary fragments of long-rna-seq-condor.
+
+I downloaded with [[file:bulk/download.sh][bulk/download.sh]] and ran
+[[file:bulk/calculate_coverage.dagman][bulk/calculate_coverage.dagman]] and
+[[file:bulk/calculate_distribution.dagman][file:bulk/caculate_distribution.dagman]]
+
+Since regenerating that is space intensive I'm going to cache the
+result file. [[file:bulk_mouse_limb_combined_coverage.tsv][bulk_mouse_limb_combined_coverage.tsv]]
+
 * Generate genes called plot for 100 specific cells
 
 At some point Brian provided
