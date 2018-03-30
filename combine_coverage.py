@@ -23,13 +23,9 @@ roots_asof_run17 = roots_433 + """~sau/flowcells/HFNLNBCX2/
 ~sau/flowcells/H7CNTBCX2/
 ~sau/flowcells/HFNLTBCX2/
 ~sau/flowcells/HF7NTBCX2/
-~sau/flowcells/HFNLNBCX2/
 ~sau/flowcells/HFNYNBCX2/
-~sau/flowcells/H7CNTBCX2/
 ~sau/flowcells/HJFCLBCXY/
 """
-
-calls = 0
 
 def main():
     make_asof_run17_coverage()
@@ -44,7 +40,7 @@ def make_433_coverage():
 def make_asof_run17_coverage():
     # to_includes includes gene_id header, remove it. with [1:]
     coverage = load_all_coverage(roots_asof_run17, generate_to_include_as_of_run17()[1:])
-    coverage.to_csv("C1_mouse_limb_combined_asof_run17.tsv", sep='\t')
+    coverage.to_csv("C1_mouse_limb_coverage_asof_run17.tsv", sep='\t')
 
 
 def load_all_coverage(roots, to_include):
