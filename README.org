@@ -5,17 +5,6 @@ Originally I was trying to collect input data for our C1 paper.
 We had a final filter set of 433 cells. Since there was new data, 
 I then committed my original code [[orgit-rev:/ssh:pongo:/woldlab/castor/home/diane/proj/C1_mouse_limb_combined/::0c9d57e][/ssh:pongo:proj/C1_mouse_limb_combined/ (magit-rev 0c9d57e)]]
 
-* Request <2018-03-23 Fri>
-
-Brian had a spread sheet [[file:Slope_match_PacBio_cells_Diane_March23_2018.xlsx][Slope_match_PacBio_cells_Diane_March23_2018.xlsx]] and he wanted
-me to merge the two columns.
-
-Which I did with [[file:slope_match.py][slope_match.py]].
-
-However he also wanted me to generate the genes-detected values for
-the C1 mouse limb data which took me a while, because I needed to ask
-Sean which versions of the source genes-detected files to use.
-
 * Request <2018-03-21 Wed>
 
 Today I receved a request to compute our coverage "metric" for all of the new data.
@@ -44,4 +33,15 @@ python combine_coverage.py
 #+END_SRC
 
 Compute the slope.
+
+* Request <2018-03-23 Fri>
+
+Brian had a spread sheet [[file:Slope_match_PacBio_cells_Diane_March23_2018.xlsx][Slope_match_PacBio_cells_Diane_March23_2018.xlsx]] and he wanted
+me to merge the two columns.
+
+Which I did with [[file:slope_match.py][slope_match.py]].
+
+However he also wanted me to generate the genes-detected values for
+the C1 mouse limb data which took me a while, because I needed to ask
+Sean which versions of the source genes-detected files to use.
 
