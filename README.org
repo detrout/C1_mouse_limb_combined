@@ -101,3 +101,16 @@ ENSMUSG00000030189
 
 Wrote [[file:generate_combined_transcript_C1.py]] to generate his output file
 
+* Request <2018-04-17 Tue> from Brian: make a trackhub.
+
+Brian gave me a set in [[file:Limb_cells_for_track_hub_splice_isoforms_red_green_black_only_April17_2018.xlsx][Limb_cells_for_track_hub_splice_isoforms_red_green_black_only_April17_2018.xlsx]]
+that he wants a trackhub made of.
+
+http://woldlab.caltech.edu/~diane/limb_cells_for_track_hub_splice_isoforms/C1_mouse_limb.hub.txt
+
+The trackhub is in:
+[[file:/ssh:pongo:/woldlab/loxcyc/home/diane/public_html/limb_cells_for_track_hub_splice_isoforms/C1_mouse_limb.hub.txt][~diane/public_html/limb_cells_for_track_hub_splice_isoforms/C1_mouse_limb.hub.txt]]
+
+It took me a bit to get the bam files linked some place publically accessible.
+
+But its working now.
