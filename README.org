@@ -84,3 +84,20 @@ However he also wanted me to generate the genes-detected values for
 the C1 mouse limb data which took me a while, because I needed to ask
 Sean which versions of the source genes-detected files to use.
 
+* Request <2018-04-05 Thu> from gigio.
+  :LOGBOOK:
+  CLOCK: [2018-04-06 Fri 15:00]--[2018-04-06 Fri 16:15] =>  1:15
+  CLOCK: [2018-04-05 Thu 15:00]--[2018-04-05 Thu 17:10] =>  2:10
+  :END:
+
+He'd like to try and tell which isoform of a few genes was being used in the C1 mouse limb data.
+
+ENSMUSG00000020167
+ENSMUSG00000032228
+ENSMUSG00000063659
+ENSMUSG00000030189
+
+['ENSMUSG00000020167','ENSMUSG00000032228','ENSMUSG00000063659','ENSMUSG00000030189']
+
+Wrote [[file:generate_combined_transcript_C1.py]] to generate his output file
+
