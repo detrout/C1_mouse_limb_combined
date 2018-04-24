@@ -437,7 +437,19 @@ def generate_to_include():
     print('to include', to_include, len(to_include))
     return to_include
 
-def generate_to_include_as_of_run17():
+def generate_to_include_asof_run17():
+    removed="""18488_C1_mm10
+18488_C2_mm10
+18488_C3_mm10
+18488_C4_mm10
+18488_C5_mm10
+18488_C6_mm10
+18488_C7_mm10
+18488_C8_mm10
+18488_C9_mm10
+18488_C10_mm10
+18488_C11_mm10
+18488_C12_mm10"""
     to_include = """18042_A1_mm10_clean
 18042_A2_mm10_clean
 18042_A3_mm10_clean
@@ -1263,18 +1275,6 @@ def generate_to_include_as_of_run17():
 20090_C10
 20090_C11
 20090_C12
-18488_C1_mm10
-18488_C2_mm10
-18488_C3_mm10
-18488_C4_mm10
-18488_C5_mm10
-18488_C6_mm10
-18488_C7_mm10
-18488_C8_mm10
-18488_C9_mm10
-18488_C10_mm10
-18488_C11_mm10
-18488_C12_mm10
 20044_A1
 20044_A2
 20044_A3
@@ -1492,6 +1492,6 @@ def generate_to_include_as_of_run17():
 20038_F10
 20038_F11
 20038_F12""".split('\n')
-    to_include = [ x.strip() for x in to_include ]
+    to_include = [ x.strip().replace('_mm10', '').replace('_clean', '') for x in to_include ]
     to_include.insert(0, 'gene_id')
     return to_include

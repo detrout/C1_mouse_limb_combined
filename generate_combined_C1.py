@@ -2,7 +2,7 @@ import pandas
 import os
 import sys
 
-from to_include import generate_to_include
+from to_include import generate_to_include, generate_to_include_as_of_run17
 
 
 paper_433_FPKM_files = """~sau/flowcells/C1_e10.5_mouse_limb_run2_June20_2016/C1_e10.5_mouse_limb_run2_June20_2016_FPKM.csv
@@ -42,7 +42,7 @@ def make_paper_combined():
 
 def make_asof_run17_combined():
     files = ASOF_RUN17_FPKM_FILES
-    to_include = generate_to_include_as_of_run18()
+    to_include = generate_to_include_as_of_run17()
 
     combined = make_combined(files, to_include)
     combined.to_csv('C1_mouse_combined_asof_run17.tsv', sep='\t')
