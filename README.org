@@ -114,3 +114,14 @@ The trackhub is in:
 It took me a bit to get the bam files linked some place publically accessible.
 
 But its working now.
+
+* Work on generating round two submission
+
+This is now using the pooled fastqs that the DCC wanted.
+
+I started with [[file:prepare_submission_20180430.py][prepare_submission_20180430.py]] to generate
+merge_20180430_fastqs.condor which generated the pooled fastqs.
+
+I still need to generate the file metadata for the submission
+
+Diane
