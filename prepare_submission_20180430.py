@@ -1,13 +1,25 @@
+#!/usr/bin/python3
 import os
+import collections
+import re
 import glob
 import pandas
+
+from rdflib import Graph, Literal, URIRef
 
 from generate_combined_transcript_C1 import ASOF_RUN17_experiment_files
 
 from woldrnaseq.models import load_experiments
 
-def main():
+from htsworkflow.util.opener import autoopen
+from htsworkflow.util.rdfns import (
+    libraryOntology,
+)
+from htsworkflow.util.rdfhelp import (
+     dump_model,
+)
 
+def main():
     desplit = os.path.expanduser('~/proj/htsworkflow/htsworkflow/pipelines/desplit_fastq.py')
     data = pandas.read_excel(
         'Second_set_of_limb_single_cell_data_for_Diane_almost_complete_April13_2018.xlsx',
