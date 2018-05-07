@@ -19,6 +19,9 @@ from htsworkflow.util.rdfhelp import (
      dump_model,
 )
 
+# 20031-20038 are good on flowcell HF7NTBCX2
+# 20026-20030 are mixed on flowcell HF7NTBCX2
+
 def main():
     desplit = os.path.expanduser('~/proj/htsworkflow/htsworkflow/pipelines/desplit_fastq.py')
     data = pandas.read_excel(
