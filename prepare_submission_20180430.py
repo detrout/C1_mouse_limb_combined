@@ -54,6 +54,8 @@ def main():
     make_library_barcodes(fastq_urls, barcodes_tsv)
     #make_desplit_condor(fastq_urls, desplit, root_fastq_url, 'merge_20180430_fastqs.condor')
 
+    make_metadata(fastq_urls, root_fastq_url)
+
 def find_all_fastqs(root_fastq_url, experiments, output_file):
     """Get urls to the raw fastq files for all our replicates
     """
@@ -217,6 +219,60 @@ environment="PYTHONPATH=/woldlab/loxcyc/home/diane/proj/htsworkflow"
         return False
     else:
         return True
+
+def make_metadata(experiments, root_fastq_url):
+    model = Graph()
+
+    metadata = []
+    for i, row in experiments.iterrows():
+        fastq_urls = [ urljoin(root_fastq_url, x[1:-1]) for x in row.fastq_urls[1:-1].split(', ')]
+        for fastq_url in fastq_urls:
+            fastq_data = parse_fluidigm(fastq_url)
+            metadata.append({
+                'experiment': row.experiment,
+                'machine': 'http://jumpgate.caltech.edu/sequencer/8',
+                'flowcell': fastq_data['flowcell_id'],
+                'lane': fastq_data['lane_number'],
+                'barcode': fastq_data['barcode'],
+                'read_length': fastq_data['read_length']
+            })
+
+    metadata = sorted(metadata, key=lambda row: (row['experiment'], row['flowcell'], row['barcode']))
+    df = pandas.DataFrame(metadata, columns=['experiment', 'machine', 'flowcell', 'lane', 'barcode', 'read_length'])
+    print(df.head())
+    df.to_csv('submission-201804-flowcell-details.tsv', sep='\t', index=False)
+
+
+fluidigm_fields = ['library_id', 'location', 'barcode', 'lane_number', 'read']
+
+def parse_fluidigm(pathname):
+    path, name = os.path.split(pathname)
+    p = r'(?P<library_id>[0-9]{5})_'\
+        '(?P<location>[A-H][0-9]{1,2})_'\
+        '(?P<barcode>[AGCT-]+)_'\
+        'L00(?P<lane_number>[1-8])_'\
+        'R(?P<read>[1-3])'
+
+    match = re.match(p, name)
+    if match is not None:
+        fields = { k: match.group(k) for k in fluidigm_fields }
+        with autoopen(pathname, 'rt') as stream:
+            fields.update(parse_fastq_header(stream.readline()))
+            seq = stream.readline()
+            fields['read_length'] = len(seq)
+        return fields
+
+def parse_fastq_header(header):
+    header = header.strip()
+    read_id, extra = header.split(' ')
+    fields = read_id.split(':')
+    extra_fields = extra.split(':')
+    return {
+        'flowcell_id': fields[2],
+        #'lane_number': fields[3],
+        #'read': fields[4],
+        'barcode': extra_fields[3],
+    }
 
 class Runfolder:
     def __init__(self, root_url):
