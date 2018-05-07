@@ -1,7 +1,10 @@
 #!/usr/bin/python3
 import os
 import collections
+from lxml.html import fromstring
+import json
 import re
+import requests
 import glob
 import pandas
 from urllib.parse import urljoin
@@ -15,6 +18,8 @@ from woldrnaseq.models import load_experiments
 from htsworkflow.util.opener import autoopen
 from htsworkflow.util.rdfns import (
     libraryOntology,
+    RDF,
+    RDFS,
 )
 from htsworkflow.util.rdfhelp import (
      dump_model,
@@ -39,7 +44,69 @@ def main():
     aliases_tsv = 'submission-201804-aliases.tsv'
     make_library_aliases(current_experiments, aliases_tsv)
 
+    submission_fastqs_tsv = 'submission-201804-fastqs.tsv'
+    if not os.path.exists(submission_fastqs_tsv):
+        fastq_urls = find_all_fastqs(root_fastq_url, current_experiments, submission_fastqs_tsv)
+
+    fastq_urls = pandas.read_csv(submission_fastqs_tsv, sep='\t')
     #make_desplit_condor(fastq_urls, desplit, root_fastq_url, 'merge_20180430_fastqs.condor')
+
+def find_all_fastqs(root_fastq_url, experiments, output_file):
+    """Get urls to the raw fastq files for all our replicates
+    """
+    runfolder = Runfolder(root_fastq_url)
+
+    records = []
+    multi = []
+    for record in find_replicate_flowcells(experiments):
+        fastqs = []
+        for flowcell in record['flowcells']:
+            fastqs.extend(list(runfolder.find_fastqs(flowcell, record['library_id'])))
+        record['fastq_urls'] = fastqs
+        fluidigm_fields = parse_fluidigm(urljoin(root_fastq_url, fastqs[0]))
+        record['barcode'] = fluidigm_fields['barcode']
+        record['location'] = fluidigm_fields['location']
+        records.append(record)
+        if len(record['flowcells']) > 1:
+            multi.append(record)
+
+    df = pandas.DataFrame(records)
+    df.to_csv(output_file, sep='\t', index=False)
+    if len(multi) > 0:
+        print('Warning, runs on multiple flowcells check multiple_flowcells.tsv')
+        pandas.DataFrame(multi).to_csv('multiple_flowcells.tsv', sep='\t')
+
+    return df
+
+def find_replicate_flowcells(experiments):
+    model = Graph()
+
+    for i, row in experiments.iterrows():
+        for extended_id in row.replicates:
+            #print(extended_id)
+            library_id, location, *_ = extended_id.split('_')
+            extended_id = library_id + '_' + location
+            uri = URIRef('https://felcat.caltech.edu/library/{}/'.format(library_id))
+            s = (uri, RDF['type'], libraryOntology['Library'])
+            if s not in model:
+                model.parse(source=uri, format='rdfa')
+
+            flowcells = model.query("""PREFIX libns: <http://jumpgate.caltech.edu/wiki/LibraryOntology#>
+
+select distinct ?flowcell_id
+where {
+  ?library a libns:Library ;
+           libns:has_lane ?lane .
+  ?lane libns:flowcell ?flowcell .
+  ?flowcell libns:flowcell_id ?flowcell_id .
+
+}
+            """, initBindings={'library': uri})
+
+            yield {'experiment': row.name,
+                   'library_id': extended_id,
+                   'flowcells': sorted([x[0].value for x in flowcells])
+                   }
 
 def find_experiments_to_submit(experiments, submission_table):
     to_upload = set(submission_table[0])
@@ -128,6 +195,65 @@ environment="PYTHONPATH=/woldlab/loxcyc/home/diane/proj/htsworkflow"
     else:
         return True
 
+class Runfolder:
+    def __init__(self, root_url):
+        self.root_url = root_url
+        self.pages = {}
+
+    def load_index(self, url=''):
+        absolute_url = urljoin(self.root_url, url)
+
+        response = requests.get(absolute_url)
+        tree = fromstring(response.content)
+        rows = tree.xpath('*/table/tr/td/a')
+        if len(rows) == 0:
+            raise RuntimeError('{} is not a directory'.format(absolute_url))
+        if rows[0].text == 'Parent Directory':
+            rows.pop(0)
+        self.pages[url] = [ x.text for x in rows ]
+
+    def find_flowcell(self, flowcell):
+        root = ''
+        if root not in self.pages:
+            self.load_index(root)
+
+        for name in self.pages[root]:
+            if flowcell in name:
+                return name
+
+    def _find_unaligned(self, url):
+        if url not in self.pages:
+            self.load_index(url)
+
+        for name in self.pages[url]:
+            for unaligned in ['Unaligned.dualIndex/', 'Unaligned/']:
+                if unaligned == name:
+                    return url + name
+
+        raise RuntimeError('Unable to find index in {}'.format(url))
+
+    def _find_extended_id(self, url, extended_id):
+        if url not in self.pages:
+            self.load_index(url)
+
+        for name in self.pages[url]:
+            if extended_id in name:
+                return url + name
+
+    def find_fastqs(self, flowcell, extended_id):
+        runfolder = self.find_flowcell(flowcell)
+        assert runfolder is not None
+        unaligned = self._find_unaligned(runfolder)
+        assert unaligned is not None
+        project = self._find_extended_id(unaligned, extended_id)
+        sample = self._find_extended_id(project, extended_id)
+
+        if sample not in self.pages:
+            self.load_index(sample)
+
+        for name in self.pages[sample]:
+            if 'fastq.gz' in name:
+                yield sample + name
 
 if __name__ == '__main__':
     main()
