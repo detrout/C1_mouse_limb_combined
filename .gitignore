@@ -25,3 +25,8 @@ C1_mouse_e13.0_forelimb_run12_December13_2017.fastq.gz
 C1_mouse_e14.0_forelimb_run13_December14_2017.fastq.gz
 C1_mouse_e14.5_forelimb_run17_January16_2018.fastq.gz
 C1_mouse_e15.5_forelimb_run14_December15_2017.fastq.gz
+# Cache files for C1 set 2 submission
+submission-201804-aliases.tsv
+submission-201804-fastqs.tsv
+submission-201804-barcodes.tsv
+submission-201804-flowcell-details.tsv
