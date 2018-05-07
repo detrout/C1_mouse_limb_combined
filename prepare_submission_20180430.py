@@ -49,6 +49,9 @@ def main():
         fastq_urls = find_all_fastqs(root_fastq_url, current_experiments, submission_fastqs_tsv)
 
     fastq_urls = pandas.read_csv(submission_fastqs_tsv, sep='\t')
+
+    barcodes_tsv = 'submission-201804-barcodes.tsv'
+    make_library_barcodes(fastq_urls, barcodes_tsv)
     #make_desplit_condor(fastq_urls, desplit, root_fastq_url, 'merge_20180430_fastqs.condor')
 
 def find_all_fastqs(root_fastq_url, experiments, output_file):
@@ -151,6 +154,26 @@ def make_library_aliases(experiments, aliases_tsv):
             outstream.write('\t')
             outstream.write(','.join(sorted(aliases[key])))
             outstream.write(os.linesep)
+
+
+def make_library_barcodes(experiments, barcode_tsv):
+    def sorted_plate_key(row):
+        return row['plate_id'] + '_' + row['plate_location']
+
+    barcodes = {}
+    for i, row in experiments.iterrows():
+        plate_id, location, *_ = row.library_id.split('_')
+        record = {'barcode': row.barcode, 'plate_id': plate_id, 'plate_location': location}
+        barcodes.setdefault(row.experiment, []).append(record)
+
+    with open(barcode_tsv, 'wt') as outstream:
+        for key in sorted(barcodes):
+            outstream.write(key)
+            outstream.write('\t')
+            outstream.write(json.dumps(sorted(barcodes[key], key=sorted_plate_key)))
+            outstream.write(os.linesep)
+
+
 def make_desplit_condor(experiments, desplit_cmd, root_url, condor_file):
     """Make condor file to build merged fastqs
 
