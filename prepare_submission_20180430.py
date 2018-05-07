@@ -36,6 +36,9 @@ def main():
 
     current_experiments = find_experiments_to_submit(experiments, data)
 
+    aliases_tsv = 'submission-201804-aliases.tsv'
+    make_library_aliases(current_experiments, aliases_tsv)
+
     #make_desplit_condor(fastq_urls, desplit, root_fastq_url, 'merge_20180430_fastqs.condor')
 
 def find_experiments_to_submit(experiments, submission_table):
@@ -68,6 +71,19 @@ def find_seans_fastqs(experiments):
 
     #make_desplit_condor(filesets)
 
+
+def make_library_aliases(experiments, aliases_tsv):
+    aliases = {}
+    for i, row in experiments.iterrows():
+        for library_id in row.replicates:
+            aliases.setdefault(row.name, []).append('barbara-wold:{}'.format(library_id))
+
+    with open(aliases_tsv, 'wt') as outstream:
+        for key in sorted(aliases):
+            outstream.write(key)
+            outstream.write('\t')
+            outstream.write(','.join(sorted(aliases[key])))
+            outstream.write(os.linesep)
 def make_desplit_condor(experiments, desplit_cmd, root_url, condor_file):
     """Make condor file to build merged fastqs
 
