@@ -124,4 +124,19 @@ merge_20180430_fastqs.condor which generated the pooled fastqs.
 
 I still need to generate the file metadata for the submission
 
-Diane
+** <2018-05-07 Mon>
+
+Got around to committing [[file:prepare_submission_20180430.py][prepare_submission_20180430.py]] and adding
+[[file:pandas_submission.py][pandas_submission.py]] and the spreadsheets that drove it to git.
+
+They're probably not a complete solution to the problem of submitting
+library + well ids to the DCC, but I think I'm making progress.
+
+One other issue we had with submission was that some of the libraries
+were unusable on one of the flowcells because there was a barcode
+collision. So I had to make some updates to htsworkflow
+ [[orgit-rev:~/proj/htsworkflow/::ce1e0df][Use a different RDF term for bad lanes (magit-rev ce1e0df)]]
+to make it easier to ignore bad flowcell lanes.
+
+For what its worth I think spreadsheets are a probably easier solution
+than the turtle import
