@@ -32,13 +32,31 @@ def main():
     experiment_files = [ os.path.expanduser(x.strip()) for x in ASOF_RUN17_experiment_files.split('\n') ]
     experiments = load_experiments(experiment_files)
 
-    to_upload = set(data[0])
-    missing = set(data[0])
-    filesets = {}
+    current_experiments = find_experiments_to_submit(experiments, data)
+
+def find_experiments_to_submit(experiments, submission_table):
+    to_upload = set(submission_table[0])
+    missing = set(submission_table[0])
+
+    tosubmit = []
     for i, row in experiments.iterrows():
         current = to_upload.intersection(set(row.replicates))
         missing = missing.difference(set(row.replicates))
-        for library_id in current:
+        if len(current) > 0:
+            tosubmit.append({
+                'name': row.name,
+                'analysis_dir': row.analysis_dir,
+                'replicates': list(current)
+            })
+
+    df = pandas.DataFrame(tosubmit)
+    df.set_index('name', inplace=True)
+    return df
+
+
+def find_seans_fastqs(experiments):
+    for i, row in experiments.iterrows():
+        for library_id in row.replicates:
             pattern = os.path.join(row.analysis_dir, library_id + '*.fastq.gz')
             files = glob.glob(pattern)
             assert len(files) > 0
