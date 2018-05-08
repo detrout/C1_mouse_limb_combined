@@ -140,3 +140,173 @@ to make it easier to ignore bad flowcell lanes.
 
 For what its worth I think spreadsheets are a probably easier solution
 than the turtle import
+
+* Request <2018-05-07 Mon> from Brian generate transcript coverage
+[[file:compare_lists_submitted_cells_vs_cells_in_paper_May4_2018.ods][compare_lists_submitted_cells_vs_cells_in_paper_May4_2018.ods]] sheet cells_in_paper
+
+#+NAME: plot_median_as_of_run17_normalized_coverage.py
+#+BEGIN_SRC python :results output
+import sys
+import pandas
+from pandasodf import ODFReader
+
+from woldrnaseq import plot_coverage
+
+
+def main():
+    coverage = pandas.read_csv('C1_mouse_limb_coverage_asof_run17.tsv', sep='\t')
+    coverage_names = [x.replace('_clean', '').replace('_mm10', '') for x in coverage.columns]
+    coverage.columns = coverage_names
+    book = ODFReader('compare_lists_submitted_cells_vs_cells_in_paper_May4_2018.ods')
+    cells = book.parse('cells_in_paper')
+
+    paper_cells = set(cells['all_cells_in_manuscript'])
+    found_cells = set(coverage_names)
+    print('available coverage table shape', coverage.shape)
+    print('cells just in paper', len(paper_cells.difference(found_cells)))
+    print('cells just in all known set', len(found_cells.difference(paper_cells)))
+
+    #experiment = pandas.DataFrame({
+    #    'experiment': ['cells_in_manuscript'],
+    #    'replicates': [[]],
+    #})
+    #experiment = experiment.set_index('experiment')
+    #experiment.loc['cells_in_manuscript']['replicates'] = list(cells['all_cells_in_manuscript'].values)
+    #print(experiment.head())
+
+    # Apparently this function is still using the dict based experiments
+    experiment = {'cells_in_manuscript': cells['all_cells_in_manuscript'].values}
+
+    plot_coverage.make_median_normalized_summary(experiment, coverage)
+
+if __name__ == '__main__':
+    main()
+#+END_SRC
+
+#+NAME: cells in manuscript median normalized coverage
+[[./cells_in_manuscript.median-normalized.coverage.png]]
+
+* Request <2018-05-07 Mon> from Brian compare what's been submitted to what should be submitted.
+[[file:compare_lists_submitted_cells_vs_cells_in_paper_May4_2018.ods][compare_lists_submitted_cells_vs_cells_in_paper_May4_2018.ods]] sheet should_be_submitted
+
+
+#+BEGIN_SRC python :results output
+  import sys
+  import pandas
+  from pandasodf import ODFReader
+  from htsworkflow.submission.encoded import ENCODED
+  from requests.exceptions import  HTTPError
+
+  def main():
+      book = ODFReader('compare_lists_submitted_cells_vs_cells_in_paper_May4_2018.ods')
+      print(book.sheet_names)
+      paper = book.parse('cells_in_paper')
+      submitted = book.parse('should_be_submitted')
+
+      server = ENCODED('www.encodeproject.org')
+    
+      paper_cells = set(paper['all_cells_in_manuscript'])
+      submitted_cells = set(submitted['submitted_library_ids'])
+      for cell in sorted(paper_cells.difference(submitted_cells)):
+          alias = 'barbara-wold:{}'.format(cell)
+          try: 
+             body = server.get_json(alias)
+              state = ''
+          except HTTPError as e:
+              state = 'Not found'
+          print('{},{}'.format(cell,state))
+
+      #print('cells just in submitted set', ','.join(sorted(submitted_cells.difference(paper_cells))))
+
+  if __name__ == '__main__':
+      main()
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+['cells_in_paper', 'should_be_submitted']
+17329_C4,Not found
+17330_D12,Not found
+17330_D9,Not found
+17331_E8,Not found
+17332_F1,Not found
+17332_F3,Not found
+17332_F6,Not found
+17332_F7,Not found
+17332_F8,Not found
+17333_G2,Not found
+17333_G6,Not found
+17333_G9,Not found
+17334_H1,Not found
+17334_H3,Not found
+17334_H7,Not found
+18042_A12,Not found
+18042_A4,Not found
+18044_C11,Not found
+18045_D11,Not found
+18045_D2,Not found
+18045_D6,Not found
+18046_E9,Not found
+18048_G10,Not found
+18049_H5,Not found
+18087_F9,Not found
+18251_A2,Not found
+18253_C5,Not found
+18254_D11,Not found
+18254_D5,Not found
+18256_F5,Not found
+18256_F8,Not found
+18256_F9,Not found
+18257_G5,Not found
+18259_B8,Not found
+18260_C11,Not found
+18260_C2,Not found
+18260_C6,Not found
+18261_D3,Not found
+18261_D5,Not found
+18263_A12,Not found
+18263_A4,Not found
+18264_B3,Not found
+18264_B4,Not found
+18264_B8,Not found
+18265_C10,Not found
+18265_C4,Not found
+18266_D1,Not found
+18266_D6,Not found
+18267_E10,Not found
+18267_E3,Not found
+18267_E4,Not found
+18267_E6,Not found
+18268_F1,Not found
+18268_F12,Not found
+18268_F3,Not found
+18268_F7,Not found
+18268_F8,Not found
+18311_A4,Not found
+18312_B4,Not found
+18312_B5,Not found
+18313_C1,Not found
+18313_C10,Not found
+18313_C11,Not found
+18313_C12,Not found
+18313_C5,Not found
+18313_C7,Not found
+18313_C8,Not found
+18314_D2,Not found
+18314_D3,Not found
+18314_D4,Not found
+18314_D7,Not found
+18315_E12,Not found
+18315_E2,Not found
+18315_E4,Not found
+18315_E6,Not found
+18316_F1,Not found
+18316_F10,Not found
+18316_F11,Not found
+18316_F5,Not found
+18317_G3,Not found
+18317_G4,Not found
+18317_G7,Not found
+18317_G8,Not found
+18317_G9,Not found
+#+end_example
