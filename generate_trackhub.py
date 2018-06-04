@@ -50,31 +50,50 @@ public_dir = os.path.expanduser('~/public_html/' + track_dir)
 def main(cmdline=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('--dry-run', action='store_true', default=False)
+    parser.add_argument('--hub', help="hub name", required=True)
+    parser.add_argument('--short-name', help="short name", required=True)
+    parser.add_argument('--long-name', help="long name", required=True)
+    parser.add_argument('--signal', action="store_true", default=False,
+                        help="include signal (bigwig) tracks")
+    parser.add_argument('--reads', action="store_true", default=False,
+                        help="include reads (bam) tracks")
+
+    parser.add_argument('filename', nargs=1)
 
     args = parser.parse_args(cmdline)
-    
-    combined = 'Limb_cells_for_track_hub_splice_isoforms_red_green_black_only_April17_2018.csv'
-    if not os.path.exists(combined):
+    filename = args.filename[0]
+
+    base, ext = os.path.splitext(filename)
+    cache_name = base + '.csv'
+    if not os.path.exists(cache_name):
         roots = [ os.path.expanduser(x.strip()) for x in asof_run17_bigwig_paths.split() ]
-        df = load_limb_cells_20180417_set()
+        df = load_cells_set(filename)
         libraries = load_asof_run17_libraries()
         libraries = pandas.merge(df, libraries, how='inner', left_index=True, right_index=True)
 
         libraries = add_bigwig_paths(libraries, roots)
         libraries = add_bam_paths(libraries)
-        libraries.to_csv(combined)
+        libraries.to_csv(cache_name)
     else:
-        libraries = pandas.read_csv(combined)
-    
+        libraries = pandas.read_csv(cache_name)
+
     hub, genomes_file, genome, trackdb = trackhub.default_hub(
-        hub_name='C1_mouse_limb',
-        short_label='C1 mouse limb',
-        long_label='C1 mouse limb April 17 2018',
+        hub_name=args.hub,
+        short_label=args.short_name,
+        long_label=args.long_name,
         genome='mm10',
         email='diane@caltech.edu')
 
-    make_bigwig_trackhub(libraries, trackdb)
-    make_bam_trackhub(libraries, trackdb)
+    tracks_added = False
+    if args.signal:
+        make_bigwig_trackhub(libraries, trackdb)
+        tracks_added = True
+    if args.reads:
+        make_bam_trackhub(libraries, trackdb)
+        tracks_added = True
+
+    if not tracks_added:
+        print("Did you want to add tracks? use --signal and/or --read")
 
     if not args.dry_run:
         trackhub.upload.upload_hub(
@@ -86,12 +105,9 @@ def main(cmdline=None):
 
     #print(hub.hub)
     print('trackhub: ' + 'http://woldlab.caltech.edu/~diane/' + track_dir + '/' + hub.hub + '.hub.txt')
-    
-def load_limb_cells_20180417_set():
-    df = pandas.read_excel(
-        'Limb_cells_for_track_hub_splice_isoforms_red_green_black_only_April17_2018.xlsx',
-        sheet=0,
-    )
+
+def load_cells_set(filename, sheet=0):
+    df = pandas.read_excel(filename, sheet=sheet)
     df.columns = ['library_id', 'cluster_assignment']
     df = df.set_index('library_id')
     filtered =  df.dropna(axis=0, how='any')
@@ -258,6 +274,8 @@ def make_home_url(pathname):
     for name in names:
         if pathname.startswith(name):
             return pathname.replace(name, names[name])
+
+    raise ValueError("{} had an unrecognized prefix path".format(pathname))
 
 def hex_to_ucsc_color(c):
     colors = [str(int(c[1:3], 16)), str(int(c[3:5], 16)), str(int(c[5:7], 16))]
