@@ -23,14 +23,14 @@ libraries = [
     '17298',
     '17299',
 ]
-roots = """/woldlab/castor/home/diane/proj/C1_mouse_limb_combined/bulk/
+roots = """~diane/proj/C1_mouse_limb_combined/bulk/
 """
 
 sheets = None
 coverage = []
 for path in roots.split():
     for lib in libraries:
-        coverage_pattern = os.path.join(path, lib, '*.coverage')
+        coverage_pattern = os.path.join(os.path.expanduser(path), lib, '*.coverage')
         coverage_files = glob(coverage_pattern)
         if len(coverage_files) == 1:
             coverage.append(load_coverage(coverage_files[0], lib))
