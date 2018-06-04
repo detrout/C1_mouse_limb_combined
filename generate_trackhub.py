@@ -29,20 +29,23 @@ cluster_mapping = {
     'deep_red': 'deep_red',
     'red': 'red',
     'black': 'black',
-    'green': 'green'
+    'green': 'green',
+    'yellow': 'yellow',
 }
 # convert human friendly name to machine friendly
 human_cluster_mapping = {
     'deep red': 'deep_red',
     'red': 'red',
     'black': 'black',
-    'green': 'green'
+    'green': 'green',
+    'yellow': 'yellow',
 }
 colors = {
     'deep red': '#843c39',
     'red': '#d62728',
     'black': '#000000',
     'green': '#2ca02c',
+    'yellow': '#fde724',
 }
 track_dir = 'limb_cells_for_track_hub_splice_isoforms'
 public_dir = os.path.expanduser('~/public_html/' + track_dir)
