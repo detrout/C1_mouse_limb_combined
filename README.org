@@ -115,6 +115,23 @@ It took me a bit to get the bam files linked some place publically accessible.
 
 But its working now.
 
+(Notes from the future:
+
+I needed to modify generate trackhub for new data...
+so this trackhub was generated using this input file:
+
+    'Limb_cells_for_track_hub_splice_isoforms_red_green_black_only_April17_2018.csv'
+
+and the new command would be
+
+#+BEGIN_SRC bash
+generate_trackhub.py --hub C1_mouse_limb \
+                     --short-name  "C1 mouse limb" \
+                     --long-name "C1 mouse limb April 17 2018"\
+                     Limb_cells_for_track_hub_splice_isoforms_red_green_black_only_April17_2018.xlsx
+#+END_SRC
+
+
 * Work on generating round two submission
 
 This is now using the pooled fastqs that the DCC wanted.
@@ -310,3 +327,25 @@ if __name__ == '__main__':
 18317_G8,Not found
 18317_G9,Not found
 #+end_example
+* Request <2018-06-04 Mon> From Brian make a new trackhub
+
+The source xlsx is
+[[BED_files_tracks_request_single_cell_black_yellow_June3_2018.xlsx]]
+
+I hacked generate_trackhub some to hard code fewer things
+
+#+NAME generate 20180604 signal trackhub
+#+BEGIN_SRC bash
+generate_trackhub.py --hub "C1_s20180604" \
+                     --short-name "C1_201806_sig"\
+                     --long-name "C1 2018 june 4 signal"\
+                     --signal BED_files_tracks_request_single_cell_black_yellow_June3_2018.xlsx
+#+END_SRC
+
+#+NAME generate 20180604 read trackhub
+#+BEGIN_SRC bash
+generate_trackhub.py --hub "C1_r20180604" \
+                     --short-name "C1_201806_read" \
+                     --long-name "C1 2018 june 4 reads" \
+                     --signal BED_files_tracks_request_single_cell_black_yellow_June3_2018.xlsx
+#+END_SRC
