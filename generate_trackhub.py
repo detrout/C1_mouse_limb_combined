@@ -190,15 +190,15 @@ def make_bigwig_trackhub(libraries, trackdb):
     for i, (library_id, row) in enumerate(libraries.iterrows()):
         for track_index, track_type in enumerate(['uniq', 'all']):
             cluster_assignment = human_cluster_mapping[row.cluster_assignment]
-            priority = "{:04d}".format(i*10+track_index)
+            priority = i * 10 + track_index
             track = trackhub.Track(
                 url=make_home_url(row[track_type]),
-                name=priority + '_' + row.analysis_name + '_' + track_type,
+                name="{:04d}".format(priority) + '_' + row.analysis_name + '_' + track_type,
                 visibility='dense',
                 tracktype='bigWig',
                 subgroups={'cluster': cluster_assignment, 'multi': track_type},
                 color=hex_to_ucsc_color(colors[row.cluster_assignment]),
-                priority=i * 10 + track_index,
+                priority=priority,
             )
             signal_view.add_tracks(track)
 
