@@ -146,13 +146,12 @@ def add_bam_paths(libraries):
         track_name = make_bam_track_name(row, row.analysis_dir)
         track_name = os.path.join(row.analysis_dir, track_name)
         assert os.path.exists(track_name)
-            
+
         bams.append(track_name)
     libraries['bam'] = bams
     return libraries
 
 def make_bigwig_trackhub(libraries, trackdb):
-
     cluster = trackhub.SubGroupDefinition(
             name='cluster',
             label='cluster',
@@ -229,7 +228,7 @@ def make_bam_trackhub(libraries, trackdb):
     )
     bam_composite.add_subgroups([cluster])
     trackdb.add_tracks(bam_composite)
-    
+
     bam_view = trackhub.ViewTrack(
         name='readview',
         view='reads',
