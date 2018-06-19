@@ -344,8 +344,9 @@ generate_trackhub.py --hub "C1_s20180604" \
 
 #+NAME generate 20180604 read trackhub
 #+BEGIN_SRC bash
-generate_trackhub.py --hub "C1_r20180604" \
-                     --short-name "C1_201806_read" \
-                     --long-name "C1 2018 june 4 reads" \
-                     --signal BED_files_tracks_request_single_cell_black_yellow_June3_2018.xlsx
+PYTHONPATH=~/proj/trackhub python3 generate_trackhub.py \
+    --hub "C1_r20180604" \
+    --short-name "C1_201806_read" \
+    --long-name "C1 2018 june 4 reads" \
+    --reads BED_files_tracks_request_single_cell_black_yellow_June3_2018.xlsx
 #+END_SRC
