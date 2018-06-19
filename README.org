@@ -206,6 +206,7 @@ if __name__ == '__main__':
 * Request <2018-05-07 Mon> from Brian compare what's been submitted to what should be submitted.
 [[file:compare_lists_submitted_cells_vs_cells_in_paper_May4_2018.ods][compare_lists_submitted_cells_vs_cells_in_paper_May4_2018.ods]] sheet should_be_submitted
 
+Message-ID: <DM6PR03MB3515995D17F635F25D20E31FA0850@DM6PR03MB3515.namprd03.prod.outlook.com>
 
 #+BEGIN_SRC python :results output
   import sys
@@ -327,6 +328,12 @@ if __name__ == '__main__':
 18317_G8,Not found
 18317_G9,Not found
 #+end_example
+
+Those were the libraries that weren't submitted...
+
+However, Idan would prefer the whole thing to be replaced with the
+newer pooled model.
+
 * Request <2018-06-04 Mon> From Brian make a new trackhub
 
 The source xlsx is
