@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+from argparse import ArgumentParser
+
 import os
 import collections
 from lxml.html import fromstring
@@ -11,7 +13,10 @@ from urllib.parse import urljoin
 
 from rdflib import Graph, Literal, URIRef
 
-from generate_combined_transcript_C1 import ASOF_RUN17_experiment_files
+from generate_combined_transcript_C1 import (
+    paper_433_experiment_files,
+    ASOF_RUN17_experiment_files
+)
 
 from woldrnaseq.models import load_experiments
 
@@ -28,33 +33,66 @@ from htsworkflow.util.rdfhelp import (
 # 20031-20038 are good on flowcell HF7NTBCX2
 # 20026-20030 are mixed on flowcell HF7NTBCX2
 
-def main():
+
+def main(cmdline=None):
+    parser = ArgumentParser()
+    parser.add_argument('--first-tranche', default=False, action='store_true',
+                        help='Use just the first tranche as experiment list')
+    parser.add_argument('--name', required=True, help='submission name')
+    parser.add_argument('-s', '--sheet', default=0, help='Sheet to use')
+    parser.add_argument('--header', default=None, help="header row")
+    parser.add_argument('filename', nargs=1, help='driver spreadsheet')
+    args = parser.parse_args(cmdline)
     root_fastq_url = 'http://jumpgate.caltech.edu/runfolders/volvox02/'
     desplit = os.path.expanduser('~/proj/htsworkflow/htsworkflow/pipelines/desplit_fastq.py')
-    data = pandas.read_excel(
-        'Second_set_of_limb_single_cell_data_for_Diane_almost_complete_April13_2018.xlsx',
-        sheet=0,
-        header=None
-    )
-    experiment_files = [ os.path.expanduser(x.strip()) for x in ASOF_RUN17_experiment_files.split('\n') ]
+
+    header = int(args.header) if args.header is not None else None
+    data = read_spreadsheet(args.filename[0], args.sheet, header)
+    print(data.shape)
+
+    if args.first_tranche:
+        experiment_file_list = paper_433_experiment_files.split('\n')
+    else:
+        experiment_file_list = ASOF_RUN17_experiment_files.split('\n')
+    experiment_files = [ os.path.expanduser(x.strip()) for x in  experiment_file_list]
     experiments = load_experiments(experiment_files)
+    experiments['replicates'] = experiments['replicates'].apply(lambda l: [x.replace('_mm10', '').replace('_clean', '') for x in l])
 
     current_experiments = find_experiments_to_submit(experiments, data)
 
-    aliases_tsv = 'submission-201804-aliases.tsv'
+    aliases_tsv = '{}-aliases.tsv'.format(args.name)
     make_library_aliases(current_experiments, aliases_tsv)
 
-    submission_fastqs_tsv = 'submission-201804-fastqs.tsv'
+    submission_fastqs_tsv = '{}-fastqs.tsv'.format(args.name)
     if not os.path.exists(submission_fastqs_tsv):
         fastq_urls = find_all_fastqs(root_fastq_url, current_experiments, submission_fastqs_tsv)
 
     fastq_urls = pandas.read_csv(submission_fastqs_tsv, sep='\t')
 
-    barcodes_tsv = 'submission-201804-barcodes.tsv'
+    barcodes_tsv = '{}-barcodes.tsv'.format(args.name)
     make_library_barcodes(fastq_urls, barcodes_tsv)
-    #make_desplit_condor(fastq_urls, desplit, root_fastq_url, 'merge_20180430_fastqs.condor')
+    merge_file = '{}-merge-fastqs.condor'.format(args.name)
+    make_desplit_condor(fastq_urls, desplit, root_fastq_url, merge_file)
 
-    make_metadata(fastq_urls, root_fastq_url)
+    metadata_tsv = '{}-flowcell-details.tsv'.format(args.name)
+    make_metadata(fastq_urls, root_fastq_url, metadata_tsv)
+
+
+def read_spreadsheet(filename, sheet, header=None):
+    if filename.endswith('xlsx'):
+        data = pandas.read_excel(
+            'Second_set_of_limb_single_cell_data_for_Diane_almost_complete_April13_2018.xlsx',
+            sheet=sheet,
+            header=header
+        )
+    elif filename.endswith('ods'):
+        from pandasodf import ODFReader
+
+        book = ODFReader(filename)
+        data = book.parse(sheet, header=header)
+
+    return data
+
 
 def find_all_fastqs(root_fastq_url, experiments, output_file):
     """Get urls to the raw fastq files for all our replicates
@@ -88,7 +126,6 @@ def find_replicate_flowcells(experiments):
 
     for i, row in experiments.iterrows():
         for extended_id in row.replicates:
-            #print(extended_id)
             library_id, location, *_ = extended_id.split('_')
             extended_id = library_id + '_' + location
             uri = URIRef('https://felcat.caltech.edu/library/{}/'.format(library_id))
@@ -114,8 +151,8 @@ where {
                    }
 
 def find_experiments_to_submit(experiments, submission_table):
-    to_upload = set(submission_table[0])
-    missing = set(submission_table[0])
+    to_upload = set(submission_table[submission_table.columns[0]])
+    missing = set(submission_table[submission_table.columns[0]])
 
     tosubmit = []
     for i, row in experiments.iterrows():
@@ -128,6 +165,7 @@ def find_experiments_to_submit(experiments, submission_table):
                 'replicates': list(current)
             })
 
+    print('Not found:', len(missing), sorted(missing))
     df = pandas.DataFrame(tosubmit)
     df.set_index('name', inplace=True)
     return df
@@ -220,7 +258,7 @@ environment="PYTHONPATH=/woldlab/loxcyc/home/diane/proj/htsworkflow"
     else:
         return True
 
-def make_metadata(experiments, root_fastq_url):
+def make_metadata(experiments, root_fastq_url, filename):
     model = Graph()
 
     metadata = []
@@ -240,7 +278,7 @@ def make_metadata(experiments, root_fastq_url):
     metadata = sorted(metadata, key=lambda row: (row['experiment'], row['flowcell'], row['barcode']))
     df = pandas.DataFrame(metadata, columns=['experiment', 'machine', 'flowcell', 'lane', 'barcode', 'read_length'])
     print(df.head())
-    df.to_csv('submission-201804-flowcell-details.tsv', sep='\t', index=False)
+    df.to_csv(filename, sep='\t', index=False)
 
 
 fluidigm_fields = ['library_id', 'location', 'barcode', 'lane_number', 'read']
@@ -283,6 +321,8 @@ class Runfolder:
         absolute_url = urljoin(self.root_url, url)
 
         response = requests.get(absolute_url)
+        if response.status_code != 200:
+            raise RuntimeError('Unable to access {}. Status {}'.format(absolute_url, response.status_code))
         tree = fromstring(response.content)
         rows = tree.xpath('*/table/tr/td/a')
         if len(rows) == 0:

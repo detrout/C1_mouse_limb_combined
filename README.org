@@ -334,6 +334,85 @@ Those were the libraries that weren't submitted...
 However, Idan would prefer the whole thing to be replaced with the
 newer pooled model.
 
+Working on preparing submission, started altering
+prepare_submission_20180430.py to support reading different files.
+
+#+NAME run prepare submission
+#+BEGIN_SRC bash
+PYTHONPATH=/woldlab/loxcyc/home/diane/proj/htsworkflow:/woldlab/loxcyc/home/diane/src/pandasodf python3 \
+  prepare_submission_20180430.py \
+     --name submission-20180619 \
+     --sheet cells_in_paper \
+     --header 0 \
+     compare_lists_submitted_cells_vs_cells_in_paper_May4_2018.ods
+#+END_SRC
+
+Unfortunately the mirror of htsworkflow is broken on felcat.
+
+
+** <2018-06-20 Wed> Notes
+
+Fixed. The felcat_demo settings file refered to the old varaiable name.
+
+The spreadsheet
+compare_lists_submitted_cells_vs_cells_in_paper_May4_2018.ods contains
+all the cells...
+
+I had been assuming it was updates to the first set, and not the new
+set. but it pretty clearly contains references to the libraries in the
+second set.
+
+
+| ENCSR255XZG | c1_e13.5_mouse_limb_run8  | resubmit |
+| ENCSR530WGW | c1_e13.5_mouse_limb_run4  | resubmit |
+| ENCSR985VMP | c1_e12.5_mouse_limb_run7  | resubmit |
+| ENCSR463HWT | c1_e11.5_mouse_limb_run6  | resubmit |
+| ENCSR619BUX | c1_e11.0_mouse_limb_run5  | resubmit |
+| ENCSR991VTV | c1_e10.5_mouse_limb_run3  | resubmit |
+| ENCSR159DIX | c1_e10.5_mouse_limb_run1  | resubmit |
+| ENCSR242DQC | c1_e10.5_mouse_limb_run2  | resubmit |
+
+
+|             | C1_mouse_e11.5_forelimb_run10 |   |
+| ENCSR938RJZ | c1_e14.0_mouse_limb_run13     |   |
+| ENCSR546KIB | c1_e14.5_mouse_limb_run17     |   |
+| ENCSR430OIC | c1_e15.5_mouse_limb_run14     |   |
+
+** <2018-06-21 Thu>
+
+Tracking by hand is a pain, lets write a program!
+
+wrote [[file:check_paper_cells.py]] which generated tranche.cvs
+
+#+BEGIN_SRC bash
+python3 check_paper_cells.py --header 0 compare_lists_submitted_cells_vs_cells_in_paper_May4_2018.ods
+#+END_SRC
+
+All of the missing cells are in tranche 1. (AKA from before I
+submitted as a pool).
+
+I unfortunately also discovered that some how two libraries were in
+two experiments.
+
+| 19912_G1 | 2 | c1_e10.5_mouse_limb_run15, c1_e11.5_mouse_limb_run10 | ENCSR134JVO, ENCSR220RKA |
+| 19915_B1 | 2 | c1_e14.5_mouse_limb_run17, c1_e11.0_mouse_limb_run16 | ENCSR546KIB, ENCSR160DGP |
+
+Turns out the DCC supports substring matching and 19912_G1 also
+matches 19912_G10.
+
+I updated check_paper_cells to search by the library ID returned when
+retrieving the library object given the alias.
+
+(Also I moved the lookup into a function so I could call it as a one
+off)
+
+With that change the conflict appears to have been resolved.
+
+Reran and looked at tranche again. Yes it has been fixed.
+
+(I really should commit stuff)
+
+
 * Request <2018-06-04 Mon> From Brian make a new trackhub
 
 The source xlsx is
