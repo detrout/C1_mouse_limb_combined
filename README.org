@@ -436,3 +436,35 @@ PYTHONPATH=~/proj/trackhub python3 generate_trackhub.py \
     --long-name "C1 2018 june 4 reads" \
     --reads BED_files_tracks_request_single_cell_black_yellow_June3_2018.xlsx
 #+END_SRC
+* <2018-07-09 Mon> Work on producing bigwigs for a subset of cluster cells
+
+
+** Table of cluster memberships
+[[file:C1_peng_20180710_cluster_memberships.txt::{'x18317_G10_mm10'}%20{'DarkRed'%20}][C1 cluster memberships peng 20180710]]
+What a terrible format
+
+** Quick test case
+
+python3 make_cluster_bigwigs.py -o merged.bw ~sau/flowcells/HFNYNBCX2/20049_F3/20049_F3-mm10-M4-male_genome.bam ~sau/flowcells/HFNYNBCX2/20048_E12/20048_E12-mm10-M4-male_genome.bam
+
+** My program didn't normalize the bigwigs, and apparently they are normalized somehow.
+
+Around chr12:55,862,947-55,864,116
+bigwigs were autoscale max was around 17  and 29
+while I was seeing more like 85 for my bigwig.
+Also my bigwig didn't go to zero, it just continued the previous value
+all the way to the next block
+
+I did find utilities in the ucsc tree, that with a lot of file
+maniuplation can make a plausible bigwig file
+
+bigWigMerge <list of bigwigs> out.bg
+grep chr out.bg > filtered.bg  # to remove spikes
+bedSort filtered.bg sorted.bg  # to sort it the way they want
+bedGraphToBigWig sorted.bg chrom.sizes result.bw.
+
+Generate the cluster bigwig files
+#+BEGIN_SRC bash
+python3 find_bigwigs.py > merge_bw_all.sh
+nohup bash ./merge_bw_all.sh &
+#+END_SRC

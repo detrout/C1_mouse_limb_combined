@@ -1,11 +1,14 @@
 from unittest import TestCase
+from unittest.mock import Mock
+from collections import Counter
 import os
 from subprocess import check_call
 
 from make_aggregate_bigwigs import (
     get_mode,
     get_chrom_info,
-    sum_alignments
+    sum_alignments,
+    write_contig_to_bigwig,
 )
 
 
@@ -79,3 +82,34 @@ class TestAggregateBigwigs(TestCase):
                 self.assertEqual(current[i], 1 * len(alignment_files), i)
             for i in range(499+125, chrom_info['chr1']):
                 self.assertEqual(current[i], 0 * len(alignment_files), i)
+
+    def test_write_wiggle(self):
+        current = Counter({
+            500: 5,
+            501: 5,
+            502: 5,
+            503: 5,
+            504: 5,
+            505: 10,
+            506: 10,
+            507: 10,
+            508: 10,
+            509: 10,
+            600: 1,
+            601: 1,
+            602: 1,
+            603: 1,
+            604: 1,
+            700: 2,
+            701: 2,
+            702: 2,
+        })
+        chrom_info = {'chr1': 1000}
+        bigwig = Mock()
+        write_contig_to_bigwig(bigwig, 'chr1', current)
+        bigwig.addEntries.assert_called_with(
+            ['chr1'] * 4,
+            [500, 505, 600, 700],
+            ends=[505, 510, 605, 703],
+            values=[5, 10, 1, 2])
+        
