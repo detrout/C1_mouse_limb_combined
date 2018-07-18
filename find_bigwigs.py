@@ -15,6 +15,9 @@ def main(cmdline=None):
     libraries = models.load_library_tables(library_files)
 
     to_include = read_peng_20180710_cluster_memberships()
+    make_custom_tracks()
+    #make_trackhub()
+    return
 
     found = 0
     missing = 0
@@ -82,6 +85,89 @@ def read_peng_20180710_cluster_memberships():
                 'cluster_name': cluster_name,
             })
         return cluster_membership
+
+def make_custom_tracks():
+    data = read_peng_20180710_cluster_memberships()
+    df = pandas.DataFrame(data, columns=['cell_id', 'cluster_name', 'value', 'color'])
+    df['rgb'] = df['color'].apply(lambda channel: ','.join([str(int(x * 255)) for x in channel]))
+
+    colors = df[['cluster_name', 'value', 'color', 'rgb']].drop_duplicates()
+
+
+    template = 'track type=bigWig name={name} description={cluster_name} visibility=full color={rgb} bigDataUrl={url}'
+    for suffix in ['-mm10-M4-male_all.bw', '-mm10-M4-male_uniq.bw']:
+        for i, row in colors.iterrows():
+            name = row.value + suffix
+            print(template.format(
+                name=name.replace(' ', '_'),
+                cluster_name=row.cluster_name.replace(' ', '_'),
+                rgb=row.rgb,
+                url='http://woldlab.caltech.edu/~diane/C1_peng_20180710_cluster_bigwigs/' + name))
+
+def make_trackhub():
+    import trackhub
+    data = read_peng_20180710_cluster_memberships()
+    df = pandas.DataFrame(data, columns=['cell_id', 'cluster_name', 'value', 'color'])
+    df['rgb'] = df['color'].apply(lambda channel: ','.join([str(int(x * 255)) for x in channel]))
+
+    colors = df[['cluster_name', 'value', 'color', 'rgb']].drop_duplicates()
+
+    hub, genomes_file, genome, trackdb = trackhub.default_hub(
+        hub_name="C1_peng_20180710_cluster",
+        short_label="C1_peng_20180710_cluster",
+        genome="mm10",
+        email="diane@caltech.edu")
+
+    subgroups = [
+        trackhub.SubGroupDefinition(
+            name='multiread',
+            label='multi vs uniq',
+            mapping={
+                'all': 'all reads',
+                'uniq': 'unique only',
+            })]
+
+    composite = trackhub.CompositeTrack(
+        name='composite',
+        short_label='bigwigs',
+        dimensions='dimX=multiread',
+        sortOrder='multiread',
+        visibility='full',
+    )
+    composite.add_subgroups(subgroups)
+    trackdb.add_tracks(composite)
+
+    signal_view = trackhub.ViewTrack(
+        name='signalviewtrack',
+        view='signal',
+        visibility='full',
+        tracktype='bigWig')
+    composite.add_view(signal_view)
+
+    template = 'track type=bigWig name={name} description={cluster_name} visibility=full color={rgb} bigDataUrl={url}'
+    subgroup_map = {
+        '-mm10-M4-male_all.bw': 'all',
+        '-mm10-M4-male_uniq.bw': 'uniq'
+    }
+    for suffix in ['-mm10-M4-male_all.bw', '-mm10-M4-male_uniq.bw']:
+        for i, row in colors.iterrows():
+            name = row.value + suffix
+            track = trackhub.Track(
+                name=trackhub.helpers.sanitize(row.cluster_name + suffix),
+                #description=row.cluster_name,
+                source=os.path.join('C1_peng_20180710_cluster_bigwigs/', name),
+                visibility='full',
+                tracktype='bigWig',
+                #subgroups=subgroup_map[suffix],
+                color=row.rgb)
+            signal_view.add_tracks(track)
+
+    #print(trackdb)
+    trackhub.upload.upload_hub(
+        hub=hub,
+        host='localhost',
+        remote_dir='/woldlab/loxcyc/home/diane/public_html/C1_peng_20180710_cluster_bigwigs/')
+
 
 if __name__ == '__main__':
     main()
