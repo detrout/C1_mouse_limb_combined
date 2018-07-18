@@ -48,7 +48,7 @@ python3 -m woldrnaseq.plot_genes_detected  \
   list_of_100_single_cell_libraries.csv
 #+END_SRC
 
-* Request <2018-03-21 Wed>
+* Request <2018-03-21 Wed> Compute coverage slope plot for new cells
 
 Today I receved a request to compute our coverage "metric" for all of the new data.
 The coverage metric was computing the slope of the middle of the coverage plot
@@ -412,6 +412,27 @@ Reran and looked at tranche again. Yes it has been fixed.
 
 (I really should commit stuff)
 
+
+** <2018-06-22 Fri>
+
+How, did I submit the first 433?
+
+Its not in encode3-curation, it's not in encode4-curation. Google
+drive has [[https://docs.google.com/spreadsheets/d/1cV9qOFij8K1pjzPFxm-bFR2KlI4I191pVM0nuzxT2jQ/edit#gid=310682961][dcc_experiment_files]] which only has a single sheet.
+
+C1_mouse_limb_combined has tranche.csv (a map of stuff at the DCC),
+publication_files.tsv, and README.org
+
+It's not in ~/woldlab/ENCODE either. (Zgrep does look in .ods files)
+
+ENCSR255XZG
+
+Found it! [[file:///home/diane/woldlab/ENCODE/C1-encode3-limb-2017.ods][c1-encode3-limb-2017.ods]] Thanks tracker search!
+
+** <2018-06-25 Mon> New metadata file
+
+[[file:~/woldlab/ENCODE/C1-encode3-limb-tranche1-resubmit.ods][file:~/woldlab/ENCODE/C1-encode3-limb-tranche1-resubmit.ods]] updated to
+look like the tranche 2 2018-04 submission.
 
 * Request <2018-06-04 Mon> From Brian make a new trackhub
 
