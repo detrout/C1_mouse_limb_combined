@@ -66,11 +66,21 @@ def read_peng_20180710_cluster_memberships():
                     start = q + 1
                     quotes.append(q)
             assert len(quotes) == 4
-            name = line[quotes[0]+1:quotes[1]]
-            if name[0] == 'x':
-                name = name[1:]
+            cell_id = line[quotes[0]+1:quotes[1]]
+            if cell_id[0] == 'x':
+                cell_id = cell_id[1:]
             value = line[quotes[2]+1:quotes[3]]
-            cluster_membership.append((name, value))
+            close_brace = line.find("}", quotes[3])
+            rest = line[close_brace+1:].strip()
+            rest_values = rest.split()
+            color = tuple([float(x) for x in rest_values[:3]])
+            cluster_name = ' '.join(rest_values[3:])
+            cluster_membership.append({
+                'cell_id': cell_id,
+                'value': value,
+                'color': color,
+                'cluster_name': cluster_name,
+            })
         return cluster_membership
 
 if __name__ == '__main__':
