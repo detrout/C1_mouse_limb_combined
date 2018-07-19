@@ -489,3 +489,19 @@ Generate the cluster bigwig files
 python3 find_bigwigs.py > merge_bw_all.sh
 nohup bash ./merge_bw_all.sh &
 #+END_SRC
+
+* <2018-07-18 Wed> paper Violin plot
+
+For the paper they wanted a violin plot broken out by cell type.
+
+Peng provided a gene number vs cell type file
+[[file:violin-paper/peng-example-violin.txt::gene_index,cell_type][Cell type membership]]
+
+I generatated a bunch of plots using a jupyter notebook.
+
+I foolishly had been editing the same cell for a while while trying to
+adjust colors, but that got me in trouble with barbara
+
+It worked better to move each new attempt into its own cell
+[[file:violin-paper/peng-violin.ipynb][violin-paper/peng-violin.ipynb]]
+
