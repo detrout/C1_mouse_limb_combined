@@ -15,8 +15,8 @@ def main(cmdline=None):
     libraries = models.load_library_tables(library_files)
 
     to_include = read_peng_20180710_cluster_memberships()
-    make_custom_tracks()
-    #make_trackhub()
+    #make_custom_tracks()
+    make_trackhub()
     return
 
     found = 0
@@ -137,10 +137,10 @@ def make_trackhub():
     subgroups = [
         trackhub.SubGroupDefinition(
             name='multiread',
-            label='multi vs uniq',
+            label='multiread',
             mapping={
-                'all': 'all reads',
-                'uniq': 'unique only',
+                'all': 'all_reads',
+                'uniq': 'unique_only',
             })]
 
     composite = trackhub.CompositeTrack(
@@ -149,36 +149,39 @@ def make_trackhub():
         dimensions='dimX=multiread',
         sortOrder='multiread',
         visibility='full',
+        tracktype='bigWig',
     )
     composite.add_subgroups(subgroups)
     trackdb.add_tracks(composite)
 
     signal_view = trackhub.ViewTrack(
-        name='signalviewtrack',
+        name='signal',
         view='signal',
         visibility='full',
         tracktype='bigWig')
     composite.add_view(signal_view)
 
-    template = 'track type=bigWig name={name} description={cluster_name} visibility=full color={rgb} bigDataUrl={url}'
     subgroup_map = {
         '-mm10-M4-male_all.bw': 'all',
         '-mm10-M4-male_uniq.bw': 'uniq'
     }
     for suffix in ['-mm10-M4-male_all.bw', '-mm10-M4-male_uniq.bw']:
         for i, row in colors.iterrows():
-            name = row.value + suffix
+            name = row.value + subgroup_map[suffix]
+            url = 'http://woldlab.caltech.edu/~diane/C1_peng_20180710_cluster_bigwigs/' + row.value + suffix
+            #url = '../' + row.value + suffix
             track = trackhub.Track(
-                name=trackhub.helpers.sanitize(row.cluster_name + suffix),
-                #description=row.cluster_name,
-                source=os.path.join('C1_peng_20180710_cluster_bigwigs/', name),
+                name=trackhub.helpers.sanitize(name),
+                long_label=row.cluster_name + ' ' + subgroup_map[suffix],
+                url=url,
+                #source=os.path.join('C1_peng_20180710_cluster_bigwigs/', name),
                 visibility='full',
                 tracktype='bigWig',
-                #subgroups=subgroup_map[suffix],
+                subgroups={'multiread': subgroup_map[suffix]},
                 color=row.rgb)
             signal_view.add_tracks(track)
 
-    #print(trackdb)
+    print(trackdb)
     trackhub.upload.upload_hub(
         hub=hub,
         host='localhost',
