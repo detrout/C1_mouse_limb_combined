@@ -57,6 +57,7 @@ def get_wigdir(analysis_dir):
 
 def read_peng_20180710_cluster_memberships():
     cluster_membership = []
+    colors = load_violin_plot_colors()
     with open('C1_peng_20180710_cluster_memberships.txt', 'rt') as instream:
         for line in instream:
             quotes = []
@@ -76,15 +77,30 @@ def read_peng_20180710_cluster_memberships():
             close_brace = line.find("}", quotes[3])
             rest = line[close_brace+1:].strip()
             rest_values = rest.split()
-            color = tuple([float(x) for x in rest_values[:3]])
             cluster_name = ' '.join(rest_values[3:])
+            color = tuple([float(x) for x in rest_values[:3]])
+            rgb = tuple(colors[colors['cell type'] == cluster_name]['rgb float'].values[0])
+            print(rgb, color)
             cluster_membership.append({
                 'cell_id': cell_id,
                 'value': value,
-                'color': color,
+                'color': rgb,
                 'cluster_name': cluster_name,
             })
         return cluster_membership
+
+def load_violin_plot_colors():
+    def parse_rgb_float(rgb):
+        return [float(x) for x in rgb[1:-1].split(', ')]
+    def parse_rgb_decimal(rgb):
+        return [int(x) for x in rgb[1:-1].split(', ')]
+    data = pandas.read_csv(
+        'violin-paper/peng-violin-plot-colors.csv',
+        converters={
+            'rgb decimal': parse_rgb_decimal,
+            'rgb float': parse_rgb_float,
+        })
+    return data
 
 def make_custom_tracks():
     data = read_peng_20180710_cluster_memberships()
