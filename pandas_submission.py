@@ -1,6 +1,6 @@
 """Start prototyping scanning using pandas instead of sparql
 """
-import argparse
+from argparse import ArgumentParser
 import os
 import json
 import logging
@@ -22,17 +22,23 @@ LOGGER = logging.getLogger('pandas_submission')
 
 def main(cmdline=None):
     logging.basicConfig(level=logging.INFO)
+    parser = ArgumentParser()
+    parser.add_argument('-s', '--server', required=True,
+                        choices=['www.encodeproject.org', 'test.encodedcc.org'],
+                        help='DCC Server to upload to')
+    parser.add_argument('-m', '--metadata', required=True,
+                        help='Metadata spreadsheet to use')
+    parser.add_argument('-n', '--dry-run', action='store_true', default=False)
+    args = parser.parse_args(cmdline)
 
-    #server = ENCODED('test.encodedcc.org')
-    #spreadsheet_name = 'C1-mouse-forlimb-submission-201804-testserver.ods'
 
-    server = ENCODED('www.encodeproject.org')
-    spreadsheet_name = 'C1-mouse-forlimb-submission-201804.ods'
+    logging.info('Server: %s', args.server)
+    logging.info('Sheetname: %s', args.metadata)
+    server = ENCODED(args.server)
     server.load_netrc()
 
-    dry_run=False
-    book = ODFReader(spreadsheet_name)
-    process_fastqs(server, book, dry_run)
+    book = ODFReader(args.metadata)
+    process_fastqs(server, book, args.dry_run)
 
 def process_fastqs(server, book, dry_run):
     award = '/awards/UM1HG009443/'
