@@ -95,3 +95,19 @@ bulk/qc-only.dagman.*
 bulk/ENCSR*coverage.png
 bulk/ENCSR*coverage.bare.png
 bulk/calculate_coverage.dagman.*
+
+# Ignore analysis directories for now
+bulk/gene_coverage_detail/
+bulk/gene_coverage_detail_max_normalized/
+single-cell-any-model-top-1000/
+single-cell-single-model-min-1000-all-types/
+single-cell-single-model-min-1000-protein/
+single-cell-single-model-min-1000-refseq/
+
+C1_peng_20180710_cluster_bigwigs/
+peng-cluster-aggregate-bigwigs.txt
+
+single-cell-any-model-top-1000/
+single-cell-single-model-min-1000-all-types/
+single-cell-single-model-min-1000-protein/
+single-cell-single-model-min-1000-refseq/
