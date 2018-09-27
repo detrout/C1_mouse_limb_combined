@@ -505,3 +505,121 @@ adjust colors, but that got me in trouble with barbara
 It worked better to move each new attempt into its own cell
 [[file:violin-paper/peng-violin.ipynb][violin-paper/peng-violin.ipynb]]
 
+* <2018-08-06 Mon> recompute C1 coverage statistics
+
+Brian wants me to recompute the median coverage plots with what we've
+learned about coverage.
+
+The original versions were with "all genes" and we want single gene
+models.
+
+** TODO compute coverage for the 920 C1 cells in the manuscript [2/3]
+
+We needed updated versions of this:
+
+[[file:/ssh:pongo:/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/cells_in_manuscript.median-normalized.coverage.png][C1_mouse_limb_combined/cells_in_manuscript.median-normalized.coverage.png]]
+
+*** DONE using just single gene models.
+    CLOSED: [2018-08-08 Wed 11:13]
+
+    - State "DONE"       from "TODO"       [2018-08-08 Wed 11:13]
+
+Runs on wold-clst-4 took several hours last night? why?
+
+The file sizes of the bigwigs were pretty similar. It did turn out
+that wold-clst-4 ended up running out of swap.
+
+It looks like the bigwig file were of similiar sizes.
+
+I learned GNU time supports more program statics, its not installed by
+default.
+
+It looks like the coverage program uses about 3G of memory.
+
+*** DONE using only protein coding, single model genes
+    CLOSED: [2018-08-09 Thu 10:29]
+
+    - State "DONE"       from "TODO"       [2018-08-09 Thu 10:29]
+*** TODO using Georgi's refseq annotation set.
+Georgis reference is also mm9!
+/woldlab/castor/home/georgi/genomes/mm9/Mus_musculus.NCBIM37.67.filtered.gtf
+
+Downloaded [[ftp://ftp.ncbi.nlm.nih.gov/refseq/M_musculus/alignments/GCF_000001635.24_knownrefseq_alignments.gff3][GCF_000001635.24_knownrefseq_alignments.gff3]]
+Made working dir [[file:single-cell-single-model-min-1000-refseq]]
+
+Adjusted [[file:single-cell-single-model-min-1000-refseq/recompute-coverage.condor]]
+with paths
+
+refSeq using different attributes than gencode. Because of course.
+
+
+** TODO compute coverage for the 920 C1 cells broken out by their peng cell type cluster membership
+
+Separate them out by color clusters, and then do coverage plots for
+each of the clusters.
+
+Delayed because the median summary code isn't per
+experiment... woldrnaseq/plot_coverage needs help.
+
+** TODO Compute fixed coverage for the limb bulk libraries
+Then corrected coverage plot for all the limb bulks (12 libraries),
+
+| directories | brians list      |
+|       15019 | 15019 e11.5 limb |
+|       15020 | 15020 e11.5 limb |
+|       15084 | 15084 e14.5 limb |
+|       15085 | 15085 e14.5 limb |
+|       16111 | 16110 e13.5 limb |
+|       16112 | 16111 e13.5 limb |
+|       16134 | 16134 e15.5 limb |
+|       16135 | 16135 e15.5 limb |
+|       16930 | 16930 e12.5 limb |
+|       16931 | 16931 e12.5 limb |
+|       17298 | 17298 e10.5 limb |
+|       17299 | 17299 e10.5 limb |
+
+*** <2018-08-24 Fri> built plots
+
+first run qc-coverage.condor arguments
+#+BEGIN_EXAMPLE
+$(GENE_COVERAGE) --gtf $(GTF) $(IN) --output $(OUT) --print-list
+#+END_EXAMPLE
+
+Second run
+#+BEGIN_EXAMPLE
+$(GENE_COVERAGE) --gtf $(GTF) $(IN) --output $(OUT) --gene-normalization max
+#+END_EXAMPLE
+
+This means that the .geneList files are raw un-normalized values.
+The .coverage files are max normalized.
+
+In http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/bulk/
+For each experiment
+ENCSR216NEG-e14.5-limb.median.coverage.png
+ENCSR347SQR-e13.5-limb.median.coverage.png
+ENCSR541XZK-e11.5-limb.median.coverage.png
+ENCSR750YSX-e12.5-limb.median.coverage.png
+ENCSR830IQV-e15.5-limb.median.coverage.png
+ENCSR968QHO-e10.5-limb.median.coverage.png
+
+for all the experiments
+ENCSR968QHO-e10.5-limb.median-normalized.coverage.bare.png
+ENCSR968QHO-e10.5-limb.median-normalized.coverage.png
+
+Detail coverage plots
+http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/bulk/gene_coverage_detail/
+
+
+** TODO Compute fixed coverage for all of the C1 bulk libraries.
+
+There's about 130 total C1 bulk libraries.
+
+Include spearman calculations: so basically re run the QC steps.
+
+** TODO Compute spike detection probabilities for the 920 cells
+** TODO Compute spike detection probabilities for the 920 cells by peng cell type cluster membership
+** TODO Coverage for top 1000 protein coding genes
+
+Can we try a short experiment?  Pull up any single cell library that you have already made a transcript coverage plot for.
+Then, take the FPKM values for the top 1000 most highly expressed genes in that library (you can use protein coding), regardless of
+model complexity.
