@@ -18,7 +18,7 @@ if PANDAS_ODF not in sys.path:
     sys.path.append(PANDAS_ODF)
 from pandasodf import ODFReader
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger('pandas_submission')
 
 def main(cmdline=None):
     logging.basicConfig(level=logging.INFO)
@@ -40,13 +40,17 @@ def process_fastqs(server, book, dry_run):
 
     files = book.parse('File', header=0)
 
+    LOGGER.info('Attaching additional file metadata')
     files['flowcell_details:json'] = files['submitted_file_name'].apply(add_fastq_metadata)
     files['file_size:integer'] = files['submitted_file_name'].apply(add_file_size)
     files['read_length:integer'] = files['submitted_file_name'].apply(add_read_length)
     files['md5sum'] = files['submitted_file_name'].apply(add_md5s)
 
+    LOGGER.info('Validating metadata')
     validator = DCCValidator(server=server)
     validate(server, validator, book, files)
+
+    LOGGER.info('Uploading files')
     upload(server, validator, files, dry_run=dry_run)
 
 def validate(server, validator, book, files):
@@ -78,7 +82,7 @@ def make_aliases(short_name):
 
 
 def add_md5s(submission_pathname):
-    LOGGER.debug("Updating file md5sum")
+    LOGGER.debug("Updating file md5sum %s", submission_pathname)
     md5 = make_md5sum(submission_pathname)
     if md5 is None:
         errmsg = "Unable to produce md5sum for {0}"
