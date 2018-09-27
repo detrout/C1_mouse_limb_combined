@@ -1,5 +1,8 @@
 *.py[co]
+.cache/
+.pytest_cache/
 *~
+dask-worker-space/
 
 # generated files
 library_id_to_accession.tsv
