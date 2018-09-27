@@ -73,7 +73,7 @@ Run [[file:combine_coverage.py][combine_coverage.py]] to generate [[file:C1_mous
 
 Compute the slope using [[file:compute_slope.py][compute_slope.py]]
 
-* Request <2018-03-23 Fri>
+* Request <2018-03-23 Fri> merge spread sheet Slope_match_PacBio_cells_Diane_March23_2018.xlsx for Brian
 
 Brian had a spread sheet [[file:Slope_match_PacBio_cells_Diane_March23_2018.xlsx][Slope_match_PacBio_cells_Diane_March23_2018.xlsx]] and he wanted
 me to merge the two columns.
