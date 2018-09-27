@@ -16,7 +16,7 @@ from htsworkflow.util import opener
 PANDAS_ODF = os.path.expanduser('~/src/pandasodf')
 if PANDAS_ODF not in sys.path:
     sys.path.append(PANDAS_ODF)
-    from pandasodf import ODFReader
+from pandasodf import ODFReader
 
 LOGGER = logging.getLogger(__name__)
 
