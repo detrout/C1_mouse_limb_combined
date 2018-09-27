@@ -21,7 +21,6 @@ from pandasodf import ODFReader
 LOGGER = logging.getLogger('pandas_submission')
 
 def main(cmdline=None):
-    logging.basicConfig(level=logging.INFO)
     parser = ArgumentParser()
     parser.add_argument('-s', '--server', required=True,
                         choices=['www.encodeproject.org', 'test.encodedcc.org'],
@@ -31,6 +30,7 @@ def main(cmdline=None):
     parser.add_argument('-n', '--dry-run', action='store_true', default=False)
     args = parser.parse_args(cmdline)
 
+    logging.basicConfig(level=logging.INFO)
 
     logging.info('Server: %s', args.server)
     logging.info('Sheetname: %s', args.metadata)
