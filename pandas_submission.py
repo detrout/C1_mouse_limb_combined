@@ -117,22 +117,9 @@ def add_read_length(submission_pathname):
 def add_fastq_metadata(flowcell_details, submission_pathname):
     _, filename = os.path.split(submission_pathname)
     experiment_name = filename.replace('.fastq.gz', '')
-    if experiment_name.endswith('51'):
-        experiment_name = experiment_name[:-3]
-        read_length = 51
-    elif experiment_name.endswith('101'):
-        experiment_name = experiment_name[:-4]
-        read_length = 101
-    else:
-        read_length = None
-
     df = pandas.read_csv(flowcell_details, sep='\t', index_col=False)
     experiment_filter = (df['experiment'] == experiment_name)
-    if read_length is not None:
-        read_length_filter = (df['read_length'] == read_length)
-        details = df[experiment_filter & read_length_filter]
-    else:
-        details = df[experiment_filter]
+    details = df[experiment_filter]
 
     cell = []
     for i, row in details.iterrows():
