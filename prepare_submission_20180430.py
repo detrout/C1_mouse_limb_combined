@@ -233,6 +233,7 @@ error=log/desplit_fastq.$(process).out
 output=log/desplit_fastq.$(process).out
 log=log/desplit_fastq.log
 environment="PYTHONPATH=/woldlab/loxcyc/home/diane/proj/htsworkflow"
+requirements=(MACHINE != "wold-clst-3.woldlab") && (MACHINE != "wold-clst-4.woldlab")
 
 """
 
