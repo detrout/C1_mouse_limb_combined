@@ -258,6 +258,7 @@ environment="PYTHONPATH=/woldlab/loxcyc/home/diane/proj/htsworkflow"
     else:
         return True
 
+
 def make_metadata(experiments, root_fastq_url, filename):
     model = Graph()
 
