@@ -1,6 +1,7 @@
 """Start prototyping scanning using pandas instead of sparql
 """
 from argparse import ArgumentParser
+from functools import partial
 import os
 import json
 import logging
@@ -27,6 +28,8 @@ def main(cmdline=None):
                         help='DCC Server to upload to')
     parser.add_argument('-m', '--metadata', required=True,
                         help='Metadata spreadsheet to use')
+    parser.add_argument('-f', '--flowcell-details', required=True,
+                        help='Flowcel metadata details')
     parser.add_argument('-n', '--dry-run', action='store_true', default=False)
     args = parser.parse_args(cmdline)
 
@@ -38,16 +41,17 @@ def main(cmdline=None):
     server.load_netrc()
 
     book = ODFReader(args.metadata)
-    process_fastqs(server, book, args.dry_run)
+    process_fastqs(server, book, args.flowcell_details, args.dry_run)
 
-def process_fastqs(server, book, dry_run):
+def process_fastqs(server, book, flowcell_details, dry_run):
     award = '/awards/UM1HG009443/'
     lab = '/labs/barbara-wold/'
 
     files = book.parse('File', header=0)
 
     LOGGER.info('Attaching additional file metadata')
-    files['flowcell_details:json'] = files['submitted_file_name'].apply(add_fastq_metadata)
+    files['flowcell_details:json'] = files['submitted_file_name'].apply(
+        partial(add_fastq_metadata, flowcell_details))
     files['file_size:integer'] = files['submitted_file_name'].apply(add_file_size)
     files['read_length:integer'] = files['submitted_file_name'].apply(add_read_length)
     files['md5sum'] = files['submitted_file_name'].apply(add_md5s)
@@ -75,7 +79,8 @@ def validate(server, validator, book, files):
 def upload(server, validator, files, dry_run=True, retry=False):
     to_create = server.prepare_objects_from_sheet('/files/', files, validator=validator)
     for i, new_object in to_create:
-        upload_file(server, validator, new_object, dry_run, retry)
+        if new_object is not None:
+            upload_file(server, validator, new_object, dry_run, retry)
 
 
 def shorten_filename(submission_pathname):
@@ -109,12 +114,12 @@ def add_read_length(submission_pathname):
     LOGGER.debug("Updating read length: %d", read_length)
     return read_length
 
-def add_fastq_metadata(submission_pathname):
+def add_fastq_metadata(flowcell_details, submission_pathname):
     _, filename = os.path.split(submission_pathname)
     experiment_name = filename.replace('.fastq.gz', '')
-
-    df = pandas.read_csv('submission-201804-flowcell-details.tsv', sep='\t', index_col=False)
-    details = df[df['experiment'] == experiment_name]
+    df = pandas.read_csv(flowcell_details, sep='\t', index_col=False)
+    experiment_filter = (df['experiment'] == experiment_name)
+    details = df[experiment_filter]
 
     cell = []
     for i, row in details.iterrows():
