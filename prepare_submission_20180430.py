@@ -71,11 +71,12 @@ def main(cmdline=None):
 
     barcodes_tsv = '{}-barcodes.tsv'.format(args.name)
     make_library_barcodes(fastq_urls, barcodes_tsv)
-    merge_file = '{}-merge-fastqs.condor'.format(args.name)
-    make_desplit_condor(fastq_urls, desplit, root_fastq_url, merge_file)
 
     metadata_tsv = '{}-flowcell-details.tsv'.format(args.name)
-    make_metadata(fastq_urls, root_fastq_url, metadata_tsv)
+    metadata = make_metadata(fastq_urls, root_fastq_url, metadata_tsv)
+
+    merge_file = '{}-merge-fastqs.condor'.format(args.name)
+    make_desplit_condor(fastq_urls, metadata, desplit, root_fastq_url, merge_file)
 
 
 def read_spreadsheet(filename, sheet, header=None):
@@ -214,12 +215,13 @@ def make_library_barcodes(experiments, barcode_tsv):
             outstream.write(os.linesep)
 
 
-def make_desplit_condor(experiments, desplit_cmd, root_url, condor_file):
+def make_desplit_condor(experiments, metadata, desplit_cmd, root_url, condor_file):
     """Make condor file to build merged fastqs
 
     :Parameters:
       - experiments: (pandas.DataFrame) Experiments and their fastq urls
         from find_all_fastqs()
+      - metadata: (pandas.DataFrame) metadata details about each fastq
       - desplit_cmd: (filename) Path to the desplit_fastq.py file from htsworkflow
       - condor_file: (filename) target to write condor file
     :Returns:
@@ -235,11 +237,10 @@ environment="PYTHONPATH=/woldlab/loxcyc/home/diane/proj/htsworkflow"
 """
 
     experiment_fastqs = {}
-    for i, row in experiments.iterrows():
-        output_name = row.experiment + '.fastq.gz'
-        if not os.path.exists(output_name):
-            fastq_urls = [ urljoin(root_url, x[1:-1]) for x in row.fastq_urls[1:-1].split(', ')]
-            experiment_fastqs.setdefault(output_name, []).extend(fastq_urls)
+    for i, row in metadata.iterrows():
+        rl_name = row.experiment + '_' + str(row.read_length)
+        output_name = rl_name + '.fastq.gz'
+        experiment_fastqs.setdefault(output_name, []).append(row.fastq_url)
 
     # chunk all fastqs by experiment
     body = []
@@ -269,6 +270,7 @@ def make_metadata(experiments, root_fastq_url, filename):
             fastq_data = parse_fluidigm(fastq_url)
             metadata.append({
                 'experiment': row.experiment,
+                'fastq_url': fastq_url,
                 'machine': 'http://jumpgate.caltech.edu/sequencer/8',
                 'flowcell': fastq_data['flowcell_id'],
                 'lane': fastq_data['lane_number'],
@@ -277,9 +279,10 @@ def make_metadata(experiments, root_fastq_url, filename):
             })
 
     metadata = sorted(metadata, key=lambda row: (row['experiment'], row['flowcell'], row['barcode']))
-    df = pandas.DataFrame(metadata, columns=['experiment', 'machine', 'flowcell', 'lane', 'barcode', 'read_length'])
+    df = pandas.DataFrame(metadata, columns=['experiment', 'fastq_url', 'machine', 'flowcell', 'lane', 'barcode', 'read_length'])
     print(df.head())
     df.to_csv(filename, sep='\t', index=False)
+    return df
 
 
 fluidigm_fields = ['library_id', 'location', 'barcode', 'lane_number', 'read']
