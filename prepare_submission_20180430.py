@@ -239,8 +239,7 @@ requirements=(MACHINE != "wold-clst-3.woldlab") && (MACHINE != "wold-clst-4.wold
 
     experiment_fastqs = {}
     for i, row in metadata.iterrows():
-        rl_name = row.experiment + '_' + str(row.read_length)
-        output_name = rl_name + '.fastq.gz'
+        output_name = row.experiment + '.fastq.gz'
         experiment_fastqs.setdefault(output_name, []).append(row.fastq_url)
 
     # chunk all fastqs by experiment
@@ -248,7 +247,7 @@ requirements=(MACHINE != "wold-clst-3.woldlab") && (MACHINE != "wold-clst-4.wold
     for output_name in experiment_fastqs:
         print(output_name)
         fastq_urls = experiment_fastqs[output_name]
-        body.extend(['arguments="{} --gzip -o {} {}"'.format(desplit_cmd, output_name, ' '.join(sorted(fastq_urls))),
+        body.extend(['arguments="{} --gzip -o {} -s 0:50 {}"'.format(desplit_cmd, output_name, ' '.join(sorted(fastq_urls))),
                      'queue',
                      ''])
 

@@ -623,3 +623,130 @@ Include spearman calculations: so basically re run the QC steps.
 Can we try a short experiment?  Pull up any single cell library that you have already made a transcript coverage plot for.
 Then, take the FPKM values for the top 1000 most highly expressed genes in that library (you can use protein coding), regardless of
 model complexity.
+* <2018-09-27 Thu> Jason told me that there were mixed length reads in 3 fastqs
+
+| ENCFF690WSL | C1_mouse_e13.5_limb_mesenchyme_mm10_run4.fastq.gz |
+| ENCFF610BCY | C1_mouse_e11.5_limb_mesenchyme_mm10_run6.fastq.gz |
+| ENCFF035IIS | C1_mouse_e11.0_limb_mesenchyme_mm10_run5.fastq.gz |
+
+First I committed all of the previous work in the
+C1_mouse_limb_combined directory.
+
+Then I modified prepare_submission_20180430 to pass the per fastq url
+metadata into the code to generate the fastq merging condor file.
+
+(Amusingly that made the program simpler and cleaner)
+
+#+BEGIN_SRC bash
+python3 prepare_submission_20180430.py  \
+  --first-tranche \
+  --name submission-20180926 \
+  --sheet cells_in_paper \
+  --header 0 \
+  compare_lists_submitted_cells_vs_cells_in_paper_May4_2018.ods
+
+#+END_SRC
+
+It looks like the sheet to describe what files to upload is in the ods
+file, so I can just modify that after they're finished building.
+
+** <2018-09-28 Fri> Double checking fastqs
+
+- Do we have the same total length?
+
+#+BEGIN_SRC bash
+for f in \
+  C1_mouse_e13.5_limb_mesenchyme_mm10_run4_101.fastq.gz \
+  C1_mouse_e13.5_limb_mesenchyme_mm10_run4_51.fastq.gz \
+  C1_mouse_e13.5_limb_mesenchyme_mm10_run4.fastq.gz \
+  C1_mouse_e11.0_limb_mesenchyme_mm10_run5_101.fastq.gz \
+  C1_mouse_e11.0_limb_mesenchyme_mm10_run5_51.fastq.gz \
+  C1_mouse_e11.0_limb_mesenchyme_mm10_run5.fastq.gz \
+  C1_mouse_e11.5_limb_mesenchyme_mm10_run6_101.fastq.gz \
+  C1_mouse_e11.5_limb_mesenchyme_mm10_run6_51.fastq.gz \
+  C1_mouse_e11.5_limb_mesenchyme_mm10_run6.fastq.gz; do \
+  echo $f $(zcat  $f | wc -l); \
+done
+#+END_SRC
+
+| C1_mouse_e13.5_limb_mesenchyme_mm10_run4_101.fastq.gz |  89366592 |
+| C1_mouse_e13.5_limb_mesenchyme_mm10_run4_51.fastq.gz  | 304263328 |
+|                                                       | 393629920 |
+| C1_mouse_e13.5_limb_mesenchyme_mm10_run4.fastq.gz     | 393629920 |
+| C1_mouse_e11.0_limb_mesenchyme_mm10_run5_101.fastq.gz |  96328608 |
+| C1_mouse_e11.0_limb_mesenchyme_mm10_run5_51.fastq.gz  | 446122700 |
+|                                                       | 542451308 |
+| C1_mouse_e11.0_limb_mesenchyme_mm10_run5.fastq.gz     | 542451308 |
+| C1_mouse_e11.5_limb_mesenchyme_mm10_run6_101.fastq.gz | 348093872 |
+| C1_mouse_e11.5_limb_mesenchyme_mm10_run6_51.fastq.gz  | 537210244 |
+|                                                       | 885304116 |
+| C1_mouse_e11.5_limb_mesenchyme_mm10_run6.fastq.gz     | 885304116 |
+
+
+** Did we submit what we're supposed to?
+
+| C1_e10.5_mouse_limb_run1_June6_2016            |  87 |
+| C1_e10.5_mouse_limb_run2_June20_2016           |  56 |
+| C1_e10.5_mouse_limb_run3_Dec5_2016             |  32 |
+| C1_mouse_e11.0_limb_mesenchyme_mm10_run5       |  58 |
+| C1_mouse_e11.5_limb_mesenchyme_mm10_run6       |  80 |
+| C1_mouse_e12.5_limb_mesenchyme_mm10_run7       |  76 |
+| C1_mouse_e13.5_limb_mesenchyme_mm10_run4       |  71 |
+| C1_mouse_e13.5_limb_mesenchyme_mm10_run8       |  64 |
+| C1_mouse_e10.5_forelimb_run15_January13AM_2018 |  18 |
+| C1_mouse_e11.0_forelimb_run16_January13PM_2018 |  14 |
+| C1_mouse_e11.5_forelimb_run10_December11_2017  |  77 |
+| C1_mouse_e12.0_forelimb_run11_December12_2017  |  77 |
+| C1_mouse_e13.0_forelimb_run12_December13_2017  |  72 |
+| C1_mouse_e14.0_forelimb_run13_December14_2017  |  53 |
+| C1_mouse_e14.5_forelimb_run17_January16_2018   |  27 |
+| C1_mouse_e15.5_forelimb_run14_December15_2017  |  58 |
+|                                                | 920 |
+#+TBLFM: @17$2=vsum(@1$2..@16$2)
+
+Paper sheet says 920 sum of aliases in tsvs sumbs to 920.
+whew
+
+** Barbara wants all the fastqs to be the same length. 50.
+
+Built a set of submission metadata with "everything" included
+
+#+BEGIN_SRC python :results output
+import pandas
+from pprint import pprint
+df = pandas.read_csv('submission-20180928-flowcell-details.tsv', sep='\t')
+pprint(set(df[df['read_length'] == 101]['experiment']))
+
+#+END_SRC
+
+#+RESULTS:
+: {'C1_e10.5_mouse_limb_run3_Dec5_2016',
+:  'C1_mouse_e13.5_limb_mesenchyme_mm10_run4',
+:  'C1_mouse_e11.0_limb_mesenchyme_mm10_run5',
+:  'C1_mouse_e11.5_limb_mesenchyme_mm10_run6',
+:  'C1_mouse_e14.0_forelimb_run13_December14_2017'}
+
+Those are the ones with 100 bp
+
+** fastq replacements
+
+| old         | submitted_file_name                                    | action  | replacment  |
+| ENCFF567DVD | C1_e10.5_mouse_limb_run3_Dec5_2016.fastq.gz            | replace | ENCFF949JJP |
+| ENCFF690WSL | C1_mouse_e13.5_limb_mesenchyme_mm10_run4.fastq.gz      | replace | ENCFF738JJC |
+| ENCFF035IIS | C1_mouse_e11.0_limb_mesenchyme_mm10_run5.fastq.gz      | replace | ENCFF710CRO |
+| ENCFF610BCY | C1_mouse_e11.5_limb_mesenchyme_mm10_run6.fastq.gz      | replace | ENCFF653CRU |
+| ENCFF615WYP | C1_mouse_e13.5_limb_mesenchyme_mm10_run4_101.fastq.gz  | delete  |             |
+| ENCFF634YJN | C1_mouse_e13.5_limb_mesenchyme_mm10_run4_51.fastq.gz   | delete  |             |
+| ENCFF821PYB | C1_mouse_e11.0_limb_mesenchyme_mm10_run5_101.fastq.gz  | delete  |             |
+| ENCFF310FGP | C1_mouse_e11.0_limb_mesenchyme_mm10_run5_51.fastq.gz   | delete  |             |
+| ENCFF164AIS | C1_mouse_e11.5_limb_mesenchyme_mm10_run6_101.fastq.gz  | delete  |             |
+| ENCFF121IGH | C1_mouse_e11.5_limb_mesenchyme_mm10_run6_51.fastq.gz   | delete  |             |
+| ENCFF924SYO | C1_mouse_e14.0_forelimb_run13_December14_2017.fastq.gz | replace | ENCFF749NGB |
+
+** <2018-10-01 Mon> Uploaded the replacement files today
+
+I had to tack the run13 information from
+submission-201804-flowcell-details.tsv to the end of
+submission-20180926-flowcell-details+run13.tsv to get the
+flowcel_details field to be filled out correctly.
+
