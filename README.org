@@ -770,3 +770,75 @@ ENCLB812YXV "size_range": "482-560",
 ENCLB673LNA "size_range": "354-598",
 ENCLB736JSQ "size_range": "471-527",
 
+* <2018-10-01 Mon> Jason found 5 experiments all labeled e13.5
+
+
+| Experiment  | Description    | Date               |
+| ENCSR311IKT | C1 e13.5 run 8 | September 26, 2018 |
+| ENCSR839DYB | C1 e13.5 run 4 | September 28, 2018 |
+| ENCSR787QXE | 10x            | January 29, 2018   |
+| ENCSR530WGW | C1 e13.5 run 4 | July 1, 2017       |
+| ENCSR255XZG | C1 e13.5 run 8 | June 30, 2017      |
+|             |                |                    |
+
+One of those is a 10x submission
+
+two of those are the original many replicate submission, and two are
+the new pooled submission.
+
+The question is what, if any experiments should be merged together?
+
+#+BEGIN_SRC python
+  accessions = [
+      'ENCSR723FBU', 'ENCSR062KGY', 'ENCSR559CDN', 'ENCSR881ZYX',
+      'ENCSR182LFI', 'ENCSR652JLT', 'ENCSR839DYB', 'ENCSR311IKT',
+      'ENCSR134JVO', 'ENCSR160DGP', 'ENCSR220RKA', 'ENCSR716HQB',
+      'ENCSR182WHH', 'ENCSR938RJZ', 'ENCSR546KIB', 'ENCSR430OIC',
+  ]
+
+  from htsworkflow.submission.encoded import ENCODED
+
+  server = ENCODED('www.encodeproject.org')
+  server.load_netrc()
+
+  results = []
+  for accession in accessions:
+      experiment = server.get_json(accession)
+      for replicate in experiment['replicates']:
+          library = replicate['library']
+          biosample = library['biosample']
+          results.append([
+              accession,
+              experiment['description'],
+              library['accession'],
+              biosample['accession'],
+              biosample['date_obtained']])
+
+  results = sorted(results, key=lambda x: x[1])
+  results.insert(0, ['Experiment', 'Description', 'Library', 'Biosample', 'Date obtained'])
+  return results
+#+END_SRC
+
+#+RESULTS:
+| Experiment  | Description                    | Library     | Biosample   | Date obtained |
+| ENCSR062KGY | C1 e10.5 mouse forelimb run 1  | ENCLB724RNK | ENCBS554MMC |    2016-06-06 |
+| ENCSR723FBU | C1 e10.5 mouse forelimb run 2  | ENCLB971JGJ | ENCBS296NSC |    2016-06-20 |
+| ENCSR559CDN | C1 e10.5 mouse forelimb run 3  | ENCLB864BFK | ENCBS439GGN |    2016-12-05 |
+| ENCSR134JVO | C1 e10.5 mouse forelimb run 15 | ENCLB142PSQ | ENCBS183GJD |    2018-01-13 |
+| ENCSR881ZYX | C1 e11.0 mouse forelimb run 5  | ENCLB442WTN | ENCBS661XMW |    2017-01-23 |
+| ENCSR160DGP | C1 e11.0 mouse forelimb run 16 | ENCLB137HIJ | ENCBS790VEC |    2018-01-13 |
+| ENCSR182LFI | C1 e11.5 mouse forelimb run 6  | ENCLB391AEB | ENCBS366ZCP |    2017-01-31 |
+| ENCSR220RKA | C1 e11.5 mouse forelimb run 10 | ENCLB588VQM | ENCBS589YXS |    2017-12-11 |
+| ENCSR716HQB | C1 e12.0 mouse forelimb run 11 | ENCLB685FNO | ENCBS875OEX |    2017-12-12 |
+| ENCSR652JLT | C1 e12.5 mouse forelimb run 7  | ENCLB880HUG | ENCBS471HOV |    2017-02-01 |
+| ENCSR182WHH | C1 e13.0 mouse forelimb run 12 | ENCLB573UWE | ENCBS800RRA |    2017-12-13 |
+| ENCSR839DYB | C1 e13.5 mouse forelimb run 4  | ENCLB119UWL | ENCBS841DUB |    2017-01-19 |
+| ENCSR311IKT | C1 e13.5 mouse forelimb run 8  | ENCLB948WTO | ENCBS306QOG |    2017-02-23 |
+| ENCSR938RJZ | C1 e14.0 mouse forelimb run 13 | ENCLB812YXV | ENCBS621IQO |    2017-12-14 |
+| ENCSR546KIB | C1 e14.5 mouse forelimb run 17 | ENCLB673LNA | ENCBS375BFM |    2018-01-16 |
+| ENCSR430OIC | C1 e15.5 mouse forelimb run 14 | ENCLB736JSQ | ENCBS849XJR |    2017-12-15 |
+
+After discussion it was decided it was best to leave them
+separate. The dissections and library building work were done at
+different times.
+
