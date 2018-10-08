@@ -750,3 +750,23 @@ submission-201804-flowcell-details.tsv to the end of
 submission-20180926-flowcell-details+run13.tsv to get the
 flowcel_details field to be filled out correctly.
 
+** <2018-10-01 Mon> Jason reported that the second set doesn't have an insert size.
+
+[[https://www.encodeproject.org/search/?type=Experiment&accession=ENCSR134JVO&accession=ENCSR160DGP&accession=ENCSR220RKA&accession=ENCSR182WHH&accession=ENCSR430OIC&accession=ENCSR546KIB&accession=ENCSR716HQB][Second set of experiments]]
+
+I copied over the code to find the size_range from
+C1-encode3-limb-tranche1-resubmit.ipynb to
+C1_mouse_limb_submission_201804.ipynb and updated a few things so the
+sheet would run.
+
+This is what it found.
+
+ENCLB142PSQ "size_range": "555-617",
+ENCLB137HIJ "size_range": "354-653",
+ENCLB588VQM "size_range": "555-678",
+ENCLB685FNO "size_range": "487-571",
+ENCLB573UWE "size_range": "472-558",
+ENCLB812YXV "size_range": "482-560",
+ENCLB673LNA "size_range": "354-598",
+ENCLB736JSQ "size_range": "471-527",
+
