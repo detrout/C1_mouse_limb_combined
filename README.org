@@ -979,3 +979,74 @@ to make a collection of our submitted fastqs
 | https://encodeproject.org/experiments/ENCSR938RJZ/ | C1 e14.0 mouse forelimb run 13 |
 | https://encodeproject.org/experiments/ENCSR546KIB/ | C1 e14.5 mouse forelimb run 17 |
 | https://encodeproject.org/experiments/ENCSR430OIC/ | C1 e15.5 mouse forelimb run 14 |
+* <2018-10-08 Mon> Rerun run1 and 2
+
+Since it looked like those were run with star 2.4.0k and not 2.5.2a that everything else was
+we should rerun them and make sure everything looks reasonable.
+
+I symlinked the fastqs from sean, into
+
+[[file:H5LV3BCXY/]]
+[[file:C1_e10.5_mouse_limb_run2_June20_2016]]
+
+for a in ~sau/flowcells/H5LV3BCXY/*.fastq.gz; do ln -s $a ; done
+
+for a in ~sau/flowcells/C1_e10.5_mouse_limb_run2_June20_2016/*.fastq.gz ; do ln -s $a ; done
+
+tail -n +2 library.tsv | cut -f 2 | xargs mkdir
+
+#+BEGIN_SRC
+tail -n +2 library.tsv | cut -f 2 | xargs mkdir
+PYTHONPATH=~sau/flowcells/rna_pipelines/long-rna-seq-condor/ python3 -m woldrnaseq.make_dag -l library.tsv > run.dagman
+condor_submit_dag run.dagman
+#+END_SRC
+
+#+BEGIN_SRC bash
+pushd H5LV3BCXY
+PYTHONPATH=~sau/flowcells/rna_pipelines/long-rna-seq-condor/ \
+  python3 -m woldrnaseq.makersemcsv -l library.tsv -e experiments.tsv
+popd
+pushd C1_e10.5_mouse_limb_run2_June20_2016
+PYTHONPATH=~sau/flowcells/rna_pipelines/long-rna-seq-condor/ \
+  python3 -m woldrnaseq.makersemcsv -l library.tsv -e experiments.tsv
+popd
+#+END_SRC
+
+* <2018-10-09 Tue> Need to create a publication set for the bulk samples used in the paper
+
+see [[file:create_bulk_publication_set.py]]
+
+| ENCSR574CRQ | RNA-seq mouse forelimb of whole tissue embryonic developmental time course. |
+| ENCSR226XLF | Single Cell RNA-seq mouse forelimb embryonic developmental time course.     |
+|             |                                                                             |
+
+* <2018-10-09 Tue> I probably should match dagmans up to what quantifications went into the master table
+
+I looked in [[file:generate_combined_C1.py::~sau/flowcells/H5LV3BCXY/C1_e10.5_mouse_limb_run1_June6_2016_FPKM.csv][generate_combined_C1.py]] for the list of FPKM files used
+and we definitely used the run1 and run2 files that were generated
+with STAR 2.4.0k
+
+So... how different _are_ they?
+
+[[file:compare_star_versions.py][compare_star_versions.py]]
+
+So... how different is the same version of star?
+
+#+BEGIN_SRC bash
+for d in H5LV3BCXY_2 H5LV3BCXY_3; do
+  pushd $d
+  for f in ~sau/flowcells/H5LV3BCXY/*.fastq.gz; do ln -s $f ; done
+  cp ~sau/flowcells/H5LV3BCXY/library.tsv .
+  cp ~sau/flowcells/H5LV3BCXY/experiments.tsv .
+  tail -n +2 library.tsv | cut -f 2 | xargs mkdir
+  PYTHONPATH=~sau/flowcells/rna_pipelines/long-rna-seq-condor/ \
+    python3 -m woldrnaseq.make_dag -l library.tsv > run.dagman
+  popd
+done
+#+END_SRC
+
+#+RESULTS:
+| ~/proj/C1_mouse_limb_combined/H5LV3BCXY_2 | ~/proj/C1_mouse_limb_combined |
+| ~/proj/C1_mouse_limb_combined             |                               |
+| ~/proj/C1_mouse_limb_combined/H5LV3BCXY_3 | ~/proj/C1_mouse_limb_combined |
+| ~/proj/C1_mouse_limb_combined             |                               |
