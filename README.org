@@ -953,3 +953,8 @@ Argh face palm. RELEASE_VERSION file wasn't being updated. Also that
 commit id doesn't seem to exist anymore.
 
 
+* <2018-10-02 Tue> So what happens if we feed one of these merged fastqs to star
+
+Create directory merged_run, create library.tsv and experiment.tsv
+
+
