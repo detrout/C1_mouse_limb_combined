@@ -842,3 +842,114 @@ After discussion it was decided it was best to leave them
 separate. The dissections and library building work were done at
 different times.
 
+* <2018-10-01 Mon> Do we still have all the dagman files?
+
+#+BEGIN_SRC python :results output
+  import os
+  from glob import glob
+  from generate_combined_transcript_C1 import ASOF_RUN17_library_files
+
+  commands = ['star_dir', 'rsem_dir']
+  version_name = 'Version: '
+  results = {}
+  for name in ASOF_RUN17_library_files.split():
+      name = name.strip()
+      dirname, _ = os.path.split(os.path.expanduser(name))
+      for dagman in glob(dirname + '/*.dagman'):
+          with open(dagman, 'rt') as instream:
+              for line in instream:
+                  version = line.find(version_name)
+                  if version >= 0:
+                      version_id = line[version:].strip()
+                      results.setdefault(dagman, {}).setdefault(version_name, set()).add(version_id)
+                  for command in commands:
+                      location = line.find(command)
+                      if location >= 0:
+                          path = line[location+len(command)+2: -2]
+                          results.setdefault(dagman, {}).setdefault(command, set()).add(path)
+
+          print(dagman)
+          for command in commands:
+              print('  ', results[dagman].get(command, ''))
+          if version_name in results[dagman]:
+              print('  ', results[dagman][version_name])
+
+  #return results
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+/woldlab/castor/home/sau/flowcells/H5LV3BCXY/run.dagman
+   {'/woldlab/castor/proj/programs/STAR-2.5.2a/source/'}
+   {'/woldlab/castor/home/diane/proj/long-rna-seq-pipeline/rsem/'}
+   {'Version: 0.9-69-gf738e7'}
+/woldlab/castor/home/sau/flowcells/H5LV3BCXY/rebuild-bam.dagman
+   {'/woldlab/castor/proj/programs/STAR-2.5.2a/source/'}
+
+   {'Version: 0.9-69-gf738e7'}
+/woldlab/castor/home/sau/flowcells/H5LV3BCXY/H5LV3BCXY.dagman
+   {'/woldlab/castor/home/diane/proj/long-rna-seq-pipeline/star/source/'}
+   {'/woldlab/castor/home/diane/proj/long-rna-seq-pipeline/rsem/'}
+/woldlab/castor/home/sau/flowcells/C1_e10.5_mouse_limb_run2_June20_2016/single-cell.dagman
+   {'/woldlab/castor/home/diane/proj/long-rna-seq-pipeline/star/source/'}
+   {'/woldlab/castor/home/diane/proj/long-rna-seq-pipeline/rsem/'}
+/woldlab/castor/home/sau/flowcells/C1_e10.5_mouse_limb_run2_June20_2016/rebuild-bam.dagman
+   {'/woldlab/castor/proj/programs/STAR-2.5.2a/source/'}
+
+   {'Version: 0.9-69-gf738e7'}
+/woldlab/castor/home/sau/flowcells/C1_e10.5_mouse_limb_run2_June20_2016/run.dagman
+   {'/woldlab/castor/proj/programs/STAR-2.5.2a/source/'}
+   {'/woldlab/castor/home/diane/proj/long-rna-seq-pipeline/rsem/'}
+   {'Version: 0.9-69-gf738e7'}
+/woldlab/loxcyc/home/diane/proj/C1_e10.5_mouse_limb_run3_Dec5_2016_2/run.dagman
+   {'/woldlab/castor/proj/programs/STAR-2.5.2a/bin/Linux_x86_64/'}
+   {'/woldlab/castor/home/diane/proj/long-rna-seq-pipeline/rsem/'}
+/woldlab/castor/home/sau/flowcells/C1_mouse_limb_combined_Mar_2017/run_mm10.dagman
+   {'/woldlab/castor/proj/programs/STAR-2.5.2a/source/'}
+   {'/woldlab/castor/home/diane/proj/long-rna-seq-pipeline/rsem/'}
+/woldlab/castor/home/sau/flowcells/C1_mouse_limb_combined_Mar_2017/rebuild_bam.dagman
+   {'/woldlab/castor/proj/programs/STAR-2.5.2a/source/'}
+
+   {'Version: 0.9-69-gf738e7'}
+/woldlab/castor/home/sau/flowcells/C1_mouse_limb_combined_Mar_2017/run.dagman
+   {'/woldlab/castor/proj/programs/STAR-2.5.2a/source/'}
+   {'/woldlab/castor/home/diane/proj/long-rna-seq-pipeline/rsem/'}
+/woldlab/castor/home/sau/flowcells/C1_mouse_limb_combined_Mar_2017/run_mm10_clean.dagman
+   {'/woldlab/castor/proj/programs/STAR-2.5.2a/source/'}
+   {'/woldlab/castor/home/diane/proj/long-rna-seq-pipeline/rsem/'}
+/woldlab/castor/home/sau/flowcells/C1_mouse_limb_combined_Mar_2017/new_seed.dagman
+   {'/woldlab/castor/proj/programs/STAR-2.5.2a/source/'}
+   {'/woldlab/castor/home/diane/proj/long-rna-seq-pipeline/rsem/'}
+/woldlab/castor/home/sau/flowcells/HFNLNBCX2/run_trim.dagman
+   {'/woldlab/castor/proj/programs/STAR-2.5.2a/source/'}
+   {'/woldlab/castor/home/diane/proj/long-rna-seq-pipeline/rsem/'}
+   {'Version: 0.9-69-gf738e7'}
+/woldlab/castor/home/sau/flowcells/HFNLNBCX2/run-20090_C12.dagman
+   {'/woldlab/castor/proj/programs/STAR-2.5.2a/source/'}
+   {'/woldlab/castor/home/diane/proj/long-rna-seq-pipeline/rsem/'}
+   {'Version: 0.9-69-gf738e7'}
+/woldlab/castor/home/sau/flowcells/H7CNTBCX2/run.dagman
+   {'/woldlab/castor/proj/programs/STAR-2.5.2a/source/'}
+   {'/woldlab/castor/home/diane/proj/long-rna-seq-pipeline/rsem/'}
+   {'Version: 0.9-32-g4adccc'}
+/woldlab/castor/home/sau/flowcells/HFNLTBCX2/run.dagman
+   {'/woldlab/castor/proj/programs/STAR-2.5.2a/source/'}
+   {'/woldlab/castor/home/diane/proj/long-rna-seq-pipeline/rsem/'}
+   {'Version: 0.9-69-gf738e7'}
+/woldlab/castor/home/sau/flowcells/HF7NTBCX2/run.dagman
+   {'/woldlab/castor/proj/programs/STAR-2.5.2a/source/'}
+   {'/woldlab/castor/home/diane/proj/long-rna-seq-pipeline/rsem/'}
+   {'Version: 0.9-69-gf738e7'}
+/woldlab/castor/home/sau/flowcells/HFNYNBCX2/run.dagman
+   {'/woldlab/castor/proj/programs/STAR-2.5.2a/source/'}
+   {'/woldlab/castor/home/diane/proj/long-rna-seq-pipeline/rsem/'}
+   {'Version: 0.9-69-gf738e7'}
+#+end_example
+
+We have all of them.... though... then there's the problem telling
+them apart.
+
+Argh face palm. RELEASE_VERSION file wasn't being updated. Also that
+commit id doesn't seem to exist anymore.
+
+
