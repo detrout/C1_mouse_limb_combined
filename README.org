@@ -958,3 +958,24 @@ commit id doesn't seem to exist anymore.
 Create directory merged_run, create library.tsv and experiment.tsv
 
 
+* <2018-10-02 Tue> Make a PublicationSet  (or find my previous one)
+
+to make a collection of our submitted fastqs
+* <2018-10-03 Wed> QC release
+
+#+TBLNAME: c1_to_release
+| https://encodeproject.org/experiments/ENCSR062KGY/ | C1 e10.5 mouse forelimb run 1  |
+| https://encodeproject.org/experiments/ENCSR723FBU/ | C1 e10.5 mouse forelimb run 2  |
+| https://encodeproject.org/experiments/ENCSR559CDN/ | C1 e10.5 mouse forelimb run 3  |
+| https://encodeproject.org/experiments/ENCSR160DGP/ | C1 e11.0 mouse forelimb run 16 |
+| https://encodeproject.org/experiments/ENCSR881ZYX/ | C1 e11.0 mouse forelimb run 5  |
+| https://encodeproject.org/experiments/ENCSR220RKA/ | C1 e11.5 mouse forelimb run 10 |
+| https://encodeproject.org/experiments/ENCSR182LFI/ | C1 e11.5 mouse forelimb run 6  |
+| https://encodeproject.org/experiments/ENCSR716HQB/ | C1 e12.0 mouse forelimb run 11 |
+| https://encodeproject.org/experiments/ENCSR652JLT/ | C1 e12.5 mouse forelimb run 7  |
+| https://encodeproject.org/experiments/ENCSR182WHH/ | C1 e13.0 mouse forelimb run 12 |
+| https://encodeproject.org/experiments/ENCSR839DYB/ | C1 e13.5 mouse forelimb run 4  |
+| https://encodeproject.org/experiments/ENCSR311IKT/ | C1 e13.5 mouse forelimb run 8  |
+| https://encodeproject.org/experiments/ENCSR938RJZ/ | C1 e14.0 mouse forelimb run 13 |
+| https://encodeproject.org/experiments/ENCSR546KIB/ | C1 e14.5 mouse forelimb run 17 |
+| https://encodeproject.org/experiments/ENCSR430OIC/ | C1 e15.5 mouse forelimb run 14 |
