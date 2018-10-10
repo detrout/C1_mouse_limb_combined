@@ -1020,6 +1020,15 @@ see [[file:create_bulk_publication_set.py]]
 | ENCSR226XLF | Single Cell RNA-seq mouse forelimb embryonic developmental time course.     |
 |             |                                                                             |
 
+Hmm... But what about just attaching datasets to the publication
+object?
+
+Resolved with: [[file:find_publication_dataset_ids.py::from%20htsworkflow.submission.encoded%20import%20ENCODED][find_publication_dataset_ids.py]]
+
+
+#+RESULTS:
+: None
+
 * <2018-10-09 Tue> I probably should match dagmans up to what quantifications went into the master table
 
 I looked in [[file:generate_combined_C1.py::~sau/flowcells/H5LV3BCXY/C1_e10.5_mouse_limb_run1_June6_2016_FPKM.csv][generate_combined_C1.py]] for the list of FPKM files used
