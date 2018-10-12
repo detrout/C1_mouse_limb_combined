@@ -1059,3 +1059,145 @@ done
 | ~/proj/C1_mouse_limb_combined             |                               |
 | ~/proj/C1_mouse_limb_combined/H5LV3BCXY_3 | ~/proj/C1_mouse_limb_combined |
 | ~/proj/C1_mouse_limb_combined             |                               |
+
+#+BEGIN_SRC bash
+for d in H5LV3BCXY H5LV3BCXY_2 H5LV3BCXY_3; do
+  pushd $d >> /dev/null
+  for q in FPKM TPM expected_count; do
+    PYTHONPATH=~sau/flowcells/rna_pipelines/long-rna-seq-condor/ \
+      python3 -m woldrnaseq.makersemcsv -l library.tsv -e experiments.tsv \
+              -q ${q}
+  done
+  popd >> /dev/null
+done
+#+END_SRC
+
+#+RESULTS:
+
+#+BEGIN_SRC bash
+for q in FPKM TPM expected_count; do
+  for d in H5LV3BCXY H5LV3BCXY_2 H5LV3BCXY_3; do
+  pushd $d >> /dev/null
+    sha256sum C1_e10.5_mouse_limb_run1_June6_2016_gene_${q}.csv
+  popd >> /dev/null
+  done
+done
+#+END_SRC
+
+#+RESULTS:
+| b64b9b263e10ebc6c15f616869d9793753b06d3461e61fe1aa32cdd9c6e5a470 | C1_e10.5_mouse_limb_run1_June6_2016_gene_FPKM.csv           |
+| b64b9b263e10ebc6c15f616869d9793753b06d3461e61fe1aa32cdd9c6e5a470 | C1_e10.5_mouse_limb_run1_June6_2016_gene_FPKM.csv           |
+| b64b9b263e10ebc6c15f616869d9793753b06d3461e61fe1aa32cdd9c6e5a470 | C1_e10.5_mouse_limb_run1_June6_2016_gene_FPKM.csv           |
+| 8ea439e69727d441de54b6a2eec7dd316bedc821d2ff78459408ad2c4172e936 | C1_e10.5_mouse_limb_run1_June6_2016_gene_TPM.csv            |
+| 8ea439e69727d441de54b6a2eec7dd316bedc821d2ff78459408ad2c4172e936 | C1_e10.5_mouse_limb_run1_June6_2016_gene_TPM.csv            |
+| 8ea439e69727d441de54b6a2eec7dd316bedc821d2ff78459408ad2c4172e936 | C1_e10.5_mouse_limb_run1_June6_2016_gene_TPM.csv            |
+| f069df455ff7c9b38eba5e86ec3d1ab71d145e4fdad512ae4cd38b8a7fa593fe | C1_e10.5_mouse_limb_run1_June6_2016_gene_expected_count.csv |
+| 9ea2d2758cea6f668c06e3b15938ceb808512e413e80dfd1e338f7b8498f51ac | C1_e10.5_mouse_limb_run1_June6_2016_gene_expected_count.csv |
+| 0b57e6111e7177fe2fdb22d471f09f695ec0f87b6e7e06bd6f5d977bdc159c09 | C1_e10.5_mouse_limb_run1_June6_2016_gene_expected_count.csv |
+                                 C1_e10.5_mouse_limb_run1_June6_2016_gene_FPKM
+Make sure run2 reproduces
+#+BEGIN_SRC bash
+for d in C1_e10.5_mouse_limb_run2_June20_2016_2 C1_e10.5_mouse_limb_run2_June20_2016_3; do
+  mkdir $d
+  pushd $d >> /dev/null
+  for f in ~sau/flowcells/C1_e10.5_mouse_limb_run2_June20_2016/*.fastq.gz; do ln -s $f ; done
+  cp ~sau/flowcells/C1_e10.5_mouse_limb_run2_June20_2016/library.tsv .
+  cp ~sau/flowcells/C1_e10.5_mouse_limb_run2_June20_2016/experiments.tsv .
+  tail -n +2 library.tsv | cut -f 2 | xargs mkdir
+  PYTHONPATH=~sau/flowcells/rna_pipelines/long-rna-seq-condor/ \
+    python3 -m woldrnaseq.make_dag -l library.tsv > run.dagman
+  popd >> /dev/null
+done
+#+END_SRC
+
+#+BEGIN_SRC bash
+for d in C1_e10.5_mouse_limb_run2_June20_2016 \
+         C1_e10.5_mouse_limb_run2_June20_2016_2 \
+         C1_e10.5_mouse_limb_run2_June20_2016_3; do
+  pushd $d >> /dev/null
+  for q in FPKM TPM expected_count; do
+    PYTHONPATH=~sau/flowcells/rna_pipelines/long-rna-seq-condor/ \
+      python3 -m woldrnaseq.makersemcsv -l library.tsv -e all-in-one-experiment.tsv \
+              -q $q
+  done
+  popd >> /dev/null
+done
+#+END_SRC
+
+#+RESULTS:
+
+
+#+BEGIN_SRC bash
+for q in FPKM TPM expected_count; do
+  for d in C1_e10.5_mouse_limb_run2_June20_2016 \
+           C1_e10.5_mouse_limb_run2_June20_2016_2 \
+           C1_e10.5_mouse_limb_run2_June20_2016_3; do
+  pushd $d >> /dev/null
+    sha256sum C1_e10.5_mouse_limb_run2_June20_2016_gene_${q}.csv
+  popd >> /dev/null
+  done
+done
+#+END_SRC
+
+#+RESULTS:
+| 166027605587ee167db523eb7a483b1f40f42f35573c38537f4976e98f94d001 | C1_e10.5_mouse_limb_run2_June20_2016_gene_FPKM.csv           |
+| 166027605587ee167db523eb7a483b1f40f42f35573c38537f4976e98f94d001 | C1_e10.5_mouse_limb_run2_June20_2016_gene_FPKM.csv           |
+| 166027605587ee167db523eb7a483b1f40f42f35573c38537f4976e98f94d001 | C1_e10.5_mouse_limb_run2_June20_2016_gene_FPKM.csv           |
+| 3bc1ba838e682edb1c37d16900c4a1f73b6451757490be07fa4d0a10938cbdf9 | C1_e10.5_mouse_limb_run2_June20_2016_gene_TPM.csv            |
+| 3bc1ba838e682edb1c37d16900c4a1f73b6451757490be07fa4d0a10938cbdf9 | C1_e10.5_mouse_limb_run2_June20_2016_gene_TPM.csv            |
+| 3bc1ba838e682edb1c37d16900c4a1f73b6451757490be07fa4d0a10938cbdf9 | C1_e10.5_mouse_limb_run2_June20_2016_gene_TPM.csv            |
+| 7ecf2cb62bfe421260b6a9a1263855ff44c7797fee098cc17a47eeddef4d9cf5 | C1_e10.5_mouse_limb_run2_June20_2016_gene_expected_count.csv |
+| 15b223b1f262dd5cbd81ef15c9d08657e38e0e14b2d56acd4cbd65cef1ef6612 | C1_e10.5_mouse_limb_run2_June20_2016_gene_expected_count.csv |
+| 5f76acd9f0537898d496316adb755de95cc6f4ed6012a650377d7f454fd31d51 | C1_e10.5_mouse_limb_run2_June20_2016_gene_expected_count.csv |
+
+Henry wondered if the ReadsPerGene.out.tab was reproducible
+Run 1
+#+BEGIN_SRC bash
+for d in H5LV3BCXY H5LV3BCXY_2 H5LV3BCXY_3; do
+  pushd $d >> /dev/null
+  for a in $(find . -name ReadsPerGene.out.tab | sort); do sha256sum $a ; done | sha256sum
+  popd >> /dev/null
+done
+#+END_SRC
+
+#+RESULTS:
+| 684042af8299c2b2c0748db95f1d839adb9e7b780ad114959ed29f51989d0930 | 0 |
+| 684042af8299c2b2c0748db95f1d839adb9e7b780ad114959ed29f51989d0930 | 0 |
+| 684042af8299c2b2c0748db95f1d839adb9e7b780ad114959ed29f51989d0930 | 0 |
+
+Run 2
+#+BEGIN_SRC bash
+for d in C1_e10.5_mouse_limb_run2_June20_2016 \
+         C1_e10.5_mouse_limb_run2_June20_2016_2 \
+         C1_e10.5_mouse_limb_run2_June20_2016_3; do
+  pushd $d >> /dev/null
+  for a in $(find . -name ReadsPerGene.out.tab | sort); do sha256sum $a ; done | sha256sum
+  popd >> /dev/null
+done
+#+END_SRC
+
+#+RESULTS:
+| 244e3574879f1ff59ef5584d680f1c12dbaa8eec24e383a04735265a582c4924 | 0 |
+| 244e3574879f1ff59ef5584d680f1c12dbaa8eec24e383a04735265a582c4924 | 0 |
+| 244e3574879f1ff59ef5584d680f1c12dbaa8eec24e383a04735265a582c4924 | 0 |
+
+
+#+BEGIN_SRC python :results output
+  import pandas
+  import os
+
+  df = pandas.read_csv('compare_bams_genome.csv', index_col=0)
+
+  for column in df:
+      data = df[column]
+      if len(set(data)) > 1:
+          print(column, set(data))
+
+  print('done')
+
+#+END_SRC
+
+#+RESULTS:
+: done
+
+Implies that all of the genome alignments are reproducible
