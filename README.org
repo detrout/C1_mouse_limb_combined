@@ -1385,3 +1385,31 @@ Implies that all of the genome alignments are reproducible
 | ENCLB556YSG | released |
 | ENCLB803HJK | released |
 
+* Bulk version I previous downloaded was aligned against a newer reference set
+  <2018-10-18 Thu>
+
+so it doesn't compare with my current version.
+
+So lets download the fastqs and take it from the top.
+
+#+BEGIN_SRC python :results output
+  from htsworkflow.submission.encoded import ENCODED
+  import os
+
+  server = ENCODED('www.encodeproject.org')
+  experiments = ['ENCSR541XZK','ENCSR216NEG','ENCSR347SQR','ENCSR830IVQ','ENCSR750YSX','ENCSR968QHO',]
+  with open('bulk/download_fastq.sh', 'wt') as outstream:
+      for accession in experiments:
+          experiment = server.get_json('/experiments/{}/'.format(accession))
+          for f in experiment['files']:
+              if f['file_type'] == 'fastq':
+                  pathname = f.get('submitted_file_name')
+                  library_id = pathname[:5]
+                  filename = os.path.split(pathname)[1]
+                  target = os.path.join(library_id, filename)
+                  href = 'https://www.encodeproject.org' + f.get('href')
+                  #print(accession, f['accession'], library_id, filename)
+                  outstream.write(('curl -L -o {} {}'.format(target, href)))
+                  outstream.write(os.linesep)
+#+END_SRC
+
