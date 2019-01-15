@@ -21,6 +21,7 @@ from pandasodf import ODFReader
 
 LOGGER = logging.getLogger('pandas_submission')
 
+
 def main(cmdline=None):
     parser = ArgumentParser()
     parser.add_argument('-s', '--server', required=True,
@@ -43,6 +44,7 @@ def main(cmdline=None):
     book = ODFReader(args.metadata)
     process_fastqs(server, book, args.flowcell_details, args.dry_run)
 
+
 def process_fastqs(server, book, flowcell_details, dry_run):
     award = '/awards/UM1HG009443/'
     lab = '/labs/barbara-wold/'
@@ -62,6 +64,7 @@ def process_fastqs(server, book, flowcell_details, dry_run):
 
     LOGGER.info('Uploading files')
     upload(server, validator, files, dry_run=dry_run)
+
 
 def validate(server, validator, book, files):
     # load background attributes
@@ -101,9 +104,11 @@ def add_md5s(submission_pathname):
     else:
         return md5
 
+
 def add_file_size(submission_pathname):
     file_size = os.stat(submission_pathname).st_size
     return file_size
+
 
 def add_read_length(submission_pathname):
     stream = opener.autoopen(submission_pathname, 'rt')
@@ -113,6 +118,7 @@ def add_read_length(submission_pathname):
     read_length = len(sequence)
     LOGGER.debug("Updating read length: %d", read_length)
     return read_length
+
 
 def add_fastq_metadata(flowcell_details, submission_pathname):
     _, filename = os.path.split(submission_pathname)
