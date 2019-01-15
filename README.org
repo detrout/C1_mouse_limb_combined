@@ -1425,3 +1425,68 @@ there may be "sno"? left
 
 e14.5 / P0
 
+* Barbara wants "the new transcript coverage algorithm" run on mouse bulk libraries
+  <2018-10-31 Wed>
+
+Barbara has asked if you can run the following libraries through your
+new transcript coverage algorithm, using the new low end prevalence
+filters:
+
+15019
+15020
+16110
+16111
+
+I started figuring out how to do this over in the
+encode3-rna-evaluation project [[file:/scp:galvar:/woldlab/loxcyc/home/diane/proj/encode3-rna-evaluation/README.org::*<2018-10-30%20Tue>%20threshold%20looks%20promising][<2018-10-30 Tue> threshold looks promising]]
+
+#+NAME: bulk_refseq_coverage
+bulk/refseq-GRCm38.p6
+
+#+BEGIN_SRC bash :var coverage_dir=bulk_refseq_coverage :results none
+if [ \! -d ${coverage_dir} ]; then
+    mkdir -p ${coverage_dir}
+fi
+pushd ${coverage_dir}
+cp ../library.tsv .
+cp ../experiments.tsv .
+for d in $(tail -n +2 library.tsv | cut -f 2); do
+  mkdir $d
+done
+popd
+#+END_SRC
+
+#+BEGIN_SRC bash :var coverage_dir=bulk_refseq_coverage :results none
+pushd ${coverage_dir}
+for a in $(tail -n +2 library.tsv | cut -f 2); do
+  pushd $a
+  ln -s ../../$a/Signal.Unique.str1.out.bg
+  popd
+done
+popd
+#+END_SRC
+
+#+BEGIN_SRC bash :var coverage_dir=bulk_refseq_coverage :results none
+pushd ${coverage_dir}
+for d in $(tail -n +2 library.tsv | cut -f 2); do
+  pushd $d ;
+  (python3 ~/proj/GeorgiScripts/gene_coverage_wig_gtf.py \
+    --gtf ~/proj/genome/GRCm38.p6+spikes.gtf \
+    Signal.Unique.str1.out.bg --output $d-mm10-M4-male.coverage \
+    --print-list | tee coverage.out) &
+   popd ;
+done
+popd
+#+END_SRC
+
+#+BEGIN_SRC bash :var coverage_dir=bulk_refseq_coverage :results none
+pushd ${coverage_dir}
+python3 -m woldrnaseq.plot_coverage -l library.tsv -e experiments.tsv
+popd
+#+END_SRC
+
+Well that didn't work.
+
+The chromosome names in the GRCm38 file look like NC_000067.6, which
+is clearly not similar to chr1. So the quantification is zero, because
+nothing is found.
