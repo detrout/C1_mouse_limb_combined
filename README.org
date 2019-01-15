@@ -1201,3 +1201,187 @@ done
 : done
 
 Implies that all of the genome alignments are reproducible
+
+* Are all the expected bulk libraries present?
+  <2018-10-15 Mon>
+
+#+BEGIN_SRC python
+  import pandas
+  from htsworkflow.submission.encoded import ENCODED
+
+  server = ENCODED('www.encodeproject.org')
+
+  sheet = pandas.read_excel(
+      'Mouse embryo samples list library numbers Diane August 21 2017.xlsx',
+      dtype={'Library number': str,
+             'biorep': str})
+
+  status = []
+  for library_id in sheet['Library number']:
+      if not (pandas.isnull(library_id) or library_id == 'nan'):
+          url = '/library/barbara-wold:{}/'.format(library_id)
+          library = server.get_json(url)
+          status.append((library['accession'], library['status']))
+
+  return status
+
+#+END_SRC
+
+#+RESULTS:
+| ENCLB029BTN | released |
+| ENCLB286HEN | released |
+| ENCLB257LEX | released |
+| ENCLB396XZV | released |
+| ENCLB554ZAM | released |
+| ENCLB838FEJ | released |
+| ENCLB293YOF | released |
+| ENCLB247JXW | released |
+| ENCLB564JOZ | released |
+| ENCLB688RET | released |
+| ENCLB537WPK | released |
+| ENCLB682KXD | released |
+| ENCLB835LVO | released |
+| ENCLB471QMM | released |
+| ENCLB659UFY | released |
+| ENCLB426JKF | released |
+| ENCLB454ZUS | released |
+| ENCLB061TDP | released |
+| ENCLB331VAA | released |
+| ENCLB761PCA | released |
+| ENCLB601XLL | released |
+| ENCLB347FRI | released |
+| ENCLB055KYV | released |
+| ENCLB357KYA | released |
+| ENCLB495FUZ | released |
+| ENCLB979DZW | released |
+| ENCLB162EJJ | released |
+| ENCLB627LDZ | released |
+| ENCLB204IPP | released |
+| ENCLB214HEI | released |
+| ENCLB839VOV | released |
+| ENCLB187TEZ | released |
+| ENCLB408EFI | released |
+| ENCLB008IOE | released |
+| ENCLB613DIH | released |
+| ENCLB230FGL | released |
+| ENCLB656OMB | released |
+| ENCLB637CNF | released |
+| ENCLB968JLC | released |
+| ENCLB432GJF | released |
+| ENCLB878ALV | released |
+| ENCLB673NRF | released |
+| ENCLB222KWY | released |
+| ENCLB224ETE | released |
+| ENCLB177SFU | released |
+| ENCLB807ODU | released |
+| ENCLB051RZO | released |
+| ENCLB426MFX | released |
+| ENCLB312IAF | released |
+| ENCLB517UIN | released |
+| ENCLB032PUJ | released |
+| ENCLB304NDN | released |
+| ENCLB690TFQ | released |
+| ENCLB351WRP | released |
+| ENCLB238AFW | released |
+| ENCLB724HXC | released |
+| ENCLB504REE | released |
+| ENCLB863LLT | released |
+| ENCLB302GKB | released |
+| ENCLB327XFF | released |
+| ENCLB336GOL | released |
+| ENCLB964APA | released |
+| ENCLB000EUQ | released |
+| ENCLB597GRF | released |
+| ENCLB989QNS | released |
+| ENCLB567WFL | released |
+| ENCLB254AMJ | released |
+| ENCLB015WCJ | released |
+| ENCLB200EFP | released |
+| ENCLB278MMD | released |
+| ENCLB819PZM | released |
+| ENCLB220DVX | released |
+| ENCLB906TKN | released |
+| ENCLB949YQN | released |
+| ENCLB584VFZ | released |
+| ENCLB931ORG | released |
+| ENCLB409LKR | released |
+| ENCLB595PNG | released |
+| ENCLB156EMG | released |
+| ENCLB030NEC | released |
+| ENCLB377PCX | released |
+| ENCLB214UZM | released |
+| ENCLB813BQB | released |
+| ENCLB949WIO | released |
+| ENCLB373ANW | released |
+| ENCLB567JQE | released |
+| ENCLB073YDX | released |
+| ENCLB028XWK | released |
+| ENCLB507CWD | released |
+| ENCLB614EHD | released |
+| ENCLB526KEI | released |
+| ENCLB835IBO | released |
+| ENCLB873UUE | released |
+| ENCLB975KAO | released |
+| ENCLB215FCS | released |
+| ENCLB599UVX | released |
+| ENCLB079XWZ | released |
+| ENCLB042OTC | released |
+| ENCLB753FMG | released |
+| ENCLB110FBI | released |
+| ENCLB783FQC | released |
+| ENCLB209CGK | released |
+| ENCLB646LEJ | released |
+| ENCLB105VLP | released |
+| ENCLB150ZJS | released |
+| ENCLB256STD | released |
+| ENCLB082UHO | released |
+| ENCLB672ISU | released |
+| ENCLB430WXG | released |
+| ENCLB026UUS | released |
+| ENCLB733PDT | released |
+| ENCLB841PIC | released |
+| ENCLB662TIG | released |
+| ENCLB987VRV | released |
+| ENCLB696ITY | released |
+| ENCLB535BBV | released |
+| ENCLB489BJY | released |
+| ENCLB424YVG | released |
+| ENCLB123VIC | released |
+| ENCLB626WMA | released |
+| ENCLB287BOO | released |
+| ENCLB008KBU | released |
+| ENCLB496KJW | released |
+| ENCLB540BPI | released |
+| ENCLB852NKM | released |
+| ENCLB732ZDB | released |
+| ENCLB266LCY | released |
+| ENCLB055JUC | released |
+| ENCLB080NNG | released |
+| ENCLB180OTB | released |
+| ENCLB274VUA | released |
+| ENCLB441AFS | released |
+| ENCLB790ZKD | released |
+| ENCLB319NLX | released |
+| ENCLB074REG | released |
+| ENCLB415KPR | released |
+| ENCLB658ICO | released |
+| ENCLB741KQB | released |
+| ENCLB810TRL | released |
+| ENCLB544VIE | released |
+| ENCLB370ZFK | released |
+| ENCLB273BPC | released |
+| ENCLB847UDV | released |
+| ENCLB704CYQ | released |
+| ENCLB318WHF | released |
+| ENCLB590UZK | released |
+| ENCLB260QNG | released |
+| ENCLB817LXB | released |
+| ENCLB169SNA | released |
+| ENCLB459OYG | released |
+| ENCLB217DSV | released |
+| ENCLB159SLV | released |
+| ENCLB022VFG | released |
+| ENCLB416HZP | released |
+| ENCLB556YSG | released |
+| ENCLB803HJK | released |
+
