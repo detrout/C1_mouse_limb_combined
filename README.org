@@ -1413,3 +1413,15 @@ So lets download the fastqs and take it from the top.
                   outstream.write(os.linesep)
 #+END_SRC
 
+* Cranioface DCC reproducable.
+  <2018-10-24 Wed>
+
+some issues reproducing replicates...
+is it other tissues too?
+heart lung kidney stomach hindbrain also impacted.
+
+doing a technical replication on heart.
+there may be "sno"? left
+
+e14.5 / P0
+
