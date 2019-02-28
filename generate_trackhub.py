@@ -48,8 +48,7 @@ colors = {
     'green': '#2ca02c',
     'yellow': '#fde724',
 }
-track_dir = 'limb_cells_for_track_hub_splice_isoforms'
-public_dir = os.path.expanduser('~/public_html/' + track_dir)
+
 
 def main(cmdline=None):
     parser = argparse.ArgumentParser()
@@ -61,11 +60,16 @@ def main(cmdline=None):
                         help="include signal (bigwig) tracks")
     parser.add_argument('--reads', action="store_true", default=False,
                         help="include reads (bam) tracks")
+    parser.add_argument(
+        '--track-dir', required=True,
+        help='directory relative to public_html to put track in')
 
     parser.add_argument('filename', nargs=1)
 
     args = parser.parse_args(cmdline)
     filename = args.filename[0]
+
+    public_dir = os.path.expanduser('~/public_html/' + args.track_dir)
 
     base, ext = os.path.splitext(filename)
     cache_name = base + '.csv'
@@ -107,8 +111,8 @@ def main(cmdline=None):
     else:
         print(trackdb)
 
-    #print(hub.hub)
-    print('trackhub: ' + 'http://woldlab.caltech.edu/~diane/' + track_dir + '/' + hub.hub + '.hub.txt')
+    print('trackhub: ' + 'http://woldlab.caltech.edu/~diane/' + args.track_dir + '/' + hub.hub + '.hub.txt')
+
 
 def load_cells_set(filename, sheet=0):
     df = pandas.read_excel(filename, sheet=sheet)
@@ -209,7 +213,7 @@ def make_bigwig_trackhub(libraries, trackdb):
             signal_view.add_tracks(track)
 
 
-def make_bam_trackhub(libraries, trackdb):
+def make_bam_trackhub(public_dir, libraries, trackdb):
     cluster = trackhub.SubGroupDefinition(
             name='cluster',
             label='cluster',
