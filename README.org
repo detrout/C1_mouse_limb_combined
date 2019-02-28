@@ -1509,3 +1509,56 @@ Goal is to have jupyter notebook local while kernel is running on galvar
         )
      )
 #+END_SRC
+* TODO Best available runfolder?
+
+#+BEGIN_SRC python
+  #!/usr/bin/python3
+  import pandas
+  from woldrnaseq.models import (
+      load_experiments,
+      load_library_tables,
+  )
+
+  from generate_combined_transcript_C1 import (
+      paper_433_experiment_files,
+      paper_433_library_files,
+      ASOF_RUN17_experiment_files,
+      ASOF_RUN17_library_files,
+  )
+
+  TARGET=os.path.expanduser("~/proj/C1_mouse_limb_combined/paper_analysis_vdir")
+  experiment_files = [os.path.expanduser(x.strip()) for x in paper_433_experiment_files.split('\n')]
+  experiments = load_experiments(experiment_files)
+  library_files = [os.path.expanduser(x.strip()) for x in paper_433_library_files.split('\n')]
+  libraries = load_library_tables(library_files)
+
+  if not os.path.exists(TARGET):
+      os.mkdir(TARGET)
+
+  new_library = libraries.copy()
+  for library_id, library in libraries.iterrows():
+      path, name = os.path.split(library.analysis_dir)
+      vdir = os.path.join(TARGET, name)
+      new_library.loc[library_id].analysis_dir = name
+      #print(library_id, vdir)
+      if not os.path.exists(vdir):
+          os.symlink(library.analysis_dir, vdir)
+
+  new_library.index.name = 'library_id'
+  new_library.to_csv(
+      os.path.join(TARGET, 'library_vdir.tsv'),
+      sep='\t')
+
+  experiments['replicates'] = experiments['replicates'].apply(lambda x: ','.join(x))
+  experiments[['replicates']].to_csv(
+      os.path.join(TARGET, 'experiment_vdir.tsv'),
+      sep='\t',
+      #columns=['experiment', 'replicates'],
+  )
+#+END_SRC
+
+#+BEGIN_SRC bash
+PYTHONPATH=~diane/proj/long-rna-seq-condor \
+  python3 -m woldrnaseq.madqc -l library_vdir.tsv -e experiment_vdir.tsv
+
+#+END_SRC
