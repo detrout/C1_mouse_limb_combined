@@ -69,12 +69,13 @@ def main(cmdline=None):
     args = parser.parse_args(cmdline)
     filename = args.filename[0]
 
+    collection = asof_run17_bigwig_paths.split()
     public_dir = os.path.expanduser('~/public_html/' + args.track_dir)
 
     base, ext = os.path.splitext(filename)
     cache_name = base + '.csv'
     if not os.path.exists(cache_name):
-        roots = [ os.path.expanduser(x.strip()) for x in asof_run17_bigwig_paths.split() ]
+        roots = [os.path.expanduser(x.strip()) for x in collection]
         df = load_cells_set(filename)
         libraries = load_asof_run17_libraries()
         libraries = pandas.merge(df, libraries, how='inner', left_index=True, right_index=True)
