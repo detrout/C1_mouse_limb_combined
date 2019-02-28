@@ -1490,3 +1490,22 @@ Well that didn't work.
 The chromosome names in the GRCm38 file look like NC_000067.6, which
 is clearly not similar to chr1. So the quantification is zero, because
 nothing is found.
+
+* Plot for Barbara's Keystone presentation C1 data by clusters in illumina
+** Setup
+
+Goal is to have jupyter notebook local while kernel is running on galvar
+
+#+BEGIN_SRC emacs-lisp :results none
+    (let* ((local_jupyter "/run/user/1000/jupyter/")
+           (remote_jupyter "/scp:galvar.caltech.edu:/run/user/6850/jupyter/")
+           (json "kernel-a36ad8eb-5b6e-45b4-82ef-8c0c734e3db4.json")
+           (local (concat local_jupyter json))
+           (remote (concat remote_jupyter json)))
+      (progn
+        (copy-file remote local 't)
+        (start-process "jupyter" "*jupyter-shell*"
+                       "jupyter" "notebook" "--existing" json "--ssh" "galvar")
+        )
+     )
+#+END_SRC
