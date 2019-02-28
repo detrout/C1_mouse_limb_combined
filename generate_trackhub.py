@@ -112,19 +112,20 @@ def load_cells_set(filename, sheet=0):
     df = pandas.read_excel(filename, sheet=sheet)
     df.columns = ['library_id', 'cluster_assignment']
     df = df.set_index('library_id')
-    filtered =  df.dropna(axis=0, how='any')
+    filtered = df.dropna(axis=0, how='any')
     print('Filtered to cluster members', filtered.shape)
     return filtered
 
 
 def load_asof_run17_libraries():
-    library_files = [ os.path.expanduser(x.strip()) for x in ASOF_RUN17_library_files.split('\n') ]
+    library_files = [os.path.expanduser(x.strip()) for x in ASOF_RUN17_library_files.split('\n')]
     libraries = models.load_library_tables(library_files)
     name = libraries.index.name
-    libraries.index = [ x.replace('_mm10', '').replace('_clean', '') for x in libraries.index]
+    libraries.index = [x.replace('_mm10', '').replace('_clean', '') for x in libraries.index]
     libraries.index.name = name
 
     return libraries
+
 
 def add_bigwig_paths(libraries, roots):
     for track_type in ['uniq', 'all']:
@@ -142,6 +143,7 @@ def add_bigwig_paths(libraries, roots):
         libraries[track_type] = bigwigs
     return libraries
 
+
 def add_bam_paths(libraries):
     bams = []
     for library_id, row in libraries.iterrows():
@@ -152,6 +154,7 @@ def add_bam_paths(libraries):
         bams.append(track_name)
     libraries['bam'] = bams
     return libraries
+
 
 def make_bigwig_trackhub(libraries, trackdb):
     cluster = trackhub.SubGroupDefinition(
@@ -267,6 +270,7 @@ def make_bam_trackhub(libraries, trackdb):
     finally:
         os.chdir(curdir)
 
+
 def make_home_url(pathname):
     names = {
         '/woldlab/castor/home/sau/public_html/': 'http://woldlab.caltech.edu/~sau/',
@@ -278,9 +282,11 @@ def make_home_url(pathname):
 
     raise ValueError("{} had an unrecognized prefix path".format(pathname))
 
+
 def hex_to_ucsc_color(c):
     colors = [str(int(c[1:3], 16)), str(int(c[3:5], 16)), str(int(c[5:7], 16))]
     return ",".join(colors)
+
 
 if __name__ == '__main__':
     main()
