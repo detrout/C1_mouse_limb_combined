@@ -53,6 +53,8 @@ colors = {
 def main(cmdline=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('--dry-run', action='store_true', default=False)
+    parser.add_argument('--force', action='store_true', default=False,
+                        help='ignore cached merged table')
     parser.add_argument('--hub', help="hub name", required=True)
     parser.add_argument('--short-name', help="short name", required=True)
     parser.add_argument('--long-name', help="long name", required=True)
@@ -74,7 +76,7 @@ def main(cmdline=None):
 
     base, ext = os.path.splitext(filename)
     cache_name = base + '.csv'
-    if not os.path.exists(cache_name):
+    if args.force or not os.path.exists(cache_name):
         roots = [os.path.expanduser(x.strip()) for x in collection]
         df = load_cells_set(filename)
         libraries = load_asof_run17_libraries()
