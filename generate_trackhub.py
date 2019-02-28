@@ -10,6 +10,8 @@ from woldrnaseq import models
 from woldrnaseq.make_tracks import make_bigwig_track_name, make_bam_track_name
 
 from generate_combined_transcript_C1 import ASOF_RUN17_library_files
+from make_rsem_subset import load_cells_set
+
 
 paper_433_bigwig_root = """~sau/public_html/H5LV3BCXY/
 ~diane/proj/C1_e10.5_mouse_limb_run3_Dec5_2016_2/
@@ -115,15 +117,6 @@ def main(cmdline=None):
         print(trackdb)
 
     print('trackhub: ' + 'http://woldlab.caltech.edu/~diane/' + args.track_dir + '/' + hub.hub + '.hub.txt')
-
-
-def load_cells_set(filename, sheet=0):
-    df = pandas.read_excel(filename, sheet=sheet)
-    df.columns = ['library_id', 'cluster_assignment']
-    df = df.set_index('library_id')
-    filtered = df.dropna(axis=0, how='any')
-    print('Filtered to cluster members', filtered.shape)
-    return filtered
 
 
 def load_asof_run17_libraries():

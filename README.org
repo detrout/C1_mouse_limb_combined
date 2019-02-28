@@ -1562,3 +1562,35 @@ PYTHONPATH=~diane/proj/long-rna-seq-condor \
   python3 -m woldrnaseq.madqc -l library_vdir.tsv -e experiment_vdir.tsv
 
 #+END_SRC
+* Generate trackhub of subset of cells for 20180301 ENCODE Consortium meeting
+  <2019-02-27 Wed>
+
+I modified generate_trackhub.py to allow specifying different track dirs.
+
+Also I changed the default track visibility for the individual tracks
+to full, but let the track containers limit the visibility of
+the tracks.
+
+#+BEGIN_SRC bash
+python3 generate_trackhub.py \
+  --hub consortium-presentation-20180301 \
+  --short-name selected-cells \
+  --long-name "selected cells for 20180301 presentation" \
+  --signal \
+  --track-dir consortium-presentation \
+  ~/proj/consortium-presentation-support-20180301/PacBio_pooled_single_cells_list_for_Browser_tracks_Feb27_2019.xlsx 
+#+END_SRC
+
+  http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.edu/~diane/consortium-presentation/consortium-presentation-20180301.hub.txt
+
+* Brian would like a TPM/FPKM table using the above cells with the gene lengths in it.
+
+Wrote [[file:make_rsem_subset.py::parser%20=%20ArgumentParser()][make_rsem_subset.py]] to generate quantification files from 
+the cluster membership excel file.
+
+#+BEGIN_SRC bash
+python3 make_rsem_subset.py \
+  --add-names \
+  --gtf-cache ~/proj/genome/mm10-M4-male/mm10-M4-male.h5 \
+  ~/proj/consortium-presentation-support-20180301/PacBio_pooled_single_cells_list_for_Browser_tracks_Feb27_2019.xlsx 
+#+END_SRC
