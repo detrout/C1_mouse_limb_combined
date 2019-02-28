@@ -35,6 +35,7 @@ cluster_mapping = {
 human_cluster_mapping = {
     'deep red': 'deep_red',
     'red': 'red',
+    'orange': 'orange',
     'black': 'black',
     'green': 'green',
     'yellow': 'yellow',
@@ -42,6 +43,7 @@ human_cluster_mapping = {
 colors = {
     'deep red': '#843c39',
     'red': '#d62728',
+    'orange': '#ffa500',
     'black': '#000000',
     'green': '#2ca02c',
     'yellow': '#fde724',
