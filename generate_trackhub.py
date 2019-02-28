@@ -198,7 +198,7 @@ def make_bigwig_trackhub(libraries, trackdb):
             track = trackhub.Track(
                 url=make_home_url(row[track_type]),
                 name="{:04d}".format(priority) + '_' + row.analysis_name + '_' + track_type,
-                visibility='dense',
+                visibility='full',
                 tracktype='bigWig',
                 subgroups={'cluster': cluster_assignment, 'multi': track_type},
                 color=hex_to_ucsc_color(colors[row.cluster_assignment]),
@@ -229,7 +229,7 @@ def make_bam_trackhub(libraries, trackdb):
         short_label='reads',
         dimensions='dimX=cluster',
         tracktype='bam',
-        visibility='dense',
+        visibility='full',
     )
     bam_composite.add_subgroups([cluster])
     trackdb.add_tracks(bam_composite)
@@ -237,7 +237,7 @@ def make_bam_trackhub(libraries, trackdb):
     bam_view = trackhub.ViewTrack(
         name='readview',
         view='reads',
-        visibility='dense',
+        visibility='full',
         tracktype='bam',
         short_label='Reads')
     bam_composite.add_view(bam_view)
@@ -260,7 +260,7 @@ def make_bam_trackhub(libraries, trackdb):
             track = trackhub.Track(
                 url=url,
                 name=priority + '_' + row.analysis_name + '_reads',
-                visibility='dense',
+                visibility='full',
                 tracktype='bam',
                 subgroups={'cluster': cluster_assignment},
                 color=hex_to_ucsc_color(colors[row.cluster_assignment]),
