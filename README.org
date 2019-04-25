@@ -1594,3 +1594,36 @@ python3 make_rsem_subset.py \
   --gtf-cache ~/proj/genome/mm10-M4-male/mm10-M4-male.h5 \
   ~/proj/consortium-presentation-support-20180301/PacBio_pooled_single_cells_list_for_Browser_tracks_Feb27_2019.xlsx 
 #+END_SRC
+* Brian wanted genes detected for a pacbio pool sample of some C1_mouse_limb libraries
+  <2019-04-01 Mon>
+Sean built some example library.tsvs that used the full filename.
+[[file:brian-04012019/library_mm10.tsv::library_id%20analysis_dir%20genome%20annotation%20sex%20read_1%20reference_prefix][library_mm10.tsv]]
+
+I made a [[file:brian-04012019/Makefile::all:%20report.html%20pacbio_pool_gene_TPM.csv%20pacbio_pool_gene_TPM.png][Makefile]] that built several of the plots. (The bokeh version
+still needed to be extracted out of the report)
+* Report library ids for publication set.
+
+#+BEGIN_SRC python :results none
+  import os
+  import sys
+  HTSW=os.path.expanduser('~/proj/htsworkflow')
+  if HTSW not in sys.path:
+      sys.path.append(HTSW)
+  from htsworkflow.submission.encoded import ENCODED
+  server = ENCODED('www.encodeproject.org')
+  d = server.get_json('/publications/e0d01543-9965-4edb-933c-778a40575cd9/')
+  records = []
+  for dataset in d['datasets']:
+      experiment_id = dataset['accession']
+      experiment = server.get_json(experiment_id)
+      jumpgate_ids = []
+      for replicate in experiment['replicates']:
+          library = replicate['library']
+          jumpgate = [x.replace('barbara-wold:', '') for x in library['aliases']]
+          jumpgate_ids.extend(jumpgate)
+          biosample = library['biosample']
+      print(experiment_id, biosample['description'], ','.join(jumpgate_ids), sep='\t')
+      records.append((experiment_id, experiment['assay_title'], experiment['description'], biosample['description'], ','.join(jumpgate_ids)))
+  df = pandas.DataFrame(records, columns=['experiment_id', 'assay title', 'experiment description', 'biosample description', 'library ids'])
+  df.to_csv('publication_set.csv', index=False)
+#+END_SRC
