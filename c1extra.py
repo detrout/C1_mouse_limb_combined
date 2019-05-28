@@ -3,6 +3,16 @@
 """
 import seaborn
 from matplotlib import pyplot as plt
+import requests
+from io import BytesIO
+import os
+import sys
+
+
+PANDASODF = os.path.expanduser('~diane/src/pandasodf')
+if PANDASODF not in sys.path:
+    sys.path.append(PANDASODF)
+from pandasodf import ODFReader
 
 
 class C1BoxPlotter(seaborn.categorical._BoxPlotter):
@@ -34,3 +44,25 @@ def boxplot(x=None, y=None, hue=None, data=None, order=None, hue_order=None,
 
     plotter.plot(ax, kwargs)
     return ax
+
+
+def read_remote_sheet(url, sheet_name):
+    resp = requests.get(url)
+    content = BytesIO(resp.content)
+    book = ODFReader(content)
+    sheet = book.parse(
+        sheetname=sheet_name,
+        dtype={
+            '10x_class': int,
+            'order': int,
+        })
+    return sheet
+
+
+def get_cluster_maps(sheet, class_column, label_column):
+    filtered_order = sheet.sort_values('order')[[class_column, label_column]].dropna()
+    return {
+        'label': dict(sheet[[class_column, label_column]].dropna().values),
+        'color': dict(sheet[[label_column, 'color']].dropna().values),
+        'order': filtered_order[label_column].values,
+    }
