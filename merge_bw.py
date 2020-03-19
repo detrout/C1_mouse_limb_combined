@@ -4,6 +4,7 @@ import os
 from subprocess import check_call, check_output, PIPE
 from hashlib import md5
 
+
 def main(cmdline=None):
     parser = ArgumentParser()
     parser.add_argument('alignment_files', nargs='+')
@@ -24,7 +25,7 @@ def main(cmdline=None):
     merged_bg = uniq_name + '-merged.bg'
     filtered_bg = uniq_name + '-filtered.bg'
     sorted_bg = uniq_name + '-sorted.bg'
-    
+
     check_call([bigWigMerge] + args.alignment_files + [merged_bg])
     check_output('grep chr ' + merged_bg + ' > ' + filtered_bg, shell=True)
     os.unlink(merged_bg)
@@ -32,6 +33,7 @@ def main(cmdline=None):
     os.unlink(filtered_bg)
     check_call([bedGraphToBigWig, sorted_bg, chrom_sizes, args.output])
     os.unlink(sorted_bg)
+
 
 if __name__ == '__main__':
     main()
