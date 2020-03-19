@@ -9,7 +9,6 @@ import pandas
 import sys
 from htsworkflow.util.hashfile import make_md5sum
 from htsworkflow.submission.aws_submission import upload_file
-from htsworkflow.submission.fastqname import FastqName
 from htsworkflow.submission.encoded import DCCValidator, ENCODED, TYPE_TO_COLLECTION
 from htsworkflow.util import opener
 
