@@ -41,7 +41,7 @@ def main():
             outstream.write('ENCSR226XLF_old.json')
 
     print(server.patch_json(accession, {'related_files': files}))
-    
+
     data = server.get_json(accession)
     print(data['files'])
 
