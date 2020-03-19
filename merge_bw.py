@@ -21,7 +21,7 @@ def main(cmdline=None):
     bedGraphToBigWig = os.path.join(ucsc_tools, 'bedGraphToBigWig')
     chrom_sizes = os.path.expanduser('~/proj/C1_mouse_limb_combined/mm10.chrom.sizes')
 
-    uniq_name = md5(b' '.join([ x.encode('ascii') for x in args.alignment_files])).hexdigest()
+    uniq_name = md5(b' '.join([x.encode('ascii') for x in args.alignment_files])).hexdigest()
     merged_bg = uniq_name + '-merged.bg'
     filtered_bg = uniq_name + '-filtered.bg'
     sorted_bg = uniq_name + '-sorted.bg'
