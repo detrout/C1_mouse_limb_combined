@@ -120,7 +120,7 @@ def find_paper_wigfiles(to_include, libraries, suffix):
             yield cell_id, wigname, cluster
         else:
             missing += 1
-            print(name, cluster, wigname)
+            print(cell_id, cluster, wigname)
 
 
 def get_wigdir(analysis_dir):
