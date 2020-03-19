@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 from argparse import ArgumentParser
 import os
-from subprocess import check_call, check_output, PIPE
+from subprocess import check_call, check_output
 from hashlib import md5
 
 
