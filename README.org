@@ -5,6 +5,39 @@ Originally I was trying to collect input data for our C1 paper.
 We had a final filter set of 433 cells. Since there was new data,
 I then committed my original code [[orgit-rev:/ssh:pongo:/woldlab/castor/home/diane/proj/C1_mouse_limb_combined/::0c9d57e][/ssh:pongo:proj/C1_mouse_limb_combined/ (magit-rev 0c9d57e)]]
 
+* Accessing C1 data
+
+** Cells in paper
+At some point I simplified accessing the set of cells used in the
+paper by creating a "virtual runfolder" in
+file:~diane/proj/C1_mouse_limb_combined/paper_analysis_vdir
+
+A library file describing all the cells is
+file:paper_analysis_vdir/library_vdir.tsv
+
+There are several different experiment files to split the
+
+experiment_cluster.tsv has the mapping between cluster name and
+libraries.
+
+I generated quantification files both by run and by cluster.
+
+** 10x Data
+
+the 10x data is in file:~diane/proj/brian-2018-01-10x
+
+10x' documentation for opening files are here:
+https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/python
+
+The 10x barcode to cluster map is in
+~diane/proj/C1_mouse_limb_combined/monocle/mouse/barcodes-to-cluster.csv
+
+Check MouseSingleCellColors.{ods,xlsx} for mapping between cluster
+number and name on nextcloud.
+
+file:create-10x-cluster-bigwigs.ipynb also has some code to extract
+reads from the bams for all the 10x cell ranger runfolders.
+
 * Create publication set at the DCC
 
 [[file:find_experiment.sql::\pset%20format%20unaligned][find_experment.sql]] generates [[file:publication_files.tsv::experiment_accession%20experiment_description%20file%20filename%20file_type%20term_name%20age%20age_units%20library%20biosample%20library_created][publication_files.tsv]] which was
