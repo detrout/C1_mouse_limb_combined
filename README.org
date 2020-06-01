@@ -185,7 +185,7 @@ library + well ids to the DCC, but I think I'm making progress.
 One other issue we had with submission was that some of the libraries
 were unusable on one of the flowcells because there was a barcode
 collision. So I had to make some updates to htsworkflow
- [[orgit-rev:~/proj/htsworkflow/::ce1e0df][Use a different RDF term for bad lanes (magit-rev ce1e0df)]]
+[[orgit-rev:~/proj/htsworkflow/::ce1e0df][Use a different RDF term for bad lanes (magit-rev ce1e0df)]]
 to make it easier to ignore bad flowcell lanes.
 
 For what its worth I think spreadsheets are a probably easier solution
