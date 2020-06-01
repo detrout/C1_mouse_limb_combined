@@ -92,7 +92,7 @@ def load_asof_run17_experiments():
 def load_cells_set(filename, sheet=0):
     df = pandas.read_excel(filename, sheet=sheet)
     df.columns = ['library_id', 'cluster_assignment']
-    df = df.set_index('library_id')
+    df.set_index('library_id', inplace=True)
     filtered = df.dropna(axis=0, how='any')
     print('Filtered to cluster members', filtered.shape)
     return filtered
