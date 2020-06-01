@@ -90,7 +90,13 @@ def load_asof_run17_experiments():
 
 
 def load_cells_set(filename, sheet=0):
-    df = pandas.read_excel(filename, sheet=sheet)
+    if filename.endswith('.xlsx'):
+        df = pandas.read_excel(filename, sheet=sheet)
+    elif filename.endswith('.tsv'):
+        df = pandas.read_csv(filename, sep='\t')
+    else:
+        raise ValueError('Unrecognized filename extension {}'.format(filename))
+
     df.columns = ['library_id', 'cluster_assignment']
     df.set_index('library_id', inplace=True)
     filtered = df.dropna(axis=0, how='any')
