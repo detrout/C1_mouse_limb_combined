@@ -1049,8 +1049,9 @@ popd
 
 see [[file:create_bulk_publication_set.py]]
 
-| ENCSR574CRQ | RNA-seq mouse forelimb of whole tissue embryonic developmental time course. |
-| ENCSR226XLF | Single Cell RNA-seq mouse forelimb embryonic developmental time course.     |
+| [[https://encodeproject.org/publication-data/ENCSR574CRQ/][ENCSR574CRQ]] | RNA-seq mouse forelimb of whole tissue embryonic developmental time course. |
+| [[https://encodeproject.org/publication-data/ENCSR226XLF/][ENCSR226XLF]] | Single Cell RNA-seq mouse forelimb embryonic developmental time course.     |
+| [[https://encodeproject.org/publication-data/ENCSR713GIS/][ENCSR713GIS]] | 10x single cell RNA-seq mouse forelimb embryonic developmental time course  |
 |             |                                                                             |
 
 Hmm... But what about just attaching datasets to the publication
