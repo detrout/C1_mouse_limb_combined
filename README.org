@@ -1662,3 +1662,71 @@ still needed to be extracted out of the report)
   df = pandas.DataFrame(records, columns=['experiment_id', 'assay title', 'experiment description', 'biosample description', 'library ids'])
   df.to_csv('publication_set.csv', index=False)
 #+END_SRC
+* Finalizing paper C1 coverage figures
+
+Barbara wants updated coverage figures using the "same" settings as
+what henry used for the ross map data.
+
+Henry's settings from
+/woldlab/castor/home/hamrhein/git/long-rna-seq-condor/woldrnaseq/qc-coverage.condor
+Generated Aug 16 2018
+which is basically just the updated
+
+2018-11-13
+
+The new y axis labels should be "normalized aggregate read counts"
+
+I used
+http://localhost:8888/notebooks/validate-paper-vdir.ipynb
+to see if the paper_analysis_vdir directory matched what I was using
+for the cluster members for the C1 experiments.
+
+And.... of course their different.
+
+Ok... it looks like I was intending to just link all the
+runfolders... but I had only used the first set.
+
+I updated [[*Best available runfolder?][Best available runfolder?]] to include all the directories,
+so now, nothing is missing but we do have all the cells including ones
+that were filtered out for clusters
+
+Ok. we have all the runfolders so now we need a directory to recompute
+coverage with new settings.
+
+I looked more carefully at the figures brian provided me in
+Extended_Data_Figure_1_data_quality_metrics_revised_April_27_2019.pptx
+and managed to determine those plots he had used were generated in:
+[[file:single-cell-single-model-min-1000-protein/]]
+
+Is the number of the cells included 920? The library file is 1042
+
+Double checked in
+http://localhost:8888/notebooks/validate-paper-vdir.ipynb
+
+Yes this experiments.tsv matches
+[[file:single-cell-single-model-min-1000-protein/cluster-experiment.tsv]]
+whats in
+[[file:C1_single_cells_library_number_cell_type_annotation_Jan13_2019.ods]]
+
+Lets make something that looks good from gallery
+
+http://woldlab.caltech.edu/~diane/encode3-rna-evaluation/GM12878-Wold-polyA-gallery.html
+
+single model genes with max gene normalization and at least 1 fpkm?
+expressed?
+
+I needed to change coverage.condor to rename directory and the command
+line arguments.
+
+#+BEGIN_SRC bash
+mkdir single-cell-single-model-min-1000-max-1-all
+cp single-cell-single-model-min-1000-protein/library.tsv single-cell-single-model-min-1000-max-1-all/
+cp single-cell-single-model-min-1000-protein/cluster-experiment.tsv single-cell-single-model-min-1000-max-1-all/
+cp single-cell-single-model-min-1000-protein/coverage.condor single-cell-single-model-min-1000-max-1-all/
+tail -n +1 library.tsv  | cut -f 1 | xargs mkdir
+#+END_SRC
+
+Now we need a notebook to produce the combined plot that barbara is
+interested in.
+
+http://localhost:8888/notebooks/final-figure-coverage-replot.ipynb
