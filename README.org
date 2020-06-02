@@ -2420,3 +2420,16 @@ It took about 16 hours for c12_mus4 to process.
   c12-mus4_cb_ub_chr_start-mm10-M4-male_uniq.bw
 #+end_src
 
+* Build normalized C1 aggregate tracks
+
+Simply adding all the cell coverage together means the number of cells
+in the cluster skews the track depth and thus is misleading.
+
+Wrote [[file:make_c1_aggregate_bams.py][make_c1_aggregate_bams.py]]
+
+#+begin_src bash
+mkdir C1_cluster_aggregates
+cd C1_cluster_aggregates
+tail -n +2 ../paper_analysis_vdir/experiment_cluster.tsv  | cut -f 1 | xargs mkdir
+#+end_src
+
