@@ -27,6 +27,7 @@ asof_run17_bigwig_paths = paper_433_bigwig_root + """~sau/public_html/HFNLNBCX2/
 """
 
 cluster_mapping = {
+    'DarkRed': 'DarkRed',
     'deep_red': 'deep_red',
     'red': 'red',
     'black': 'black',
@@ -35,6 +36,7 @@ cluster_mapping = {
 }
 # convert human friendly name to machine friendly
 human_cluster_mapping = {
+    'DarkRed': 'darkred',
     'deep red': 'deep_red',
     'red': 'red',
     'orange': 'orange',
@@ -43,6 +45,7 @@ human_cluster_mapping = {
     'yellow': 'yellow',
 }
 colors = {
+    'DarkRed': '#843c39',
     'deep red': '#843c39',
     'red': '#d62728',
     'orange': '#ffa500',
