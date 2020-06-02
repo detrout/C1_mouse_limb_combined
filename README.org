@@ -1830,3 +1830,295 @@ http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.ed
 This notebook generated the track blocks on the fly instead of hard coded like the first few.
 
 generate-merged-bw-chondro-EMP-macro.ipynb
+* They want just the 920 cells as a site to be used.
+
+Generated new virtual directory using notebook [[file:make-paper-vdir.ipynb][make-paper-vdir.ipynb]]
+
+#+BEGIN_SRC bash
+cd paper_analysis_vdir
+if [ \! -e paper_by_cluster ]; then
+    mkdir paper_by_cluster
+fi
+
+PYTHONPATH=/woldlab/loxcyc/home/diane/proj/trackhub \
+python3 -m woldrnaseq.make_trackhub \
+  --hub paper_by_cluster \
+  --short-name paper_by_cluster \
+  --long-name "paper 920 cells by cluster" \
+  --email diane@caltech.edu \
+  --bigwig \
+  -o paper_by_cluster \
+  -w http://woldlab.caltech.edu/~diane/C1_mouse_limb_timecourse \
+  -l library_vdir.tsv \
+  -e experiment_cluster.tsv
+#+END_SRC
+
+#+RESULTS:
+| sending                      | incremental                                                                         |  file | list       |         |       |            |           |            |         |         |             |
+| paper_by_cluster.genomes.txt |                                                                                     |       |            |         |       |            |           |            |         |         |             |
+|                              | 38                                                                                  |  100% | 0.00kB/s   | 0:00:00 |       |         38 |      100% | 0.00kB/s   | 0:00:00 | (xfr#1, | to-chk=3/5) |
+| paper_by_cluster.hub.txt     |                                                                                     |       |            |         |       |            |           |            |         |         |             |
+|                              | 137                                                                                 |  100% | 133.79kB/s | 0:00:00 |       |        137 |      100% | 133.79kB/s | 0:00:00 | (xfr#2, | to-chk=2/5) |
+| mm10/trackDb.txt             |                                                                                     |       |            |         |       |            |           |            |         |         |             |
+|                              | 32,768                                                                              |   18% | 31.25MB/s  | 0:00:00 |       |    179,160 |      100% | 34.17MB/s  | 0:00:00 | (xfr#3, | to-chk=0/5) |
+|                              |                                                                                     |       |            |         |       |            |           |            |         |         |             |
+| sent                         | 179,666                                                                             | bytes | received   |      82 | bytes | 359,496.00 | bytes/sec |            |         |         |             |
+| total                        | size                                                                                |    is | 179,335    | speedup | is    |        1.0 |           |            |         |         |             |
+| trackhub:                    | http://woldlab.caltech.edu/~diane/C1_mouse_limb_timecourse/paper_by_cluster.hub.txt |       |            |         |       |            |           |            |         |         |             |
+
+http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.edu/~diane/C1_mouse_limb_timecourse/paper_by_cluster/paper_by_cluster.hub.txt
+
+#+BEGIN_SRC bash
+cd paper_analysis_vdir
+if [ \! -e paper_by_mesenchyme ]; then
+    mkdir paper_by_mesenchyme
+fi
+
+PYTHONPATH=/woldlab/loxcyc/home/diane/proj/trackhub \
+python3 -m woldrnaseq.make_trackhub \
+  --hub paper_by_cluster_mesenchyme \
+  --short-name paper_by_mesenchyme \
+  --long-name "paper 920 cells mesenchyme" \
+  --email diane@caltech.edu \
+  --bigwig \
+  -o paper_by_mesenchyme \
+  -w http://woldlab.caltech.edu/~diane/C1_mouse_limb_timecourse \
+  -l library_vdir.tsv \
+  -e experiment_cluster_mesenchyme.tsv
+#+END_SRC
+
+#+RESULTS:
+| sending                                 | incremental                                                                                    |  file | list       |         |       |            |           |            |         |         |             |
+| paper_by_cluster_mesenchyme.genomes.txt |                                                                                                |       |            |         |       |            |           |            |         |         |             |
+|                                         | 38                                                                                             |  100% | 0.00kB/s   | 0:00:00 |       |         38 |      100% | 0.00kB/s   | 0:00:00 | (xfr#1, | to-chk=3/5) |
+| paper_by_cluster_mesenchyme.hub.txt     |                                                                                                |       |            |         |       |            |           |            |         |         |             |
+|                                         | 151                                                                                            |  100% | 147.46kB/s | 0:00:00 |       |        151 |      100% | 147.46kB/s | 0:00:00 | (xfr#2, | to-chk=2/5) |
+| mm10/                                   |                                                                                                |       |            |         |       |            |           |            |         |         |             |
+| mm10/trackDb.txt                        |                                                                                                |       |            |         |       |            |           |            |         |         |             |
+|                                         | 32,768                                                                                         |    6% | 31.25MB/s  | 0:00:00 |       |    484,413 |      100% | 66.00MB/s  | 0:00:00 | (xfr#3, | to-chk=0/5) |
+|                                         |                                                                                                |       |            |         |       |            |           |            |         |         |             |
+| sent                                    | 485,014                                                                                        | bytes | received   |      85 | bytes | 970,198.00 | bytes/sec |            |         |         |             |
+| total                                   | size                                                                                           |    is | 484,602    | speedup | is    |        1.0 |           |            |         |         |             |
+| trackhub:                               | http://woldlab.caltech.edu/~diane/C1_mouse_limb_timecourse/paper_by_cluster_mesenchyme.hub.txt |       |            |         |       |            |           |            |         |         |             |
+
+
+http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.edu/~diane/C1_mouse_limb_timecourse/paper_by_mesenchyme/paper_by_mesenchyme.hub.txt
+
+#+BEGIN_SRC bash
+cd paper_analysis_vdir
+if [ \! -e paper_by_perichondrium ]; then
+    mkdir paper_by_perichondrium
+fi
+
+PYTHONPATH=/woldlab/loxcyc/home/diane/proj/trackhub \
+python3 -m woldrnaseq.make_trackhub \
+  --hub paper_by_cluster_perichondrium \
+  --short-name paper_by_perichondrium \
+  --long-name "paper 920 cells perichondrium" \
+  --email diane@caltech.edu \
+  --bigwig \
+  -o paper_by_perichondrium \
+  -w http://woldlab.caltech.edu/~diane/C1_mouse_limb_timecourse \
+  -l library_vdir.tsv \
+  -e experiment_cluster_perichondrium.tsv
+#+END_SRC
+
+#+RESULTS:
+| sending                                    | incremental                                                                                       |  file | list       |         |       |            |           |            |         |         |             |
+| paper_by_cluster_perichondrium.genomes.txt |                                                                                                   |       |            |         |       |            |           |            |         |         |             |
+|                                            | 38                                                                                                |  100% | 0.00kB/s   | 0:00:00 |       |         38 |      100% | 0.00kB/s   | 0:00:00 | (xfr#1, | to-chk=3/5) |
+| paper_by_cluster_perichondrium.hub.txt     |                                                                                                   |       |            |         |       |            |           |            |         |         |             |
+|                                            | 160                                                                                               |  100% | 156.25kB/s | 0:00:00 |       |        160 |      100% | 156.25kB/s | 0:00:00 | (xfr#2, | to-chk=2/5) |
+| mm10/                                      |                                                                                                   |       |            |         |       |            |           |            |         |         |             |
+| mm10/trackDb.txt                           |                                                                                                   |       |            |         |       |            |           |            |         |         |             |
+|                                            | 32,768                                                                                            |   27% | 31.25MB/s  | 0:00:00 |       |    119,491 |      100% | 113.96MB/s | 0:00:00 | (xfr#3, | to-chk=0/5) |
+|                                            |                                                                                                   |       |            |         |       |            |           |            |         |         |             |
+| sent                                       | 120,059                                                                                           | bytes | received   |      85 | bytes | 240,288.00 | bytes/sec |            |         |         |             |
+| total                                      | size                                                                                              |    is | 119,689    | speedup | is    |        1.0 |           |            |         |         |             |
+| trackhub:                                  | http://woldlab.caltech.edu/~diane/C1_mouse_limb_timecourse/paper_by_cluster_perichondrium.hub.txt |       |            |         |       |            |           |            |         |         |             |
+
+http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.edu/~diane/C1_mouse_limb_timecourse/paper_by_perichondrium/paper_by_cluster_perichondrium.hub.txt
+* Discussing submissions.
+
+upload 920 experiments
+would we reprocess from their running of encode 3 dnanexus pipeline.
+Or should we upload my results?
+
+Organism development series
+group experiments
+
+barbara does want to be able to group the runs together as well
+as that represents important batch effects
+* collecting tracks for visualizations
+
+** Aggregate tracks
+
+http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.edu/~diane/C1_peng_20180710_cluster_bigwigs/C1_peng_20180710_cluster.hub.txt
+
+** All cells
+
+Mesenchyme (Black)
+http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.edu/~diane/C1_mouse_limb_timecourse/paper_by_mesenchyme/paper_by_cluster_mesenchyme.hub.txt
+
+Perichondrium
+http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.edu/~diane/C1_mouse_limb_timecourse/paper_by_perichondrium/paper_by_cluster_perichondrium.hub.txt
+
+Other
+http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.edu/~diane/C1_mouse_limb_timecourse/paper_by_cluster/paper_by_cluster.hub.txt
+
+** Subsets
+
+http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.edu/~diane/C1_mouse_limb_timecourse/subsample_by_cluster/subsample_by_cluster.hub.txt
+
+#+NAME: subset mesenchme
+#+BEGIN_SRC python
+  import random
+
+  cells = "17327_A10,17327_A11,17327_A3,17327_A5,17327_A7,17327_A8,17328_B11,17328_B12,17328_B4,17328_B6,17329_C2,17329_C4,17329_C6,17329_C7,17330_D1,17330_D12,17330_D2,17330_D4,17330_D5,17330_D8,17330_D9,17331_E2,17331_E3,17331_E6,17331_E7,17331_E8,17331_E9,17332_F1,17332_F2,17332_F3,17332_F6,17332_F8,17333_G1,17333_G3,17333_G9,17334_H1,17334_H7,18042_A1,18042_A11,18042_A12,18042_A2,18042_A3,18042_A5,18042_A6,18042_A8,18042_A9,18043_B1,18043_B10,18043_B11,18043_B12,18043_B3,18043_B4,18043_B5,18043_B6,18043_B7,18043_B8,18043_B9,18044_C1,18044_C10,18044_C11,18044_C12,18044_C2,18044_C3,18044_C4,18044_C7,18044_C8,18045_D1,18045_D10,18045_D11,18045_D12,18045_D2,18045_D4,18045_D5,18045_D6,18045_D7,18045_D8,18046_E1,18046_E10,18046_E2,18046_E6,18046_E7,18046_E9,18047_F1,18047_F10,18047_F11,18047_F12,18047_F2,18047_F3,18047_F4,18047_F5,18047_F6,18047_F7,18047_F8,18047_F9,18048_G1,18048_G10,18048_G11,18048_G12,18048_G3,18048_G5,18048_G6,18048_G7,18049_H1,18049_H10,18049_H2,18049_H3,18049_H4,18049_H5,18049_H6,18049_H7,18049_H8,18049_H9,18087_F1,18087_F10,18087_F11,18087_F12,18087_F2,18087_F3,18087_F4,18087_F5,18087_F7,18087_F9,18088_G1,18088_G10,18088_G11,18088_G12,18088_G3,18088_G5,18088_G6,18088_G7,18088_G9,18089_H1,18089_H10,18089_H11,18089_H2,18089_H3,18089_H4,18089_H5,18089_H6,18089_H7,18089_H8,18089_H9,18251_A11,18253_C1,18253_C11,18254_D5,18256_F7,18257_G7,18258_A1,18258_A10,18258_A11,18258_A12,18258_A2,18258_A3,18258_A5,18258_A6,18258_A8,18258_A9,18259_B1,18259_B10,18259_B11,18259_B12,18259_B2,18259_B3,18259_B4,18259_B5,18259_B6,18259_B7,18259_B8,18259_B9,18260_C1,18260_C10,18260_C11,18260_C12,18260_C2,18260_C3,18260_C4,18260_C5,18260_C6,18260_C7,18260_C9,18261_D1,18261_D10,18261_D11,18261_D12,18261_D2,18261_D3,18261_D4,18261_D5,18261_D6,18261_D7,18261_D8,18261_D9,18262_E1,18262_E10,18262_E12,18262_E3,18262_E5,18262_E7,18262_E8,18262_E9,18263_A10,18263_A11,18263_A12,18263_A3,18263_A4,18263_A5,18263_A6,18263_A7,18263_A8,18263_A9,18264_B1,18264_B11,18264_B12,18264_B2,18264_B3,18264_B5,18264_B7,18264_B8,18265_C1,18265_C10,18265_C11,18265_C12,18265_C2,18265_C3,18265_C4,18265_C5,18265_C7,18265_C8,18265_C9,18266_D1,18266_D10,18266_D11,18266_D12,18266_D2,18266_D3,18266_D4,18266_D5,18266_D6,18266_D7,18266_D8,18266_D9,18267_E1,18267_E10,18267_E12,18267_E2,18267_E3,18267_E4,18267_E7,18267_E8,18268_F1,18268_F10,18268_F11,18268_F12,18268_F2,18268_F3,18268_F4,18268_F5,18268_F7,18268_F8,18268_F9,18269_G1,18269_G10,18269_G11,18269_G2,18269_G3,18269_G4,18269_G5,18269_G7,18269_G8,18269_G9,18270_A1,18270_A2,18270_A5,18270_A6,18270_A7,18270_A8,18271_B11,18271_B3,18271_B7,18271_B8,18272_C1,18272_C12,18272_C2,18272_C3,18272_C4,18272_C6,18272_C8,18272_C9,18273_D1,18273_D2,18273_D4,18273_D5,18273_D6,18273_D8,18274_E1,18274_E10,18274_E11,18274_E12,18274_E2,18274_E6,18275_F1,18275_F11,18275_F2,18275_F3,18275_F5,18276_G1,18276_G2,18276_G3,18276_G5,18276_G6,18276_G7,18276_G9,18311_A4,18311_A7,18313_C1,18313_C12,18313_C7,18313_C8,18314_D12,18314_D3,18314_D4,18314_D7,18314_D8,18314_D9,18315_E12,18315_E4,18316_F3,18316_F5,18316_F8,18317_G4,18317_G6,18317_G7,19906_A1,19906_A10,19906_A11,19906_A12,19906_A2,19906_A3,19906_A4,19906_A5,19906_A6,19906_A7,19906_A8,19906_A9,19907_B1,19907_B10,19907_B11,19907_B12,19907_B2,19907_B4,19907_B5,19907_B6,19907_B7,19907_B8,19907_B9,19908_C10,19908_C11,19908_C12,19908_C2,19908_C3,19908_C4,19908_C5,19908_C6,19908_C7,19908_C8,19908_C9,19909_D1,19909_D10,19909_D12,19909_D2,19909_D3,19909_D4,19909_D5,19909_D6,19909_D7,19909_D8,19909_D9,19910_E1,19910_E10,19910_E11,19910_E2,19910_E3,19910_E4,19910_E5,19910_E6,19910_E7,19910_E8,19910_E9,19911_F1,19911_F10,19911_F11,19911_F12,19911_F2,19911_F3,19911_F4,19911_F5,19911_F6,19911_F7,19911_F8,19911_F9,19912_G11,19912_G12,19912_G2,19912_G3,19912_G4,19912_G6,19912_G7,19912_G8,19912_G9,19913_H1,19913_H10,19913_H11,19913_H12,19913_H2,19913_H3,19913_H4,19913_H5,19913_H6,19913_H7,19913_H8,19913_H9,19914_A1,19914_A10,19914_A11,19914_A2,19914_A3,19914_A4,19914_A5,19914_A6,19914_A7,19914_A8,19914_A9,19915_B1,19915_B10,19915_B11,19915_B6,19916_C12,19916_C2,19916_C8,19917_D3,19917_D6,2002
+  random.shuffle(cells)
+  return(','.join(sorted(cells[:30])))
+
+#+END_SRC
+
+#+RESULTS:
+: 17329_C2,17330_D2,17332_F2,17333_G9,18045_D8,18047_F10,18087_F4,18089_H7,18260_C2,18261_D4,18262_E9,18264_B12,18265_C2,18266_D5,18268_F5,18268_F7,18269_G4,18273_D1,18276_G3,18315_E12,19906_A10,19906_A12,19906_A3,19912_G6,19916_C2,20027_B8,20030_E4,20033_A12,20033_A9,20038_F10
+
+#+NAME: subset perichondrium
+#+BEGIN_SRC python
+  import random
+  cells="18251_A4,18251_A8,18252_B2,18252_B4,18252_B5,18252_B9,18253_C10,18253_C12,18253_C3,18253_C5,18253_C6,18253_C7,18253_C9,18254_D1,18254_D11,18254_D4,18254_D7,18254_D8,18255_E1,18255_E6,18256_F4,18256_F5,18256_F6,18256_F9,18257_G2,18257_G5,18257_G8,18267_E5,18270_A9,18271_B1,18271_B12,18273_D12,18273_D3,18273_D9,18274_E8,18275_F4,18276_G4,18311_A1,18311_A12,18311_A2,18311_A8,18312_B1,18312_B5,18312_B9,18313_C3,18313_C4,18313_C5,18313_C6,18314_D11,18314_D2,18315_E2,18316_F10,18316_F9,18317_G1,18317_G3,18317_G5,18317_G8,18317_G9,19915_B12,19915_B3,19915_B4,19915_B7,19916_C11,19916_C3,19916_C4,19916_C6,19916_C7,19917_D2,19917_D4,19917_D5,20027_B1,20033_A4,20033_A6,20034_B9,20038_F9,20039_A11,20039_A12,20039_A2,20039_A3,20039_A6,20039_A7,20040_B10,20040_B3,20040_B5,20040_B7,20040_B8,20041_C10,20041_C11,20041_C12,20041_C4,20041_C5,20041_C6,20041_C7,20041_C9,20042_D1,20042_D3,20042_D6,20042_D7,20044_A1,20044_A11,20044_A2,20044_A3,20044_A4,20044_A6,20044_A9,20045_B1,20045_B10,20045_B11,20045_B12,20045_B2,20045_B4,20045_B9,20046_C1,20046_C10,20046_C11,20046_C12,20046_C2,20046_C3,20046_C6,20046_C9,20047_D1,20047_D10,20047_D12,20047_D2,20047_D3,20047_D4,20047_D9,20048_E1,20048_E2,20048_E3,20048_E4,20048_E6,20048_E9,20049_F1,20049_F2,20049_F4,20049_F5,20049_F7,20049_F818251_A4,18251_A8,18252_B2,18252_B4,18252_B5,18252_B9,18253_C10,18253_C12,18253_C3,18253_C5,18253_C6,18253_C7,18253_C9,18254_D1,18254_D11,18254_D4,18254_D7,18254_D8,18255_E1,18255_E6,18256_F4,18256_F5,18256_F6,18256_F9,18257_G2,18257_G5,18257_G8,18267_E5,18270_A9,18271_B1,18271_B12,18273_D12,18273_D3,18273_D9,18274_E8,18275_F4,18276_G4,18311_A1,18311_A12,18311_A2,18311_A8,18312_B1,18312_B5,18312_B9,18313_C3,18313_C4,18313_C5,18313_C6,18314_D11,18314_D2,18315_E2,18316_F10,18316_F9,18317_G1,18317_G3,18317_G5,18317_G8,18317_G9,19915_B12,19915_B3,19915_B4,19915_B7,19916_C11,19916_C3,19916_C4,19916_C6,19916_C7,19917_D2,19917_D4,19917_D5,20027_B1,20033_A4,20033_A6,20034_B9,20038_F9,20039_A11,20039_A12,20039_A2,20039_A3,20039_A6,20039_A7,20040_B10,20040_B3,20040_B5,20040_B7,20040_B8,20041_C10,20041_C11,20041_C12,20041_C4,20041_C5,20041_C6,20041_C7,20041_C9,20042_D1,20042_D3,20042_D6,20042_D7,20044_A1,20044_A11,20044_A2,20044_A3,20044_A4,20044_A6,20044_A9,20045_B1,20045_B10,20045_B11,20045_B12,20045_B2,20045_B4,20045_B9,20046_C1,20046_C10,20046_C11,20046_C12,20046_C2,20046_C3,20046_C6,20046_C9,20047_D1,20047_D10,20047_D12,20047_D2,20047_D3,20047_D4,20047_D9,20048_E1,20048_E2,20048_E3,20048_E4,20048_E6,20048_E9,20049_F1,20049_F2,20049_F4,20049_F5,20049_F7,20049_F8".split(',')
+  random.shuffle(cells)
+  return(','.join(sorted(cells[:30])))
+
+#+END_SRC
+
+#+RESULTS: subset perichondrium
+: 18252_B4,18253_C5,18253_C7,18253_C7,18254_D11,18254_D4,18256_F4,18257_G5,18273_D9,18311_A2,18312_B1,18313_C3,18315_E2,18316_F9,18317_G5,19917_D2,20027_B1,20039_A11,20041_C6,20041_C6,20041_C9,20041_C9,20044_A3,20044_A6,20045_B11,20045_B2,20045_B4,20048_E3,20049_F2,20049_F5
+
+#+begin_src python
+  from woldrnaseq.models import load_experiments
+
+  exp = load_experiments(['paper_analysis_vdir/experiment_cluster_subsampled.tsv'])
+  return exp['replicates'].apply(lambda x: len(x))
+
+#+end_src
+
+#+RESULTS:
+#+begin_example
+experiment
+EMP               5
+chondrocyte      57
+ectoderm          8
+endothelial       7
+macrophage       10
+mesenchyme       30
+muscle1          54
+0,255,0           1
+muscle2          38
+muscle3          23
+neural_crest      8
+perichondrium    30
+Name: replicates, dtype: int64
+#+end_example
+
+#+begin_src bash
+pushd paper_analysis_vdir
+TARGET=subsample_by_cluster
+if [ \! -e ${TARGET} ]; then
+  mkdir ${TARGET}
+fi
+PYTHONPATH=/woldlab/loxcyc/home/diane/proj/trackhub \
+python3 -m woldrnaseq.make_trackhub \
+  --hub subsample_by_cluster \
+  --short-name subsample_by_cluster \
+  --long-name "paper subsample" \
+  --email diane@caltech.edu \
+  --bigwig \
+  -o ${TARGET} \
+  -w http://woldlab.caltech.edu/~diane/C1_mouse_limb_timecourse/ \
+  -l library_vdir.tsv \
+  -e experiment_cluster_subsampled.tsv
+
+#+end_src
+
+#+RESULTS:
+| ~/proj/C1_mouse_limb_combined/paper_analysis_vdir | ~/proj/C1_mouse_limb_combined                                                           |       |            |         |       |            |           |            |         |         |             |
+| sending                                           | incremental                                                                             |  file | list       |         |       |            |           |            |         |         |             |
+| subsample_by_cluster.genomes.txt                  |                                                                                         |       |            |         |       |            |           |            |         |         |             |
+|                                                   | 38                                                                                      |  100% | 0.00kB/s   | 0:00:00 |       |         38 |      100% | 0.00kB/s   | 0:00:00 | (xfr#1, | to-chk=3/5) |
+| subsample_by_cluster.hub.txt                      |                                                                                         |       |            |         |       |            |           |            |         |         |             |
+|                                                   | 134                                                                                     |  100% | 130.86kB/s | 0:00:00 |       |        134 |      100% | 130.86kB/s | 0:00:00 | (xfr#2, | to-chk=2/5) |
+| mm10/trackDb.txt                                  |                                                                                         |       |            |         |       |            |           |            |         |         |             |
+|                                                   | 32,768                                                                                  |   14% | 31.25MB/s  | 0:00:00 |       |    230,129 |      100% | 43.89MB/s  | 0:00:00 | (xfr#3, | to-chk=0/5) |
+| sent                                              | 230,652                                                                                 | bytes | received   |      82 | bytes | 461,468.00 | bytes/sec |            |         |         |             |
+| total                                             | size                                                                                    |    is | 230,301    | speedup | is    |        1.0 |           |            |         |         |             |
+| trackhub:                                         | http://woldlab.caltech.edu/~diane/C1_mouse_limb_timecourse/subsample_by_cluster.hub.txt |       |            |         |       |            |           |            |         |         |             |
+
+hubCheck
+http://woldlab.caltech.edu/~diane/C1_mouse_limb_timecourse/subsample_by_cluster/subsample_by_cluster.hub.txt
+
+http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.edu/~diane/C1_mouse_limb_timecourse/subsample_by_cluster/subsample_by_cluster.hub.txt
+* Create tree of spike in types for use by libreoffice
+
+I was able to get libreoffice to pull the spikein alias
+from a file using a formula like the following
+
+#+begin_src basic
+=FILTERXML(WEBSERVICE(CONCAT("https://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/spikeins_used/",C2,".xml")),"/spike")
+#+end_src
+
+I just need to fill a directory with xml files listing the spikein type
+
+#+begin_src python :results output
+  import os
+  from woldrnaseq.models import load_experiments
+
+  filename = 'all_analysis_vdir/experiment_vdir.tsv'
+  experiments = load_experiments([filename])
+
+  target_dir = 'spikeins_used'
+  for experiment_id, row in experiments.iterrows():
+      print(experiment_id)
+      if 'run1' in experiment_id:
+          spikein = 'ENCSR013YHQ'
+      elif 'run2' in experiment_id:
+          spikein = 'ENCSR156CIL'
+      else:
+          spikein = 'ENCSR535LMC'
+
+      for library_id in row.replicates:
+          #library_id = library_id.replace('_mm10', '')
+          library_file = os.path.join(target_dir, library_id + '.xml')
+          with open(library_file, 'wt') as outstream:
+              outstream.write('<spike>{}</spike>'.format(spikein))
+              outstream.write(os.linesep)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+C1_e10.5_mouse_limb_run1_June6_2016
+C1_e10.5_mouse_limb_run2_June20_2016
+C1_e10.5_mouse_limb_run3_Dec5_2016
+C1_mouse_e13.5_limb_mesenchyme_mm10_run4
+C1_mouse_e11.0_limb_mesenchyme_mm10_run5
+C1_mouse_e11.5_limb_mesenchyme_mm10_run6
+C1_mouse_e12.5_limb_mesenchyme_mm10_run7
+C1_mouse_e13.5_limb_mesenchyme_mm10_run8
+C1_mouse_e14.0_forelimb_run13_December14_2017
+C1_mouse_e12.5_forelimb_run9_March8_2017_rearray_March152018
+C1_mouse_e11.5_forelimb_run10_December11_2017
+C1_mouse_e10.5_forelimb_run15_January13AM_2018
+C1_mouse_e11.0_forelimb_run16_January13PM_2018
+C1_mouse_e14.5_forelimb_run17_January16_2018
+C1_mouse_e12.0_forelimb_run11_December12_2017
+C1_mouse_e12.0_forelimb_run11_December12_2017
+C1_mouse_e13.0_forelimb_run12_December13_2017
+C1_mouse_e15.5_forelimb_run14_December15_2017
+#+end_example
+* Trackhub for showing black & purple tracks for figure 5.
+
+http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/ideas_regions/hub.txt
+
+#a61ed0
+
+166,30,208
