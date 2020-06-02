@@ -1730,3 +1730,44 @@ Now we need a notebook to produce the combined plot that barbara is
 interested in.
 
 http://localhost:8888/notebooks/final-figure-coverage-replot.ipynb
+* Making signal and reads tracks
+
+#+BEGIN_SRC bash
+python3 generate_trackhub.py \
+  --hub consortium-presentation-20180301 \
+  --short-name selected-cells \
+  --long-name "selected cells for 20180301 presentation" \
+  --signal \
+  --track-dir consortium-presentation \
+  ~/proj/consortium-presentation-support-20180301/PacBio_pooled_single_cells_list_for_Browser_tracks_Feb27_2019.xlsx
+pushd ~/public_html/consortium-presentation/mm10/
+mv trackDb.txt trackDb-signal.txt
+popd
+#+END_SRC
+
+
+#+BEGIN_SRC python
+python3 generate_trackhub.py  \
+  --hub consortium-presentation-20180301-reads \
+  --short-name selected-cells-reads \
+  --long-name "reas for selected cells for 20180301 presentation" \
+  --reads \
+  --track-dir consortium-presentation \
+  ~/proj/consortium-presentation-support-20180301/PacBio_pooled_single_cells_list_for_Browser_tracks_Feb27_2019.xlsx
+pushd ~/public_html/consortium-presentation/mm10/
+mv trackDb.txt trackDb-signal.txt
+popd
+#+END_SRC
+
+Then edit the genomes files to point to the right trackDb file.
+
+http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.edu/~diane/consortium-presentation/consortium-presentation-20180301.hub.txt
+http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.edu/~diane/consortium-presentation/consortium-presentation-20180301-reads.hub.txt
+
+make sure the all the tracks and symlinks are right.
+
+#+BEGIN_SRC bash
+hubCheck http://woldlab.caltech.edu/~diane/consortium-presentation/consortium-presentation-20180301.hub.txt
+hubCheck http://woldlab.caltech.edu/~diane/consortium-presentation/consortium-presentation-20180301-reads.hub.txt
+#+END_SRC
+

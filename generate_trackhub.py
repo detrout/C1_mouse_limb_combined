@@ -277,6 +277,22 @@ def make_home_url(pathname):
     names = {
         '/woldlab/castor/home/sau/public_html/': 'http://woldlab.caltech.edu/~sau/',
         '/woldlab/loxcyc/home/diane/proj/': 'http://woldlab.caltech.edu/~diane/',
+        '/woldlab/castor/home/sau/flowcells/C1_e10.5_mouse_limb_run2_June20_2016':
+          'http://woldlab.caltech.edu/~diane/consortium-presentation/C1_e10.5_mouse_limb_run2_June20_2016',
+        '/woldlab/castor/home/sau/flowcells/H5LV3BCXY':
+          'http://woldlab.caltech.edu/~diane/consortium-presentation/H5LV3BCXY/',
+        '/woldlab/castor/home/sau/flowcells/C1_mouse_limb_combined_Mar_2017':
+          'http://woldlab.caltech.edu/~diane/consortium-presentation/C1_mouse_limb_combined_Mar_2017/',
+        '/woldlab/castor/home/sau/flowcells/H7CNTBCX2/':
+          'http://woldlab.caltech.edu/~diane/consortium-presentation/H7CNTBCX2/',
+        '/woldlab/castor/home/sau/flowcells/HFNLTBCX2/':
+          'http://woldlab.caltech.edu/~diane/consortium-presentation/HFNLTBCX2/',
+        '/woldlab/castor/home/sau/flowcells/HFNLNBCX2':
+          'http://woldlab.caltech.edu/~diane/consortium-presentation/HFNLNBCX2/',
+        '/woldlab/castor/home/sau/flowcells/HF7NTBCX2':
+          'http://woldlab.caltech.edu/~diane/consortium-presentation/HF7NTBCX2/',
+        '/woldlab/castor/home/sau/flowcells/HFNYNBCX2':
+          'http://woldlab.caltech.edu/~diane/consortium-presentation/HFNYNBCX2/',
     }
     for name in names:
         if pathname.startswith(name):
