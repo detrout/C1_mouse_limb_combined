@@ -4019,3 +4019,19 @@ server.load_netrc()
 publication = server.get_json(data_id)
 #+end_src
 
+* 200319GeneID.csv
+
+Peng gave me that as a file to add Gene IDs to the
+[[file:monocle/200120_10x.h5ad][C1_mouse_limb_combined/monocle/200120_10x.h5ad]] file
+* Preparing Cellbrowser viewer
+
+I have done a bunch of work on that without notes.
+
+The source files provided by Peng are in ~phe/200120DataTransfer
+
+These two notebooks build the per data type repository:
+- scanpy_C1_cellbrowser.ipynb
+- scanpy_10x_cellbrowser.ipynb
+
+This notebook builds the hierarchy combining the two above sites
+- scanpy-cellbrowser-build-hierarchy.ipynb
