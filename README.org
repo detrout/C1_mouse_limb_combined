@@ -2122,3 +2122,90 @@ http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.ed
 #a61ed0
 
 166,30,208
+* Trackhub for showing 10x muscle clusters
+
+Barbara needs supplemental tracks to understand what's going on so she
+wants me to build tracks for the 4 muscle clusters (and maybe black
+cluster)
+
+The notebook I used to create the barcode files is for each cluster is in
+[[file:/scp:pongo:/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/create-10x-cluster-bigwigs.ipynb][create-10x-cluster-bigwigs]]
+
+With that I filtered and pooled the selected barcodes with commands
+like
+
+#+begin_src bash
+#!/bin/bash
+RUN1=/woldlab/loxcyc/home/diane/proj/brian-2018-01-10x/Wold10x-1-encode-count-cells10000
+RUN3=/woldlab/loxcyc/home/diane/proj/brian-2018-01-10x/Wold10x-3-encode-count-cells10000
+RUN4=/woldlab/loxcyc/home/diane/proj/brian-2018-01-10x/Wold10x-4-encode-count-cells10000
+RUN5=/woldlab/loxcyc/home/diane/proj/brian-2018-01-10x/Wold10x-5-encode-count-cells10000
+RUN6=/woldlab/loxcyc/home/diane/proj/brian-2018-01-10x/Wold10x-6-encode-count-cells10000
+RUN7=/woldlab/loxcyc/home/diane/proj/brian-2018-01-10x/Wold10x-7-encode-count-cells10000
+RUN8=/woldlab/loxcyc/home/diane/proj/brian-2018-01-10x/Wold10x-8-encode-count-cells10000
+RUN9=/woldlab/loxcyc/home/diane/proj/brian-2018-01-10x/Wold10x-9-encode-count-cells10000
+RUN10=/woldlab/loxcyc/home/diane/proj/brian-2018-01-10x/Wold10x-10-encode-count-cells10000
+RUN11=/woldlab/loxcyc/home/diane/proj/brian-2018-01-10x/Wold10x-11-encode-count-cells10000
+RUN12=/woldlab/loxcyc/home/diane/proj/brian-2018-01-10x/Wold10x-12-encode-count-cells10000
+RUN13=/woldlab/loxcyc/home/diane/proj/brian-2018-01-10x/Wold10x-13-encode-count-cells10000
+
+cat <(samtools view -H $RUN1/outs/possorted_genome_bam.bam) \
+    <(samtools view $RUN3/outs/possorted_genome_bam.bam | grep -f barcodes-10x-cluster-0-run-3.txt) \
+    <(samtools view $RUN4/outs/possorted_genome_bam.bam | grep -f barcodes-10x-cluster-0-run-4.txt) \
+    <(samtools view $RUN5/outs/possorted_genome_bam.bam | grep -f barcodes-10x-cluster-0-run-5.txt) \
+    <(samtools view $RUN6/outs/possorted_genome_bam.bam | grep -f barcodes-10x-cluster-0-run-6.txt) \
+    <(samtools view $RUN7/outs/possorted_genome_bam.bam | grep -f barcodes-10x-cluster-0-run-7.txt) \
+    <(samtools view $RUN8/outs/possorted_genome_bam.bam | grep -f barcodes-10x-cluster-0-run-8.txt) \
+    <(samtools view $RUN12/outs/possorted_genome_bam.bam | grep -f barcodes-10x-cluster-0-run-12.txt) \
+    <(samtools view $RUN13/outs/possorted_genome_bam.bam | grep -f barcodes-10x-cluster-0-run-13.txt) | \
+      samtools view -@ 4 -bS - -o c7_mus1/10x-cluster-7_unsorted.bam
+#+end_src
+
+I tried to run those through a dagman based on my regular RNAseq
+condor files but that took a day without finishing.
+
+I then used samtools' sort which finished in ~1 hour for the smaller
+clusters
+
+#+begin_src bash
+samtools sort -@ 8 -m 4G -o  c17-mus3-mm10-M4-male_sorted.bam c17-mus3-mm10-M4-male_genome.bam
+#+end_src
+
+With a sorted bam file I generated bedgraph files with STAR
+
+#+begin_src bash
+/woldlab/castor/proj/programs/STAR-2.5.2a/source/STAR \
+  --runMode inputAlignmentsFromBAM \
+  --inputBAMfile ../c17-mus3-mm10-M4-male_sorted.bam \
+  --outWigType bedGraph \
+  --outWigStrand Unstranded
+#+end_src
+
+Those bedgraph files are not sorted to UCSC tools liking...
+
+#+begin_src bash
+bedSort Signal.UniqueMultiple.str1.out.bg Signal.UniqueMultiple.str1.out.bg
+bedSort Signal.Unique.str1.out.bg Signal.Unique.str1.out.bg
+#+end_src
+
+Once we have sufficiently sorted bedgraph files we can make the bigwigs
+
+#+begin_src bash
+/woldlab/castor/proj/programs/x86_64/bedGraphToBigWig \
+  Signal.UniqueMultiple.str1.out.bg \
+  ~/proj/genome/mm10-M4-male/chrNameLength.txt \
+  c17-mu3-mm10-M4-male_all.bw
+
+/woldlab/castor/proj/programs/x86_64/bedGraphToBigWig \
+  Signal.Unique.str1.out.bg \
+  ~/proj/genome/mm10-M4-male/chrNameLength.txt \
+  c17-mu3-mm10-M4-male_uniq.bw
+#+end_src
+
+Once all that was done I made a trackhub for these tracks
+
+[[file:10x_tracks/hub.txt][file:/scp:pongo:/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/hub.txt]]
+
+http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/10x_tracks/hub.txt
+
+
