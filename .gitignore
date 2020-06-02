@@ -10,6 +10,15 @@ worker-*.dirlock
 *.svg
 *.pdf
 
+*.dagman.condor.sub
+*.dagman.dagman.log
+*.dagman.dagman.out
+*.dagman.lib.err
+*.dagman.lib.out
+*.dagman.metrics
+*.dagman.nodes.log
+*.dagman.rescue*
+
 # generated files
 library_id_to_accession.tsv
 clustergram_slope_merged.csv
