@@ -2229,3 +2229,15 @@ different... why was the read counts different !?)
 
 
 
+* "Which reads are considered for UMI counting by Cell Ranger?"
+
+https://kb.10xgenomics.com/hc/en-us/articles/115003710383-Which-reads-are-considered-for-UMI-counting-by-Cell-Ranger-
+
+Question: Which reads are considered for UMI counting in cellranger count?
+
+Answer: When counting UMIs, Cell Ranger only consider reads that have a valid UMI and a valid 10x barcode. Further, Cell Ranger considers reads which meet all of the following criteria:
+
+    Has a MAPQ of 255
+    Maps to exactly one gene (as shown in the GX tag of the BAM file alignment record)
+    Overlaps an exon by at least 50% in a way consistent with annotated splice junctions and strand annotation.
+
