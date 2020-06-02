@@ -2,11 +2,13 @@
 """Generate trackhub for specified set...
 """
 import argparse
+import logging
 import os
 import pandas
 import trackhub
 
 from woldrnaseq import models
+import woldrnaseq.make_tracks
 from woldrnaseq.make_tracks import make_bigwig_track_name, make_bam_track_name
 
 from generate_combined_transcript_C1 import ASOF_RUN17_library_files
@@ -133,6 +135,7 @@ def load_asof_run17_libraries():
 
 
 def add_bigwig_paths(libraries, roots):
+    woldrnaseq.make_tracks.logger.setLevel(logging.ERROR)
     for track_type in ['uniq', 'all']:
         bigwigs = []
         for library_id, row in libraries.iterrows():
