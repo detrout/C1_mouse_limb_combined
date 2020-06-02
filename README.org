@@ -2302,3 +2302,8 @@ After discussing with barbara a likely issue is the tracks 10x cluster
 tracks I built are not normalized by the UMIs.
 
 
+* Talked to ram about 10x introns
+He reminded me of an email/presentation from 1/24/2018
+10x 3' mapping issue - background and slides from Allan
+
+where others also had problems with intronic reads.
