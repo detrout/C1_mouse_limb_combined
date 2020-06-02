@@ -2209,3 +2209,23 @@ Once all that was done I made a trackhub for these tracks
 http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/10x_tracks/hub.txt
 
 
+** Fixing mus1
+
+Later I discovered I made a copy and paste error building c7_mus1
+where it was actually a copy of the c0_mesprox track (though slightly
+different... why was the read counts different !?)
+
+#+name: building new C7-mus1 bigiwgs
+#+begin_src bash
+/woldlab/castor/proj/programs/x86_64-366/bedGraphToBigWig \
+  Signal.UniqueMultiple.str1.out.bg \
+  ~/proj/genome/mm10-M4-male/chrNameLength.txt \
+  c7-mus1-mm10-M4-male_all.bw  &
+/woldlab/castor/proj/programs/x86_64-366/bedGraphToBigWig \
+  Signal.Unique.str1.out.bg \
+  ~/proj/genome/mm10-M4-male/chrNameLength.txt \
+  c7-mus1-mm10-M4-male_uniq.bw &
+#+end_src
+
+
+
