@@ -2241,3 +2241,25 @@ Answer: When counting UMIs, Cell Ranger only consider reads that have a valid UM
     Maps to exactly one gene (as shown in the GX tag of the BAM file alignment record)
     Overlaps an exon by at least 50% in a way consistent with annotated splice junctions and strand annotation.
 
+* Build a M4 track
+
+#+begin_src bash
+wget https://genome.ucsc.edu/goldenPath/help/examples/bigGenePred.as
+/woldlab/castor/proj/programs/x86_64/gtfToGenePred \
+  -genePredExt -geneNameAsName2 -ignoreGroupsWithoutExons  \
+  ~/proj/genome/mm10-M4-male/gencode.vM4-tRNAs-ERCC.gff \
+  gencode.vM4-tRNAs-ERCC.genepred
+/woldlab/castor/proj/programs/x86_64/genePredToBigGenePred \
+  gencode.vM4-tRNAs-ERCC.genepred stdout | \
+  LC_COLLATE=C sort -k1,1 -k2,2n > gencode.vM4-tRNAs-ERCC.bgpInput
+/woldlab/castor/proj/programs/x86_64/bedToBigBed \
+  -type=bed12+8 \
+  -tab \
+  -as=bigGenePred.as \
+  gencode.vM4-tRNAs-ERCC.bgpInput \
+  ~/proj/genome/mm10-M4-male/chrNameLength.txt \
+  gencode.vM4-tRNAs-ERCC.bb
+#+end_src
+
+http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/M4/hub.txt
+

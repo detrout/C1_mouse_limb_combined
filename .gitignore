@@ -1089,7 +1089,13 @@ paper_analysis_vdir/paper_by_mesenchyme/
 paper_analysis_vdir/paper_by_perichondrium/
 paper_analysis_vdir/*_gene_FPKM_likelihood.tsv
 
-
+# M4 gene track
+M4/*.bb
+M4/*.gbpInput
+M4/gencode.vM4-tRNAs-ERCC.genepred
+M4/genome.txt
+M4/hub.txt
+M4/trackDb.txt
 
 # Monocle trajectory plots
 monocle/mouse/*.svg
