@@ -1771,3 +1771,51 @@ hubCheck http://woldlab.caltech.edu/~diane/consortium-presentation/consortium-pr
 hubCheck http://woldlab.caltech.edu/~diane/consortium-presentation/consortium-presentation-20180301-reads.hub.txt
 #+END_SRC
 
+* Building merged bigwigs
+
+Some time ago I managed to build a set of tracks in
+http://woldlab.caltech.edu/~diane/C1_peng_20180710_cluster_bigwigs/C1_peng_20180710_cluster.hub.txt
+
+But I forgot to write down what I did.
+
+It appears there's a file [[file:merge_bw_all.sh]] which repeatedly calls
+[[file:merge_bw.py]] to generate combined bigwigs for various clusters.
+
+This came up because Brian said Barbara wants a new version with only
+green, red, dark red, yellow, orange.
+
+I didn't understand there was a fairly small set of cells they wanted
+to include by the cluster.
+
+http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.edu/~diane/peng_clustering_35cells/C1_peng_clustering_35cells.hub.txt
+
+* More tracks
+  <2019-05-28 Tue>
+
+Brian would like subsets of some of the full set of bigwigs.
+
+[[file:brian-subset-201905272223.tsv::18317_G10%20DarkRed][brian-subset-201905272223]]
+
+Adjusted [[file:make_rsem_subset.py::def%20load_cells_set(filename,%20sheet=0):][make_rsem_subset.py::load_cells_set]] to handle tsv files too.
+
+#+BEGIN_SRC python
+mkdir ~/public_html/brian_subset_201905272223
+PYTHONPATH=/woldlab/loxcyc/home/diane/proj/trackhub \
+python3 generate_trackhub.py  \
+  --hub brian-subset-201905272223 \
+  --short-name brian_subset_20190527 \
+  --long-name "brian_subset_20190527" \
+  --signal \
+  --reads \
+  --track-dir brian-subset-201905272223  \
+  brian-subset-201905272223.tsv
+#+END_SRC
+
+http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.edu/~diane/brian-subset-201905272223/brian-subset-201905272223.hub.txt
+
+* Brian would like to see merged bigwigs or some cells
+
+[[file:merge_bw_2018052829.sh]]
+
+http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/C1_muscle_green_darkred_2018052829/C1_muscle_green_darkred_2018052829.hub.txt
+
