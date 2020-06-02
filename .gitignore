@@ -5,6 +5,10 @@
 *~
 dask-worker-space/
 worker-*.dirlock
+*.png
+*.eps
+*.svg
+*.pdf
 
 # generated files
 library_id_to_accession.tsv
