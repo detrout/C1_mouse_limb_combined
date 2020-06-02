@@ -218,7 +218,7 @@ def make_bigwig_trackhub(libraries, trackdb):
             signal_view.add_tracks(track)
 
 
-def make_bam_trackhub(public_dir, libraries, trackdb):
+def make_bam_trackhub(libraries, trackdb):
     cluster = trackhub.SubGroupDefinition(
             name='cluster',
             label='cluster',
@@ -243,7 +243,7 @@ def make_bam_trackhub(public_dir, libraries, trackdb):
     bam_composite.add_view(bam_view)
 
     curdir = os.getcwd()
-    os.chdir(public_dir)
+    #os.chdir(public_dir)
 
     try:
         for i, (library_id, row) in enumerate(libraries.iterrows()):
