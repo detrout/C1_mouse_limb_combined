@@ -3969,3 +3969,42 @@ Hmm... 18275_F8.... is bad and shouldn't be there I probably shouldn't
 have had Idan undelete it.
 
 
+* DONE Compute gender of mice / resolve conflicts between tables
+
+Most of the calculations have been happening in a notebook
+stored in nextcloud in Revised_2019_MouseRNASeq_MS/
+
+The first issue is we found a sex swap in the liver samples.
+
+Along the way I've found several other issues.
+
+midbrain e14.5 rep2 is marked as being part of biosample ENCBS591CTT
+but it had actually been replaced with a different mouse.
+
+From Brian 05 Dec 2019 "correction to metadata on ENCODE portal for
+e14.5 midbrain rep2
+
+The BioSample information for e14.5 midbrain rep2 should be:
+
+a single midbrain from pup1, pregnant1 on 10/11/2014.
+
+What to tell DCC.
+
+For https://www.encodeproject.org/biosamples/ENCBS849BXE/
+{
+  "description": "a single midbrain from pup1, pregnant1 on 10/11/2014.",
+  "date_obtained": "2014-10-11",
+  "part_of": None,
+}
+
+When we designed the experiment the biosample was shared, but the
+original version had QC issues and we resequenced from a new donor.
+
+For https://www.encodeproject.org/biosamples/ENCBS897LGY
+{
+  "part_of": "/biosamples/ENCLB088IBU/"
+}
+
+It was actually part of the ENCBS088IBU provided P0 rep 2 tissues for
+kidney, urinary bladder, and skeletal muscle tissue
+
