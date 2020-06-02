@@ -2433,3 +2433,67 @@ cd C1_cluster_aggregates
 tail -n +2 ../paper_analysis_vdir/experiment_cluster.tsv  | cut -f 1 | xargs mkdir
 #+end_src
 
+* New monocle plots for new combinations of cells
+
+Starting with the following cluster sets
+
+  blood cells: "8","13","20","21","23"
+  macrophage lineage: "8","20","21"
+  muscle with cluster 22:
+  muscle without cluster 22:
+  skeletal lineage: "0","1","2","3","6","10","11","16","22","24"
+  skeletal lineage without Cluster 22: "0","1","2","3","6","10","11","16","24"
+  Skin cells: "5","18"
+
+I created the following notebooks:
+
+ 190717_10X_Monocle3_removal_190813NewServer-clean-blood-dim8.ipynb
+ 190717_10X_Monocle3_removal_190813NewServer-clean-macrophage-dim8.ipynb
+ 190717_10X_Monocle3_removal_190813NewServer-clean-skeletal+22-dim8.ipynb
+ 190717_10X_Monocle3_removal_190813NewServer-clean-skeletal-22-dim8.ipynb
+ 190717_10X_Monocle3_removal_190813NewServer-clean-skin-dim8.ipynb
+
+which generated the following pages to share with peng
+
+ http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/monocle/mouse/190717_10X_Monocle3_removal_190813NewServer-clean-blood-dim8.html
+ http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/monocle/mouse/190717_10X_Monocle3_removal_190813NewServer-clean-macrophage-dim8.html
+ http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/monocle/mouse/190717_10X_Monocle3_removal_190813NewServer-clean-skeletal+22-dim8.html
+ http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/monocle/mouse/190717_10X_Monocle3_removal_190813NewServer-clean-skeletal-22-dim8.html
+ http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/monocle/mouse/190717_10X_Monocle3_removal_190813NewServer-clean-skin-dim8.html
+
+He came back and told me what dimensions to use:
+
+  blood: dim10
+  macrophage: dim9
+  skeletal with 22: dim14
+  skeletal without 22: dim12
+  skin: dim12
+
+First time I used names closer to Peng's original names, but then
+Barbara asked me to also add some more genes to the muscle trajectory
+files and so I renamed them all to be shorter and clearer. So these
+are the adjust notebook names.
+
+The first time I ran the notebooks I had forgotten fix the hard coding
+of dim8 from these notebooks. I did fix that for these.
+
+for a in \
+ 10X_Monocle3_removal-blood-dim10.ipynb \
+ 10X_Monocle3_removal-macrophage-dim9.ipynb \
+ 10X_Monocle3_removal-muscle+22-dim9.ipynb \
+ 10X_Monocle3_removal-muscle-22-dim8.ipynb \
+ 10X_Monocle3_removal-skeletal+22-dim14.ipynb \
+ 10X_Monocle3_removal-skeletal-22-dim12.ipynb \
+ 10X_Monocle3_removal-skin-dim12.ipynb \
+; do jupyter nbconvert --to html $a ; done
+
+Rendered as:
+
+  http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/monocle/mouse/10X_Monocle3_removal-blood-dim10.html#Blood-dim-10-orig.ident
+  http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/monocle/mouse/10X_Monocle3_removal-macrophage-dim9.html#Macrophage-dim-9-orig.ident
+  http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/monocle/mouse/10X_Monocle3_removal-muscle+22-dim9.html#Muscle-with-cluster-22-dim-9-orig.ident
+  http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/monocle/mouse/10X_Monocle3_removal-muscle-22-dim8.html#Muscle-without-cluster-22-dim-8-orig.ident
+  http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/monocle/mouse/10X_Monocle3_removal-skeletal+22-dim14.html#Skeletal-with-cluster-22-dim-14-orig.ident
+  http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/monocle/mouse/10X_Monocle3_removal-skeletal-22-dim12.html#Skeletal-without-cluster-22-dim-12-orig.ident
+  http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/monocle/mouse/10X_Monocle3_removal-skin-dim12.html#Skin-dim-12-orig.ident
+
