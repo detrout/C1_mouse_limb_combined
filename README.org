@@ -2307,3 +2307,116 @@ He reminded me of an email/presentation from 1/24/2018
 10x 3' mapping issue - background and slides from Allan
 
 where others also had problems with intronic reads.
+* Build 10x cluster tracks filtering out PCR duplicates cb_ub_chr_start
+
+After thinking a bit about how to do UMI deduplication I went with a
+program that tracks cellular barcode, umi barcode, chromosome and
+start location as the check for duplicates reads.
+
+It took about 16 hours for c12_mus4 to process.
+
+#+name: build tracks for c0_mesprox
+#+begin_src bash
+/woldlab/castor/proj/programs/STAR-2.5.2a/source/STAR \
+  --runMode inputAlignmentsFromBAM \
+  --inputBAMfile c0_mesprox_cb_ub_chr_start-mm10-M4-male_genome.bam \
+  --outWigType bedGraph \
+  --outWigStrand Unstranded
+/woldlab/castor/proj/programs/x86_64-366/bedSort \
+  Signal.UniqueMultiple.str1.out.bg Signal.UniqueMultiple.str1.out.bg
+/woldlab/castor/proj/programs/x86_64-366/bedSort \
+  Signal.Unique.str1.out.bg Signal.Unique.str1.out.bg
+/woldlab/castor/proj/programs/x86_64-366/bedGraphToBigWig \
+  Signal.UniqueMultiple.str1.out.bg \
+  ~/proj/genome/mm10-M4-male/chrNameLength.txt \
+  c0_mesprox_cb_ub_chr_start-mm10-M4-male_all.bw
+/woldlab/castor/proj/programs/x86_64-366/bedGraphToBigWig \
+  Signal.Unique.str1.out.bg \
+  ~/proj/genome/mm10-M4-male/chrNameLength.txt \
+  c0_mesprox_cb_ub_chr_start-mm10-M4-male_uniq.bw
+#+end_src
+
+#+name: build tracks for c7_mus1 cb ub chr start
+#+begin_src bash
+/woldlab/castor/proj/programs/STAR-2.5.2a/source/STAR \
+  --runMode inputAlignmentsFromBAM \
+  --inputBAMfile c7_mus1_cb_ub_chr_start-mm10-M4-male_genome.bam \
+  --outWigType bedGraph \
+  --outWigStrand Unstranded
+/woldlab/castor/proj/programs/x86_64-366/bedSort \
+  Signal.UniqueMultiple.str1.out.bg Signal.UniqueMultiple.str1.out.bg
+/woldlab/castor/proj/programs/x86_64-366/bedSort \
+  Signal.Unique.str1.out.bg Signal.Unique.str1.out.bg
+/woldlab/castor/proj/programs/x86_64-366/bedGraphToBigWig \
+  Signal.UniqueMultiple.str1.out.bg \
+  ~/proj/genome/mm10-M4-male/chrNameLength.txt \
+  c7_mus1_cb_ub_chr_start-mm10-M4-male_all.bw
+/woldlab/castor/proj/programs/x86_64-366/bedGraphToBigWig \
+  Signal.Unique.str1.out.bg \
+  ~/proj/genome/mm10-M4-male/chrNameLength.txt \
+  c7_mus1_cb_ub_chr_start-mm10-M4-male_uniq.bw
+#+end_src
+
+#+name: build tracks for c4_mus2 cb ub chr start
+#+begin_src bash
+/woldlab/castor/proj/programs/STAR-2.5.2a/source/STAR \
+  --runMode inputAlignmentsFromBAM \
+  --inputBAMfile c4_mus2_cb_ub_chr_start-mm10-M4-male_genome.bam \
+  --outWigType bedGraph \
+  --outWigStrand Unstranded
+/woldlab/castor/proj/programs/x86_64-366/bedSort \
+  Signal.UniqueMultiple.str1.out.bg Signal.UniqueMultiple.str1.out.bg
+/woldlab/castor/proj/programs/x86_64-366/bedSort \
+  Signal.Unique.str1.out.bg Signal.Unique.str1.out.bg
+/woldlab/castor/proj/programs/x86_64-366/bedGraphToBigWig \
+  Signal.UniqueMultiple.str1.out.bg \
+  ~/proj/genome/mm10-M4-male/chrNameLength.txt \
+  c4_mus2_cb_ub_chr_start-mm10-M4-male_all.bw
+/woldlab/castor/proj/programs/x86_64-366/bedGraphToBigWig \
+  Signal.Unique.str1.out.bg \
+  ~/proj/genome/mm10-M4-male/chrNameLength.txt \
+  c4_mus2_cb_ub_chr_start-mm10-M4-male_uniq.bw
+#+end_src
+
+#+name: build tracks for c17_mus3 cb ub chr start
+#+begin_src bash
+/woldlab/castor/proj/programs/STAR-2.5.2a/source/STAR \
+  --runMode inputAlignmentsFromBAM \
+  --inputBAMfile c17_mus3_cb_ub_chr_start-mm10-M4-male_genome.bam \
+  --outWigType bedGraph \
+  --outWigStrand Unstranded
+/woldlab/castor/proj/programs/x86_64-366/bedSort \
+  Signal.UniqueMultiple.str1.out.bg Signal.UniqueMultiple.str1.out.bg
+/woldlab/castor/proj/programs/x86_64-366/bedSort \
+  Signal.Unique.str1.out.bg Signal.Unique.str1.out.bg
+/woldlab/castor/proj/programs/x86_64-366/bedGraphToBigWig \
+  Signal.UniqueMultiple.str1.out.bg \
+  ~/proj/genome/mm10-M4-male/chrNameLength.txt \
+  c17_mus3_cb_ub_chr_start-mm10-M4-male_all.bw
+/woldlab/castor/proj/programs/x86_64-366/bedGraphToBigWig \
+  Signal.Unique.str1.out.bg \
+  ~/proj/genome/mm10-M4-male/chrNameLength.txt \
+  c17_mus3_cb_ub_chr_start-mm10-M4-male_uniq.bw
+#+end_src
+
+#+name: build c12_mus4 cb ub chr start tracks
+#+begin_src bash
+/woldlab/castor/proj/programs/STAR-2.5.2a/source/STAR \
+  --runMode inputAlignmentsFromBAM \
+  --inputBAMfile c12_mus4_cb_ub_chr_start-mm10-M4-male_genome.bam \
+  --outWigType bedGraph \
+  --outWigStrand Unstranded
+/woldlab/castor/proj/programs/x86_64-366/bedSort \
+  Signal.UniqueMultiple.str1.out.bg Signal.UniqueMultiple.str1.out.bg
+/woldlab/castor/proj/programs/x86_64-366/bedSort \
+  Signal.Unique.str1.out.bg Signal.Unique.str1.out.bg
+/woldlab/castor/proj/programs/x86_64-366/bedGraphToBigWig \
+  Signal.UniqueMultiple.str1.out.bg \
+  ~/proj/genome/mm10-M4-male/chrNameLength.txt \
+  c12-mus4_cb_ub_chr_start-mm10-M4-male_all.bw
+/woldlab/castor/proj/programs/x86_64-366/bedGraphToBigWig \
+  Signal.Unique.str1.out.bg \
+  ~/proj/genome/mm10-M4-male/chrNameLength.txt \
+  c12-mus4_cb_ub_chr_start-mm10-M4-male_uniq.bw
+#+end_src
+
