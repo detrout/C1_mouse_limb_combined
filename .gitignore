@@ -106,6 +106,7 @@ bulk/15019/
 bulk/15020/
 bulk/15084/
 bulk/15085/
+bulk/16110/
 bulk/16111/
 bulk/16112/
 bulk/16134/
@@ -119,6 +120,9 @@ bulk/qc-only.dagman.*
 bulk/ENCSR*coverage.png
 bulk/ENCSR*coverage.bare.png
 bulk/calculate_coverage.dagman.*
+bulk/*_FPKM.h5
+bulk/*_FPKM.csv
+bulk/*_correlation.h5
 
 # Ignore analysis directories for now
 bulk/gene_coverage_detail/
@@ -1084,3 +1088,10 @@ paper_analysis_vdir/paper_by_cluster/
 paper_analysis_vdir/paper_by_mesenchyme/
 paper_analysis_vdir/paper_by_perichondrium/
 paper_analysis_vdir/*_gene_FPKM_likelihood.tsv
+
+
+
+# Monocle trajectory plots
+monocle/mouse/*.svg
+monocle/mouse/*.html
+
