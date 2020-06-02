@@ -1,6 +1,7 @@
 """
 
 """
+import pandas
 import seaborn
 from matplotlib import pyplot as plt
 import requests
@@ -8,6 +9,10 @@ from io import BytesIO
 import os
 import sys
 
+import find_bigwigs
+import generate_combined_transcript_C1
+
+from woldrnaseq.models import load_library_tables
 
 PANDASODF = os.path.expanduser('~diane/src/pandasodf')
 if PANDASODF not in sys.path:
@@ -69,3 +74,12 @@ def get_cluster_maps(sheet, class_column, label_column):
         'color': dict(sheet[[label_column, 'color']].dropna().values),
         'order': filtered_order[label_column].values,
     }
+
+
+def load_920cell_library_table():
+    clusters = pandas.DataFrame(find_bigwigs.read_peng_20180710_cluster_memberships())
+    asof_run17 = generate_combined_transcript_C1.ASOF_RUN17_library_files.split('\n')
+    libraries = [os.path.expanduser(x.strip()) for x in asof_run17]
+    library_df = load_library_tables(libraries)
+    library_df = library_df.reindex(clusters['cell_id'])
+    return library_df
