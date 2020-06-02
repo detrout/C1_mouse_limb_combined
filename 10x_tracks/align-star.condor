@@ -1,0 +1,69 @@
+universe=vanilla
+log=$(CURDIR)/align-star-$(Process).log
+output=$(CURDIR)/align-star-$(Process).out
+error=$(CURDIR)/align-star-$(Process).out
+
+STAR_DIR=$(star_dir)
+GENOME_ROOT=$$($(genome_root):/woldlab/castor/home/diane/proj/genome)
+GENOME=$$($(genome):mm10)
+ANNOTATION=$$($(annotation):M4)
+SEX=$$($(sex):male)
+GENOME_TRIPLET=$(GENOME)-$(ANNOTATION)-$(SEX)
+GENOME_DIR=$(GENOME_ROOT)/$(GENOME_TRIPLET)/
+THREADS=8
+
+READ1=$$(read1)
+READ2=$$(read2:)
+CURDIR=$$(curdir)
+
+if defined READ2
+  EXTRA_ARGS=
+else
+  # this argument is not used for paired end reads
+  EXTRA_ARGS=--outSAMstrandField intronMotif
+endif
+
+request_cpus=$(THREADS)
+request_memory=30G
+request_disk=60G
+
+executable=$(STAR_DIR)STAR
+transfer_executable=false
+
+should_transfer_files=Always
+when_to_transfer_output=ON_EXIT
+transfer_input_files=$(pre_star),$(post_star)
+
++PreCmd="pre_star"
++PreArguments="--genome-dir $(GENOME_DIR) --library-id $(library_id) --output-dir $(CURDIR)"
+
+arguments="--genomeDir $(GENOME_DIR) \
+           --readFilesType SAM SE \
+           --readFilesIn $(READ1) $(READ2) \
+           --readFilesCommand samtools view \
+	   --runThreadN $(THREADS) \
+	   --genomeLoad NoSharedMemory \
+	   --outFilterMultimapNmax 20 \
+	   --alignSJoverhangMin 8 \
+	   --alignSJDBoverhangMin 1 \
+	   --outFilterMismatchNmax 999 \
+	   --outFilterMismatchNoverReadLmax 0.04 \
+	   --alignIntronMin 20 \
+	   --alignIntronMax 1000000 \
+	   --alignMatesGapMax 1000000 \
+	   --outSAMheaderCommentFile COfile.txt \
+	   --outSAMheaderHD @HD VN:1.4 SO:coordinate \
+	   --outSAMunmapped Within \
+	   --outFilterType BySJout \
+	   --outSAMattributes NH HI AS NM MD \
+	   --outSAMtype BAM SortedByCoordinate \
+	   --quantMode TranscriptomeSAM GeneCounts \
+	   --sjdbScore 1 \
+           --outTmpDir ./_STARtmp/ \
+	   --outFileNamePrefix $(CURDIR)/ \
+	   --limitBAMsortRAM 90000000000 \
+           $(EXTRA_ARGS) \
+"
++PostCmd="post_star"
++PostArguments="$(CURDIR) $(ANALYSIS_NAME)-$(GENOME_TRIPLET)_genome.bam"
+queue

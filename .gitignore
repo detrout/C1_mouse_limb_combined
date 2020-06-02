@@ -122,3 +122,23 @@ single-cell-any-model-top-1000/
 single-cell-single-model-min-1000-all-types/
 single-cell-single-model-min-1000-protein/
 single-cell-single-model-min-1000-refseq/
+
+#10x tracks
+10x_tracks/barcodes-10x-cluster-*-run-*.txt
+10x_tracks/c0_mesprox/
+10x_tracks/c0_mesprox_cb_ub_chr_start/
+10x_tracks/c0_mesprox_trans/
+10x_tracks/c12_mus4/
+10x_tracks/c12_mus4_cb_ub_chr_start/
+10x_tracks/c12_mus4_trans/
+10x_tracks/c17_mus3/
+10x_tracks/c17_mus3_cb_ub_chr_start/
+10x_tracks/c17_mus3_trans/
+10x_tracks/c2_mesdist/
+10x_tracks/c4_mus2/
+10x_tracks/c4_mus2_cb_ub_chr_start/
+10x_tracks/c4_mus2_trans/
+10x_tracks/c7_mus1/
+10x_tracks/c7_mus1_cb_ub_chr_start/
+10x_tracks/c7_mus1_trans/
+10x_tracks/logs/

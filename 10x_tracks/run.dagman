@@ -1,0 +1,429 @@
+# Manually edited to use an align-star.condor that reads from bam files.
+#
+
+
+###########################################
+# Processing c0-mesprox in /woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c0_mesprox_trans with
+# Username: diane
+# Timestamp: 2019-09-26T12:01:18.238658
+# Version: 1.0.90+15.gd558b8b
+
+JOB c0-mesprox_align-star /woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/align-star.condor
+JOB c0-mesprox_sort-samtools /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/sort-samtools.condor
+JOB c0-mesprox_quant-rsem /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/quant-rsem-se.condor
+JOB c0-mesprox_index-samtools /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/index-samtools.condor
+JOB c0-mesprox_qc-samstats /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-samstats.condor
+JOB c0-mesprox_bedgraph-star /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph-star.condor
+JOB c0-mesprox_qc-coverage /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-coverage.condor
+JOB c0-mesprox_qc-distribution /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-distribution.condor
+JOB c0-mesprox_bedgraph2bigwig /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph2bigwig.condor
+
+PARENT c0-mesprox_align-star  CHILD c0-mesprox_sort-samtools
+PARENT c0-mesprox_align-star  CHILD c0-mesprox_index-samtools
+PARENT c0-mesprox_align-star  CHILD c0-mesprox_bedgraph-star
+PARENT c0-mesprox_index-samtools CHILD c0-mesprox_qc-samstats
+PARENT c0-mesprox_index-samtools CHILD c0-mesprox_qc-distribution
+PARENT c0-mesprox_sort-samtools  CHILD c0-mesprox_quant-rsem
+PARENT c0-mesprox_bedgraph-star  CHILD c0-mesprox_qc-coverage
+PARENT c0-mesprox_bedgraph-star  CHILD c0-mesprox_bedgraph2bigwig
+
+VARS c0-mesprox_align-star      library_id="c0-mesprox"
+VARS c0-mesprox_align-star      analysis_name="c0_mesprox_trans"
+VARS c0-mesprox_sort-samtools   analysis_name="c0_mesprox_trans"
+VARS c0-mesprox_index-samtools  analysis_name="c0_mesprox_trans"
+VARS c0-mesprox_quant-rsem      analysis_name="c0_mesprox_trans"
+VARS c0-mesprox_qc-samstats     analysis_name="c0_mesprox_trans"
+VARS c0-mesprox_bedgraph-star   analysis_name="c0_mesprox_trans"
+VARS c0-mesprox_qc-coverage     analysis_name="c0_mesprox_trans"
+VARS c0-mesprox_qc-distribution analysis_name="c0_mesprox_trans"
+VARS c0-mesprox_bedgraph2bigwig analysis_name="c0_mesprox_trans"
+
+VARS c0-mesprox_align-star      curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c0_mesprox_trans"
+VARS c0-mesprox_align-star      pre_star="/woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/pre_star"
+VARS c0-mesprox_align-star      post_star="/woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/post_star"
+VARS c0-mesprox_sort-samtools   curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c0_mesprox_trans"
+VARS c0-mesprox_sort-samtools   sort_samtools="/woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/sort-samtools.sh"
+VARS c0-mesprox_quant-rsem      curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c0_mesprox_trans"
+VARS c0-mesprox_index-samtools  curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c0_mesprox_trans"
+VARS c0-mesprox_qc-samstats     curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c0_mesprox_trans"
+VARS c0-mesprox_bedgraph-star   curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c0_mesprox_trans"
+VARS c0-mesprox_qc-coverage     curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c0_mesprox_trans"
+VARS c0-mesprox_qc-distribution curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c0_mesprox_trans"
+VARS c0-mesprox_bedgraph2bigwig curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c0_mesprox_trans"
+
+VARS c0-mesprox_align-star      genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c0-mesprox_quant-rsem      genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c0-mesprox_index-samtools  genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c0-mesprox_qc-samstats     genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c0-mesprox_bedgraph-star   genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c0-mesprox_qc-coverage     genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c0-mesprox_qc-distribution genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c0-mesprox_bedgraph2bigwig genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+
+VARS c0-mesprox_align-star      star_dir="/woldlab/loxcyc/home/diane/proj/STAR/bin/Linux_x86_64/"
+VARS c0-mesprox_bedgraph-star   star_dir="/woldlab/loxcyc/home/diane/proj/STAR/bin/Linux_x86_64/"
+
+VARS c0-mesprox_quant-rsem      rsem_dir="/woldlab/castor/proj/programs/RSEM-1.2.31/"
+
+VARS c0-mesprox_qc-samstats     georgi_dir="/woldlab/loxcyc/home/diane/proj/GeorgiScripts/"
+VARS c0-mesprox_qc-coverage     georgi_dir="/woldlab/loxcyc/home/diane/proj/GeorgiScripts/"
+VARS c0-mesprox_qc-distribution georgi_dir="/woldlab/loxcyc/home/diane/proj/GeorgiScripts/"
+
+VARS c0-mesprox_bedgraph2bigwig ucsc_tools_dir="/woldlab/castor/proj/programs/x86_64/"
+
+VARS c0-mesprox_bedgraph-star   reference_prefix="chr"
+VARS c0-mesprox_bedgraph-star   ucsc_tools_dir="/woldlab/castor/proj/programs/x86_64/"
+VARS c0-mesprox_bedgraph-star   bedsort_sh="/woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/bedsort.sh"
+
+VARS c0-mesprox_align-star      genome="mm10" annotation="M4" sex="male_star2.7.0d"
+VARS c0-mesprox_sort-samtools   genome="mm10" annotation="M4" sex="male_star2.7.0d"
+VARS c0-mesprox_quant-rsem      genome="mm10" annotation="M4" sex="male_star2.7.0d"
+VARS c0-mesprox_index-samtools  genome="mm10" annotation="M4" sex="male_star2.7.0d" 
+VARS c0-mesprox_qc-samstats     genome="mm10" annotation="M4" sex="male_star2.7.0d" 
+VARS c0-mesprox_bedgraph-star   genome="mm10" annotation="M4" sex="male_star2.7.0d"
+VARS c0-mesprox_qc-coverage     genome="mm10" annotation="M4" sex="male_star2.7.0d" 
+VARS c0-mesprox_qc-distribution genome="mm10" annotation="M4" sex="male_star2.7.0d" 
+VARS c0-mesprox_bedgraph2bigwig genome="mm10" annotation="M4" sex="male_star2.7.0d"
+
+VARS c0-mesprox_align-star read1="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c0_mesprox/10x-cluster-0_unsorted.bam"
+
+###########################################
+# Processing c7-mus1 in /woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c7_mus1_trans with
+# Username: diane
+# Timestamp: 2019-09-26T12:01:18.254933
+# Version: 1.0.90+15.gd558b8b
+
+JOB c7-mus1_align-star /woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/align-star.condor
+JOB c7-mus1_sort-samtools /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/sort-samtools.condor
+JOB c7-mus1_quant-rsem /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/quant-rsem-se.condor
+JOB c7-mus1_index-samtools /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/index-samtools.condor
+JOB c7-mus1_qc-samstats /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-samstats.condor
+JOB c7-mus1_bedgraph-star /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph-star.condor
+JOB c7-mus1_qc-coverage /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-coverage.condor
+JOB c7-mus1_qc-distribution /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-distribution.condor
+JOB c7-mus1_bedgraph2bigwig /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph2bigwig.condor
+
+PARENT c7-mus1_align-star  CHILD c7-mus1_sort-samtools
+PARENT c7-mus1_align-star  CHILD c7-mus1_index-samtools
+PARENT c7-mus1_align-star  CHILD c7-mus1_bedgraph-star
+PARENT c7-mus1_index-samtools CHILD c7-mus1_qc-samstats
+PARENT c7-mus1_index-samtools CHILD c7-mus1_qc-distribution
+PARENT c7-mus1_sort-samtools  CHILD c7-mus1_quant-rsem
+PARENT c7-mus1_bedgraph-star  CHILD c7-mus1_qc-coverage
+PARENT c7-mus1_bedgraph-star  CHILD c7-mus1_bedgraph2bigwig
+
+VARS c7-mus1_align-star      library_id="c7-mus1"
+VARS c7-mus1_align-star      analysis_name="c7_mus1_trans"
+VARS c7-mus1_sort-samtools   analysis_name="c7_mus1_trans"
+VARS c7-mus1_index-samtools  analysis_name="c7_mus1_trans"
+VARS c7-mus1_quant-rsem      analysis_name="c7_mus1_trans"
+VARS c7-mus1_qc-samstats     analysis_name="c7_mus1_trans"
+VARS c7-mus1_bedgraph-star   analysis_name="c7_mus1_trans"
+VARS c7-mus1_qc-coverage     analysis_name="c7_mus1_trans"
+VARS c7-mus1_qc-distribution analysis_name="c7_mus1_trans"
+VARS c7-mus1_bedgraph2bigwig analysis_name="c7_mus1_trans"
+
+VARS c7-mus1_align-star      curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c7_mus1_trans"
+VARS c7-mus1_align-star      pre_star="/woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/pre_star"
+VARS c7-mus1_align-star      post_star="/woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/post_star"
+VARS c7-mus1_sort-samtools   curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c7_mus1_trans"
+VARS c7-mus1_sort-samtools   sort_samtools="/woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/sort-samtools.sh"
+VARS c7-mus1_quant-rsem      curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c7_mus1_trans"
+VARS c7-mus1_index-samtools  curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c7_mus1_trans"
+VARS c7-mus1_qc-samstats     curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c7_mus1_trans"
+VARS c7-mus1_bedgraph-star   curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c7_mus1_trans"
+VARS c7-mus1_qc-coverage     curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c7_mus1_trans"
+VARS c7-mus1_qc-distribution curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c7_mus1_trans"
+VARS c7-mus1_bedgraph2bigwig curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c7_mus1_trans"
+
+VARS c7-mus1_align-star      genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c7-mus1_quant-rsem      genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c7-mus1_index-samtools  genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c7-mus1_qc-samstats     genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c7-mus1_bedgraph-star   genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c7-mus1_qc-coverage     genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c7-mus1_qc-distribution genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c7-mus1_bedgraph2bigwig genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+
+VARS c7-mus1_align-star      star_dir="/woldlab/loxcyc/home/diane/proj/STAR/bin/Linux_x86_64/"
+VARS c7-mus1_bedgraph-star   star_dir="/woldlab/loxcyc/home/diane/proj/STAR/bin/Linux_x86_64/"
+
+VARS c7-mus1_quant-rsem      rsem_dir="/woldlab/castor/proj/programs/RSEM-1.2.31/"
+
+VARS c7-mus1_qc-samstats     georgi_dir="/woldlab/loxcyc/home/diane/proj/GeorgiScripts/"
+VARS c7-mus1_qc-coverage     georgi_dir="/woldlab/loxcyc/home/diane/proj/GeorgiScripts/"
+VARS c7-mus1_qc-distribution georgi_dir="/woldlab/loxcyc/home/diane/proj/GeorgiScripts/"
+
+VARS c7-mus1_bedgraph2bigwig ucsc_tools_dir="/woldlab/castor/proj/programs/x86_64/"
+
+VARS c7-mus1_bedgraph-star   reference_prefix="chr"
+VARS c7-mus1_bedgraph-star   ucsc_tools_dir="/woldlab/castor/proj/programs/x86_64/"
+VARS c7-mus1_bedgraph-star   bedsort_sh="/woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/bedsort.sh"
+
+VARS c7-mus1_align-star      genome="mm10" annotation="M4" sex="male_star2.7.0d"
+VARS c7-mus1_sort-samtools   genome="mm10" annotation="M4" sex="male_star2.7.0d"
+VARS c7-mus1_quant-rsem      genome="mm10" annotation="M4" sex="male_star2.7.0d"
+VARS c7-mus1_index-samtools  genome="mm10" annotation="M4" sex="male_star2.7.0d" 
+VARS c7-mus1_qc-samstats     genome="mm10" annotation="M4" sex="male_star2.7.0d" 
+VARS c7-mus1_bedgraph-star   genome="mm10" annotation="M4" sex="male_star2.7.0d"
+VARS c7-mus1_qc-coverage     genome="mm10" annotation="M4" sex="male_star2.7.0d" 
+VARS c7-mus1_qc-distribution genome="mm10" annotation="M4" sex="male_star2.7.0d" 
+VARS c7-mus1_bedgraph2bigwig genome="mm10" annotation="M4" sex="male_star2.7.0d"
+
+VARS c7-mus1_align-star read1="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c7_mus1/10x-cluster-7_unsorted.bam"
+
+###########################################
+# Processing c4-mus2 in /woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c4_mus2 with
+# Username: diane
+# Timestamp: 2019-09-26T12:01:18.272060
+# Version: 1.0.90+15.gd558b8b
+
+JOB c4-mus2_align-star /woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/align-star.condor
+JOB c4-mus2_sort-samtools /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/sort-samtools.condor
+JOB c4-mus2_quant-rsem /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/quant-rsem-se.condor
+JOB c4-mus2_index-samtools /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/index-samtools.condor
+JOB c4-mus2_qc-samstats /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-samstats.condor
+JOB c4-mus2_bedgraph-star /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph-star.condor
+JOB c4-mus2_qc-coverage /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-coverage.condor
+JOB c4-mus2_qc-distribution /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-distribution.condor
+JOB c4-mus2_bedgraph2bigwig /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph2bigwig.condor
+
+PARENT c4-mus2_align-star  CHILD c4-mus2_sort-samtools
+PARENT c4-mus2_align-star  CHILD c4-mus2_index-samtools
+PARENT c4-mus2_align-star  CHILD c4-mus2_bedgraph-star
+PARENT c4-mus2_index-samtools CHILD c4-mus2_qc-samstats
+PARENT c4-mus2_index-samtools CHILD c4-mus2_qc-distribution
+PARENT c4-mus2_sort-samtools  CHILD c4-mus2_quant-rsem
+PARENT c4-mus2_bedgraph-star  CHILD c4-mus2_qc-coverage
+PARENT c4-mus2_bedgraph-star  CHILD c4-mus2_bedgraph2bigwig
+
+VARS c4-mus2_align-star      library_id="c4-mus2"
+VARS c4-mus2_align-star      analysis_name="c4_mus2"
+VARS c4-mus2_sort-samtools   analysis_name="c4_mus2"
+VARS c4-mus2_index-samtools  analysis_name="c4_mus2"
+VARS c4-mus2_quant-rsem      analysis_name="c4_mus2"
+VARS c4-mus2_qc-samstats     analysis_name="c4_mus2"
+VARS c4-mus2_bedgraph-star   analysis_name="c4_mus2"
+VARS c4-mus2_qc-coverage     analysis_name="c4_mus2"
+VARS c4-mus2_qc-distribution analysis_name="c4_mus2"
+VARS c4-mus2_bedgraph2bigwig analysis_name="c4_mus2"
+
+VARS c4-mus2_align-star      curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c4_mus2_trans"
+VARS c4-mus2_align-star      pre_star="/woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/pre_star"
+VARS c4-mus2_align-star      post_star="/woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/post_star"
+VARS c4-mus2_sort-samtools   curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c4_mus2_trans"
+VARS c4-mus2_sort-samtools   sort_samtools="/woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/sort-samtools.sh"
+VARS c4-mus2_quant-rsem      curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c4_mus2_trans"
+VARS c4-mus2_index-samtools  curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c4_mus2_trans"
+VARS c4-mus2_qc-samstats     curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c4_mus2_trans"
+VARS c4-mus2_bedgraph-star   curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c4_mus2_trans"
+VARS c4-mus2_qc-coverage     curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c4_mus2_trans"
+VARS c4-mus2_qc-distribution curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c4_mus2_trans"
+VARS c4-mus2_bedgraph2bigwig curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c4_mus2_trans"
+
+VARS c4-mus2_align-star      genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c4-mus2_quant-rsem      genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c4-mus2_index-samtools  genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c4-mus2_qc-samstats     genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c4-mus2_bedgraph-star   genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c4-mus2_qc-coverage     genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c4-mus2_qc-distribution genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c4-mus2_bedgraph2bigwig genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+
+VARS c4-mus2_align-star      star_dir="/woldlab/loxcyc/home/diane/proj/STAR/bin/Linux_x86_64/"
+VARS c4-mus2_bedgraph-star   star_dir="/woldlab/loxcyc/home/diane/proj/STAR/bin/Linux_x86_64/"
+
+VARS c4-mus2_quant-rsem      rsem_dir="/woldlab/castor/proj/programs/RSEM-1.2.31/"
+
+VARS c4-mus2_qc-samstats     georgi_dir="/woldlab/loxcyc/home/diane/proj/GeorgiScripts/"
+VARS c4-mus2_qc-coverage     georgi_dir="/woldlab/loxcyc/home/diane/proj/GeorgiScripts/"
+VARS c4-mus2_qc-distribution georgi_dir="/woldlab/loxcyc/home/diane/proj/GeorgiScripts/"
+
+VARS c4-mus2_bedgraph2bigwig ucsc_tools_dir="/woldlab/castor/proj/programs/x86_64/"
+
+VARS c4-mus2_bedgraph-star   reference_prefix="chr"
+VARS c4-mus2_bedgraph-star   ucsc_tools_dir="/woldlab/castor/proj/programs/x86_64/"
+VARS c4-mus2_bedgraph-star   bedsort_sh="/woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/bedsort.sh"
+
+VARS c4-mus2_align-star      genome="mm10" annotation="M4" sex="male_star2.7.0d"
+VARS c4-mus2_sort-samtools   genome="mm10" annotation="M4" sex="male_star2.7.0d"
+VARS c4-mus2_quant-rsem      genome="mm10" annotation="M4" sex="male_star2.7.0d"
+VARS c4-mus2_index-samtools  genome="mm10" annotation="M4" sex="male_star2.7.0d" 
+VARS c4-mus2_qc-samstats     genome="mm10" annotation="M4" sex="male_star2.7.0d" 
+VARS c4-mus2_bedgraph-star   genome="mm10" annotation="M4" sex="male_star2.7.0d"
+VARS c4-mus2_qc-coverage     genome="mm10" annotation="M4" sex="male_star2.7.0d" 
+VARS c4-mus2_qc-distribution genome="mm10" annotation="M4" sex="male_star2.7.0d" 
+VARS c4-mus2_bedgraph2bigwig genome="mm10" annotation="M4" sex="male_star2.7.0d"
+
+VARS c4-mus2_align-star read1="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c4_mus2/10x-cluster-4_unsorted.bam"
+
+###########################################
+# Processing c17-mus3 in /woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c17_mus3_trans with
+# Username: diane
+# Timestamp: 2019-09-26T12:01:18.289167
+# Version: 1.0.90+15.gd558b8b
+
+JOB c17-mus3_align-star /woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/align-star.condor
+JOB c17-mus3_sort-samtools /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/sort-samtools.condor
+JOB c17-mus3_quant-rsem /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/quant-rsem-se.condor
+JOB c17-mus3_index-samtools /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/index-samtools.condor
+JOB c17-mus3_qc-samstats /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-samstats.condor
+JOB c17-mus3_bedgraph-star /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph-star.condor
+JOB c17-mus3_qc-coverage /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-coverage.condor
+JOB c17-mus3_qc-distribution /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-distribution.condor
+JOB c17-mus3_bedgraph2bigwig /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph2bigwig.condor
+
+PARENT c17-mus3_align-star  CHILD c17-mus3_sort-samtools
+PARENT c17-mus3_align-star  CHILD c17-mus3_index-samtools
+PARENT c17-mus3_align-star  CHILD c17-mus3_bedgraph-star
+PARENT c17-mus3_index-samtools CHILD c17-mus3_qc-samstats
+PARENT c17-mus3_index-samtools CHILD c17-mus3_qc-distribution
+PARENT c17-mus3_sort-samtools  CHILD c17-mus3_quant-rsem
+PARENT c17-mus3_bedgraph-star  CHILD c17-mus3_qc-coverage
+PARENT c17-mus3_bedgraph-star  CHILD c17-mus3_bedgraph2bigwig
+
+VARS c17-mus3_align-star      library_id="c17-mus3"
+VARS c17-mus3_align-star      analysis_name="c17_mus3_trans"
+VARS c17-mus3_sort-samtools   analysis_name="c17_mus3_trans"
+VARS c17-mus3_index-samtools  analysis_name="c17_mus3_trans"
+VARS c17-mus3_quant-rsem      analysis_name="c17_mus3_trans"
+VARS c17-mus3_qc-samstats     analysis_name="c17_mus3_trans"
+VARS c17-mus3_bedgraph-star   analysis_name="c17_mus3_trans"
+VARS c17-mus3_qc-coverage     analysis_name="c17_mus3_trans"
+VARS c17-mus3_qc-distribution analysis_name="c17_mus3_trans"
+VARS c17-mus3_bedgraph2bigwig analysis_name="c17_mus3_trans"
+
+VARS c17-mus3_align-star      curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c17_mus3_trans"
+VARS c17-mus3_align-star      pre_star="/woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/pre_star"
+VARS c17-mus3_align-star      post_star="/woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/post_star"
+VARS c17-mus3_sort-samtools   curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c17_mus3_trans"
+VARS c17-mus3_sort-samtools   sort_samtools="/woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/sort-samtools.sh"
+VARS c17-mus3_quant-rsem      curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c17_mus3_trans"
+VARS c17-mus3_index-samtools  curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c17_mus3_trans"
+VARS c17-mus3_qc-samstats     curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c17_mus3_trans"
+VARS c17-mus3_bedgraph-star   curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c17_mus3_trans"
+VARS c17-mus3_qc-coverage     curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c17_mus3_trans"
+VARS c17-mus3_qc-distribution curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c17_mus3_trans"
+VARS c17-mus3_bedgraph2bigwig curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c17_mus3_trans"
+
+VARS c17-mus3_align-star      genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c17-mus3_quant-rsem      genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c17-mus3_index-samtools  genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c17-mus3_qc-samstats     genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c17-mus3_bedgraph-star   genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c17-mus3_qc-coverage     genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c17-mus3_qc-distribution genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c17-mus3_bedgraph2bigwig genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+
+VARS c17-mus3_align-star      star_dir="/woldlab/loxcyc/home/diane/proj/STAR/bin/Linux_x86_64/"
+VARS c17-mus3_bedgraph-star   star_dir="/woldlab/loxcyc/home/diane/proj/STAR/bin/Linux_x86_64/"
+
+VARS c17-mus3_quant-rsem      rsem_dir="/woldlab/castor/proj/programs/RSEM-1.2.31/"
+
+VARS c17-mus3_qc-samstats     georgi_dir="/woldlab/loxcyc/home/diane/proj/GeorgiScripts/"
+VARS c17-mus3_qc-coverage     georgi_dir="/woldlab/loxcyc/home/diane/proj/GeorgiScripts/"
+VARS c17-mus3_qc-distribution georgi_dir="/woldlab/loxcyc/home/diane/proj/GeorgiScripts/"
+
+VARS c17-mus3_bedgraph2bigwig ucsc_tools_dir="/woldlab/castor/proj/programs/x86_64/"
+
+VARS c17-mus3_bedgraph-star   reference_prefix="chr"
+VARS c17-mus3_bedgraph-star   ucsc_tools_dir="/woldlab/castor/proj/programs/x86_64/"
+VARS c17-mus3_bedgraph-star   bedsort_sh="/woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/bedsort.sh"
+
+VARS c17-mus3_align-star      genome="mm10" annotation="M4" sex="male_star2.7.0d"
+VARS c17-mus3_sort-samtools   genome="mm10" annotation="M4" sex="male_star2.7.0d"
+VARS c17-mus3_quant-rsem      genome="mm10" annotation="M4" sex="male_star2.7.0d"
+VARS c17-mus3_index-samtools  genome="mm10" annotation="M4" sex="male_star2.7.0d" 
+VARS c17-mus3_qc-samstats     genome="mm10" annotation="M4" sex="male_star2.7.0d" 
+VARS c17-mus3_bedgraph-star   genome="mm10" annotation="M4" sex="male_star2.7.0d"
+VARS c17-mus3_qc-coverage     genome="mm10" annotation="M4" sex="male_star2.7.0d" 
+VARS c17-mus3_qc-distribution genome="mm10" annotation="M4" sex="male_star2.7.0d" 
+VARS c17-mus3_bedgraph2bigwig genome="mm10" annotation="M4" sex="male_star2.7.0d"
+
+VARS c17-mus3_align-star read1="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c17_mus3/10x-cluster-17_unsorted.bam"
+
+###########################################
+# Processing c12-mus4 in /woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c12_mus4_trans with
+# Username: diane
+# Timestamp: 2019-09-26T12:01:18.305540
+# Version: 1.0.90+15.gd558b8b
+
+JOB c12-mus4_align-star /woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/align-star.condor
+JOB c12-mus4_sort-samtools /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/sort-samtools.condor
+JOB c12-mus4_quant-rsem /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/quant-rsem-se.condor
+JOB c12-mus4_index-samtools /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/index-samtools.condor
+JOB c12-mus4_qc-samstats /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-samstats.condor
+JOB c12-mus4_bedgraph-star /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph-star.condor
+JOB c12-mus4_qc-coverage /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-coverage.condor
+JOB c12-mus4_qc-distribution /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/qc-distribution.condor
+JOB c12-mus4_bedgraph2bigwig /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph2bigwig.condor
+
+PARENT c12-mus4_align-star  CHILD c12-mus4_sort-samtools
+PARENT c12-mus4_align-star  CHILD c12-mus4_index-samtools
+PARENT c12-mus4_align-star  CHILD c12-mus4_bedgraph-star
+PARENT c12-mus4_index-samtools CHILD c12-mus4_qc-samstats
+PARENT c12-mus4_index-samtools CHILD c12-mus4_qc-distribution
+PARENT c12-mus4_sort-samtools  CHILD c12-mus4_quant-rsem
+PARENT c12-mus4_bedgraph-star  CHILD c12-mus4_qc-coverage
+PARENT c12-mus4_bedgraph-star  CHILD c12-mus4_bedgraph2bigwig
+
+VARS c12-mus4_align-star      library_id="c12-mus4"
+VARS c12-mus4_align-star      analysis_name="c12_mus4_trans"
+VARS c12-mus4_sort-samtools   analysis_name="c12_mus4_trans"
+VARS c12-mus4_index-samtools  analysis_name="c12_mus4_trans"
+VARS c12-mus4_quant-rsem      analysis_name="c12_mus4_trans"
+VARS c12-mus4_qc-samstats     analysis_name="c12_mus4_trans"
+VARS c12-mus4_bedgraph-star   analysis_name="c12_mus4_trans"
+VARS c12-mus4_qc-coverage     analysis_name="c12_mus4_trans"
+VARS c12-mus4_qc-distribution analysis_name="c12_mus4_trans"
+VARS c12-mus4_bedgraph2bigwig analysis_name="c12_mus4_trans"
+
+VARS c12-mus4_align-star      curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c12_mus4_trans"
+VARS c12-mus4_align-star      pre_star="/woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/pre_star"
+VARS c12-mus4_align-star      post_star="/woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/post_star"
+VARS c12-mus4_sort-samtools   curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c12_mus4_trans"
+VARS c12-mus4_sort-samtools   sort_samtools="/woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/sort-samtools.sh"
+VARS c12-mus4_quant-rsem      curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c12_mus4_trans"
+VARS c12-mus4_index-samtools  curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c12_mus4_trans"
+VARS c12-mus4_qc-samstats     curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c12_mus4_trans"
+VARS c12-mus4_bedgraph-star   curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c12_mus4_trans"
+VARS c12-mus4_qc-coverage     curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c12_mus4_trans"
+VARS c12-mus4_qc-distribution curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c12_mus4_trans"
+VARS c12-mus4_bedgraph2bigwig curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c12_mus4_trans"
+
+VARS c12-mus4_align-star      genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c12-mus4_quant-rsem      genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c12-mus4_index-samtools  genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c12-mus4_qc-samstats     genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c12-mus4_bedgraph-star   genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c12-mus4_qc-coverage     genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c12-mus4_qc-distribution genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+VARS c12-mus4_bedgraph2bigwig genome_root="/woldlab/loxcyc/home/diane/proj/genome/"
+
+VARS c12-mus4_align-star      star_dir="/woldlab/loxcyc/home/diane/proj/STAR/bin/Linux_x86_64/"
+VARS c12-mus4_bedgraph-star   star_dir="/woldlab/loxcyc/home/diane/proj/STAR/bin/Linux_x86_64/"
+
+VARS c12-mus4_quant-rsem      rsem_dir="/woldlab/castor/proj/programs/RSEM-1.2.31/"
+
+VARS c12-mus4_qc-samstats     georgi_dir="/woldlab/loxcyc/home/diane/proj/GeorgiScripts/"
+VARS c12-mus4_qc-coverage     georgi_dir="/woldlab/loxcyc/home/diane/proj/GeorgiScripts/"
+VARS c12-mus4_qc-distribution georgi_dir="/woldlab/loxcyc/home/diane/proj/GeorgiScripts/"
+
+VARS c12-mus4_bedgraph2bigwig ucsc_tools_dir="/woldlab/castor/proj/programs/x86_64/"
+
+VARS c12-mus4_bedgraph-star   reference_prefix="chr"
+VARS c12-mus4_bedgraph-star   ucsc_tools_dir="/woldlab/castor/proj/programs/x86_64/"
+VARS c12-mus4_bedgraph-star   bedsort_sh="/woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/bedsort.sh"
+
+VARS c12-mus4_align-star      genome="mm10" annotation="M4" sex="male_star2.7.0d"
+VARS c12-mus4_sort-samtools   genome="mm10" annotation="M4" sex="male_star2.7.0d"
+VARS c12-mus4_quant-rsem      genome="mm10" annotation="M4" sex="male_star2.7.0d"
+VARS c12-mus4_index-samtools  genome="mm10" annotation="M4" sex="male_star2.7.0d" 
+VARS c12-mus4_qc-samstats     genome="mm10" annotation="M4" sex="male_star2.7.0d" 
+VARS c12-mus4_bedgraph-star   genome="mm10" annotation="M4" sex="male_star2.7.0d"
+VARS c12-mus4_qc-coverage     genome="mm10" annotation="M4" sex="male_star2.7.0d" 
+VARS c12-mus4_qc-distribution genome="mm10" annotation="M4" sex="male_star2.7.0d" 
+VARS c12-mus4_bedgraph2bigwig genome="mm10" annotation="M4" sex="male_star2.7.0d"
+
+VARS c12-mus4_align-star read1="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c12_mus4/10x-cluster-12_unsorted.bam"
+

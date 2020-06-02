@@ -1,0 +1,5 @@
+hub hub
+shortLabel 10x_cb_ub_chr_start_umi_filter
+longLabel 10x muscle clusters cb ub chr start umi filter
+genomesFile cb_ub_chr_start_genome.txt
+email diane@caltech.edu

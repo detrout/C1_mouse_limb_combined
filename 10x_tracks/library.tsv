@@ -1,0 +1,6 @@
+library_id	analysis_dir	genome	annotation	sex	read_1
+c0-mesprox	c0_mesprox_trans	mm10	M4	male	c0_mesprox/10x-cluster-0_unsorted.bam
+c7-mus1	c7_mus1_trans	mm10	M4	male	c7_mus1/10x-cluster-7_unsorted.bam
+c4-mus2	c4_mus2_trans	mm10	M4	male	c4_mus2/10x-cluster-4_unsorted.bam
+c17-mus3	c17_mus3_trans	mm10	M4	male	c17_mus3/10x-cluster-17_unsorted.bam
+c12-mus4	c12_mus4_trans	mm10	M4	male	c12_mus4/10x-cluster-12_unsorted.bam

@@ -1,0 +1,30 @@
+#######
+
+#JOB c7_filterbam /woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/build_cluster_7.condor
+JOB c7_sort-samtools /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/sort-samtools.condor
+JOB c7_bedgraph-star /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph-star.condor
+JOB c7_bedgraph2bigwig /woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/bedgraph2bigwig.condor
+
+#PARENT c7_filterbam     CHILD c7_sort-samtools
+PARENT c7_sort-samtools CHILD c7_bedgraph-star
+PARENT c7_bedgraph-star CHILD c7_bedgraph2bigwig
+
+VARS c7_sort-samtools sort_samtools="/woldlab/loxcyc/home/diane/proj/long-rna-seq-condor/woldrnaseq/sort-samtools.sh"
+VARS c7_sort-samtools curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c7_mus1"
+VARS c7_sort-samtools IN="10x-cluster-7_unsorted.bam"
+VARS c7_sort-samtools ANALYSIS_NAME="c7-mus1"
+VARS c7_sort-samtools GENOME="mm10" ANNOTATION="M4" SEX="male"
+
+VARS c7_bedgraph-star curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c7_mus1"
+VARS c7_bedgraph-star ANALYSIS_NAME="c7-mus1"
+VARS c7_bedgraph-star GENOME="mm10" ANNOTATION="M4" SEX="male"
+VARS c7_bedgraph-star STAR_DIR="/woldlab/castor/proj/programs/STAR-2.5.2a/bin/Linux_x86_64/"
+VARS c7_bedgraph-star UCSC_TOOLS_DIR="/woldlab/castor/proj/programs/x86_64/"
+VARS c7_bedgraph-star bedsort_sh="/woldlab/castor/home/diane/proj/long-rna-seq-condor/woldrnaseq/bedsort.sh"
+
+VARS c7_bedgraph2bigwig curdir="/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/10x_tracks/c7_mus1"
+VARS c7_bedgraph2bigwig ANALYSIS_NAME="c7-mus1"
+VARS c7_bedgraph2bigwig genome_root="/woldlab/castor/home/diane/proj/genome/"
+VARS c7_bedgraph2bigwig GENOME="mm10" ANNOTATION="M4" SEX="male"
+VARS c7_bedgraph2bigwig UCSC_TOOLS_DIR="/woldlab/castor/proj/programs/x86_64/"
+

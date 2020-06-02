@@ -1,0 +1,122 @@
+track composite
+shortLabel 10x mus
+longLabel 10x muscle clusters
+type bigWig
+visibility full
+dimensions dimX=multiread
+subGroup1 multiread multiread all=_all_reads uniq=unique_only
+subGroup2 cluster cluster c0=mesprox_c0_cb_ub_chr_start c12=mus4_c12_cb_ub_chr_start c17=mus3_c17_cb_ub_chr_start c4=mus2_c4_cb_ub_chr_start c7=mus1_c7_cb_ub_chr_start
+compositeTrack on
+
+    track signal
+    shortLabel signal
+    longLabel signal
+    type bigWig
+    visibility full
+    parent composite on
+    view signal
+
+            track mus1_all
+            bigDataUrl http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/10x_tracks/c7_mus1_cb_ub_chr_start/c7_mus1_cb_ub_chr_start-mm10-M4-male_all.bw
+            shortLabel mus1_cb_ub_chr_start_all
+            longLabel Muscle 1 c7 cb_ub_chr_start all
+            type bigWig
+            visibility full
+            color 0,255,0
+            subGroups multiread=all cluster=mus1_c7_cb_ub_chr_start
+            parent signal on
+    
+            track mus1_uniq
+            bigDataUrl http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/10x_tracks/c7_mus1_cb_ub_chr_start/c7_mus1_cb_ub_chr_start-mm10-M4-male_uniq.bw
+            shortLabel mus1_cb_ub_chr_start_uniq
+            longLabel Muscle 1 c7 cb_ub_chr_start uniq
+            type bigWig
+            visibility full
+            color 0,255,0
+            subGroups multiread=uniq cluster=mus1_c7_cb_ub_chr_start
+            parent signal on
+
+
+            track mus2_all
+            bigDataUrl http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/10x_tracks/c4_mus2_cb_ub_chr_start/c4_mus2_cb_ub_chr_start-mm10-M4-male_all.bw
+            shortLabel mus2_cb_ub_chr_start_all
+            longLabel Muscle 2 c4 cb_ub_chr_start all
+            type bigWig
+            visibility full
+            color 255,131,128
+            subGroups multiread=all cluster=mus2_c4_cb_ub_chr_start
+            parent signal on
+    
+            track mus2_uniq
+            bigDataUrl http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/10x_tracks/c4_mus2_cb_ub_chr_start/c4_mus2_cb_ub_chr_start-mm10-M4-male_uniq.bw
+            shortLabel mus2_cb_ub_chr_start_uniq
+            longLabel Muscle 2 c4 cb_ub_chr_start uniq
+            type bigWig
+            visibility full
+            color 255,131,128
+            subGroups multiread=uniq cluster=mus2_c4_cb_ub_chr_start
+            parent signal on
+
+
+            track mus3_all
+            bigDataUrl http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/10x_tracks/c17_mus3_cb_ub_chr_start/c17_mus3_cb_ub_chr_start-mm10-M4-male_all.bw
+            shortLabel mus3_cb_ub_chr_start_all
+            longLabel Muscle 3 c17 cb_ub_chr_start all
+            type bigWig
+            visibility full
+            color 255,0,0
+            subGroups multiread=all cluster=mus3_c17_cb_ub_chr_start
+            parent signal on
+    
+            track mus3_uniq
+            bigDataUrl http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/10x_tracks/c17_mus3_cb_ub_chr_start/c17_mus3_cb_ub_chr_start-mm10-M4-male_uniq.bw
+            shortLabel mus3_cb_ub_chr_start_uniq
+            longLabel Muscle 3 c17 cb_ub_chr_start uniq
+            type bigWig
+            visibility full
+            color 255,0,0
+            subGroups multiread=uniq cluster=mus3_c17_cb_ub_chr_start
+            parent signal on
+
+
+            track mus4_all
+            bigDataUrl http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/10x_tracks/c12_mus4_cb_ub_chr_start/c12_mus4_cb_ub_chr_start-mm10-M4-male_all.bw
+            shortLabel mus4_cb_ub_chr_start_all
+            longLabel Muscle 4 c12 cb_ub_chr_start all
+            type bigWig
+            visibility full
+            color 167,18,6
+            subGroups multiread=all cluster=mus4_c12_cb_ub_chr_start
+            parent signal on
+    
+            track mus4_uniq
+            bigDataUrl http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/10x_tracks/c12_mus4_cb_ub_chr_start/c12_mus4_cb_ub_chr_start-mm10-M4-male_uniq.bw
+            shortLabel mus4_cb_ub_chr_start_uniq
+            longLabel Muscle 4 c12 cb_ub_chr_start uniq
+            type bigWig
+            visibility full
+            color 167,18,6
+            subGroups multiread=uniq cluster=mus4_c12_cb_ub_chr_start
+            parent signal on
+
+
+            track mesprox_all
+            bigDataUrl http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/10x_tracks/c0_mesprox_cb_ub_chr_start/c0_mesprox_cb_ub_chr_start-mm10-M4-male_all.bw
+            shortLabel mesprox_cb_ub_chr_start_all
+            longLabel Mesprox 1 c0 cb_ub_chr_start all
+            type bigWig
+            visibility full
+            color 0,0,0
+            subGroups multiread=all cluster=mesprox_c0_cb_ub_chr_start
+            parent signal on
+    
+            track mesprox_uniq
+            bigDataUrl http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/10x_tracks/c0_mesprox_cb_ub_chr_start/c0_mesprox_cb_ub_chr_start-mm10-M4-male_uniq.bw
+            shortLabel mesprox_cb_ub_chr_start_uniq
+            longLabel Mesprox 1 c0 cb_ub_chr_start uniq
+            type bigWig
+            visibility full
+            color 0,0,0
+            subGroups multiread=uniq cluster=mesprox_c0_cb_ub_chr_start
+            parent signal on
+

@@ -1,0 +1,13 @@
+universe=vanilla
+log=logs/unfiltered.log
+
+notify_user=diane@caltech.edu
+notification=complete
+
+request_cpus=4
+request_memory=32G
+
+output=logs/unfiltered_7.out
+error=logs/unfiltered_7.out
+executable=build_cluster_7.sh
+queue
