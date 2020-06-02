@@ -224,17 +224,6 @@ def make_bam_trackhub(public_dir, libraries, trackdb):
             label='cluster',
             mapping=cluster_mapping)
 
-    subgroups = [
-        cluster,
-        trackhub.SubGroupDefinition(
-            name='multi',
-            label='multi',
-            mapping={
-                'uniq': 'uniq',
-                'all': 'all',
-            }),
-    ]
-
     bam_composite = trackhub.CompositeTrack(
         name='reads',
         short_label='reads',
