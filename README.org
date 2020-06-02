@@ -2263,3 +2263,42 @@ wget https://genome.ucsc.edu/goldenPath/help/examples/bigGenePred.as
 
 http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/M4/hub.txt
 
+* Normalizing the different 10x clusters
+
+Q1 Size of files (_sorted.bam):
+#+NAME: mapped_reads_for_10x_clusters
+| cluster                     | size(G) |    mapped |     total | duplicate |
+| c0_mesprox                  |      81 | 863016334 | 908892508 | 252876057 |
+| c7_mus1                     |     8.4 |  87266647 |  91832404 |  25663499 |
+| c4_mus2                     |      25 | 256539125 | 268600686 |  93777249 |
+| c17_mus3                    |      12 | 121354108 | 126470685 |  45028654 |
+| c12_mus4                    |     3.7 |  38324828 |  40077905 |  14631266 |
+| c0_mesprox_cb_ub_chr_start  |      68 | 690327277 | 725140948 | 155367702 |
+| c7_mus1_cb_ub_chr_start     |     7.1 |  70487204 |  73964868 |  16044556 |
+| c4_mus2_cb_ub_chr_start     |      20 | 198978700 | 207482320 |  61780633 |
+| c17_mus3_cb_ub_chr_start    |     9.4 |  95654707 |  99419684 |  30433965 |
+| c12_mus4_cb_ub_chr_start    |     3.0 |  28995068 |  30281331 |   9214097 |
+| c0_mesprox fraction removed |    0.16 |      0.20 |      0.20 |      0.39 |
+| c7_mus1 fraction removed    |    0.15 |      0.19 |      0.19 |      0.37 |
+| c4_mus2 fraction removed    |    0.20 |      0.22 |      0.23 |      0.34 |
+| c17_mus3 fraction removed   |    0.22 |      0.21 |      0.21 |      0.32 |
+| c12_mus4 fraction removed   |    0.19 |      0.24 |      0.24 |      0.37 |
+#+TBLFM: $2=(@-10-@-5)/@-10;%.2f::$3=(@-10-@-5)/@-10;%.2f::$4=(@-10-@-5)/@-10;%.2f::$5=(@-10-@-5)/@-10;%.2f
+
+
+Q2 number of barcodes:
+| cluster    | color | barcode count | run count |
+| c0_mesprox | black |         22925 |         9 |
+| c7_mus1    | green |          1875 |         8 |
+| c4_mus2    | pink  |          3625 |         8 |
+| c17_mus3   | red   |          1764 |         8 |
+| c12_mus4   | brown |           404 |         7 |
+
+Q3 number of genes called by file.
+
+Q4 How many reads does
+
+After discussing with barbara a likely issue is the tracks 10x cluster
+tracks I built are not normalized by the UMIs.
+
+
