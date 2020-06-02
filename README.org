@@ -1819,3 +1819,14 @@ http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.ed
 
 http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&hubUrl=http://woldlab.caltech.edu/~diane/C1_mouse_limb_combined/C1_muscle_green_darkred_2018052829/C1_muscle_green_darkred_2018052829.hub.txt
 
+* Brian would like isoform quantifications information for pitx2.
+
+* HFNLNBCX2 was run trimmed to 50bp
+  This is because it was sequenced as 100 bp reads and everything else we did was 50bp
+  so we trimmed it down to 50 to match everything else.
+
+* Brian would like merged bigwigs for chondro emp & macro clusters
+
+This notebook generated the track blocks on the fly instead of hard coded like the first few.
+
+generate-merged-bw-chondro-EMP-macro.ipynb
