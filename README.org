@@ -4008,3 +4008,14 @@ For https://www.encodeproject.org/biosamples/ENCBS897LGY
 It was actually part of the ENCBS088IBU provided P0 rep 2 tissues for
 kidney, urinary bladder, and skeletal muscle tissue
 
+* Update single cell C1 limb publication set with fixed submission
+
+#+begin_src python
+data_id = 'ENCSR574CRQ'
+
+server = ENCODED('www.encodeproject.org')
+server.load_netrc()
+
+publication = server.get_json(data_id)
+#+end_src
+
