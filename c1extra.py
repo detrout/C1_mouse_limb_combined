@@ -55,6 +55,9 @@ def read_remote_sheet(url, sheet_name):
         dtype={
             '10x_class': int,
             'order': int,
+            'Red': int,
+            'Green': int,
+            'Blue': int,
         })
     return sheet
 
