@@ -1543,10 +1543,11 @@ Goal is to have jupyter notebook local while kernel is running on galvar
         )
      )
 #+END_SRC
-* TODO Best available runfolder?
+* Best available runfolder (all libraries)
 
 #+BEGIN_SRC python
   #!/usr/bin/python3
+  import os
   import pandas
   from woldrnaseq.models import (
       load_experiments,
@@ -1560,10 +1561,10 @@ Goal is to have jupyter notebook local while kernel is running on galvar
       ASOF_RUN17_library_files,
   )
 
-  TARGET=os.path.expanduser("~/proj/C1_mouse_limb_combined/paper_analysis_vdir")
-  experiment_files = [os.path.expanduser(x.strip()) for x in paper_433_experiment_files.split('\n')]
+  TARGET=os.path.expanduser("~/proj/C1_mouse_limb_combined/all_analysis_vdir")
+  experiment_files = [os.path.expanduser(x.strip()) for x in ASOF_RUN17_experiment_files.split('\n')]
   experiments = load_experiments(experiment_files)
-  library_files = [os.path.expanduser(x.strip()) for x in paper_433_library_files.split('\n')]
+  library_files = [os.path.expanduser(x.strip()) for x in ASOF_RUN17_library_files.split('\n')]
   libraries = load_library_tables(library_files)
 
   if not os.path.exists(TARGET):
