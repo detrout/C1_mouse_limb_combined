@@ -229,7 +229,7 @@ def make_bam_trackhub(libraries, trackdb):
         short_label='reads',
         dimensions='dimX=cluster',
         tracktype='bam',
-        visibility='full',
+        visibility='dense',
     )
     bam_composite.add_subgroups([cluster])
     trackdb.add_tracks(bam_composite)
@@ -237,7 +237,7 @@ def make_bam_trackhub(libraries, trackdb):
     bam_view = trackhub.ViewTrack(
         name='readview',
         view='reads',
-        visibility='full',
+        visibility='dense',
         tracktype='bam',
         short_label='Reads')
     bam_composite.add_view(bam_view)
