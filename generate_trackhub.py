@@ -147,6 +147,9 @@ def add_bigwig_paths(libraries, roots):
                 if track_name is not None:
                     track_name = os.path.join(root, track_name)
                     break
+
+            if track_name is None:
+                print("Couldn't find track for {}".format(library_id))
             bigwigs.append(track_name)
         libraries[track_type] = bigwigs
     return libraries
