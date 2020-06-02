@@ -256,9 +256,8 @@ def make_bam_trackhub(libraries, trackdb):
             if not os.path.exists(name + '.bai'):
                 os.symlink(bam_index, name + '.bai')
 
-            url = 'http://woldlab.caltech.edu/~diane/' + track_dir + '/' + name
             track = trackhub.Track(
-                url=url,
+                url=make_home_url(row['bam']),
                 name=priority + '_' + row.analysis_name + '_reads',
                 visibility='full',
                 tracktype='bam',
