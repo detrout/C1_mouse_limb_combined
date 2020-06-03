@@ -1,0 +1,14 @@
+universe=vanilla
+
+output=logs/madqc_cluster.out
+error=logs/madqc_cluster.out
+log=logs/madqc_cluster.out
+
+executable=/usr/bin/python3
+transfer_executable=False
+
+notification=complete
+
+initialdir=/woldlab/loxcyc/home/diane/proj/C1_mouse_limb_combined/paper_analysis_vdir
+arguments="-m woldrnaseq.madqc -l library_vdir.tsv -e experiment_cluster.tsv -q TPM"
+queue
